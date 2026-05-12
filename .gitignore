@@ -1,0 +1,23 @@
+# Python-generated files
+.pytest_cache/
+.semantic_kb_cache/
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+.env
+
+.omx/
+
+# Data
+data/
+.gitnexus
+nrm-backend.zip
+# semantic-kb/
+examples/

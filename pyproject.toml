@@ -1,0 +1,21 @@
+[project]
+name = "ai-tracking"
+version = "0.1.0"
+description = "LangGraph SQL agent CLI for PostgreSQL classicmodels"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115.0",
+  "langchain>=0.3.0",
+  "langchain-community>=0.3.0",
+  "langchain-openai>=0.2.0",
+  "langgraph>=0.2.0",
+  "psycopg[binary]>=3.2.0",
+  "uvicorn>=0.32.0",
+]
+
+[project.scripts]
+sql-agent-cli = "src.ai_tracking.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
