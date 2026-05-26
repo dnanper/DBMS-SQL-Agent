@@ -1,9 +1,21 @@
 import unittest
 
-from src.webapp import format_sse_event, iter_text_chunks, normalize_review_payload
+from src.webapp import INDEX_HTML, format_sse_event, iter_text_chunks, normalize_review_payload
 
 
 class TestWebAppHelpers(unittest.TestCase):
+    def test_index_html_contains_chat_review_ui_hooks(self) -> None:
+        expected_hooks = [
+            'id="conversation-log"',
+            'id="composer-form"',
+            'id="review-panel"',
+            'data-review-action="accept"',
+            'data-review-action="edit"',
+            'data-review-action="response"',
+        ]
+        for hook in expected_hooks:
+            self.assertIn(hook, INDEX_HTML)
+
     def test_format_sse_event(self) -> None:
         event = format_sse_event("status", {"thread_id": "abc", "state": "running"})
         self.assertIn("event: status", event)
