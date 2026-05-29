@@ -7,7 +7,7 @@ import pathlib
 from collections.abc import Mapping
 from os import PathLike
 
-DEFAULT_MODEL_NAME = "gpt-5.4"
+DEFAULT_MODEL_NAME = "gpt-5-nano"
 DEFAULT_DATABASE_URI = "postgresql+psycopg://postgres:postgres@localhost:5432/classicmodels"
 DEFAULT_DATABASE_SCHEMA = "classicmodels"
 DEFAULT_THREAD_ID = "cli-session"

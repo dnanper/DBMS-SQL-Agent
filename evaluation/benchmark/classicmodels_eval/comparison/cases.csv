@@ -1,0 +1,1007 @@
+system,question_id,difficulty,category,ex,ves,error,question,predicted_sql,gold_sql
+mag-sql,0,challenging,Correlated-Subqueries,0,0.0,missing prediction,Who reports to Mary Patterson?,,"SELECT CONCAT(firstName, ' ', lastName) AS full_name FROM employees WHERE reportsTo = ( SELECT employeeNumber FROM employees WHERE CONCAT(firstName, ' ', lastName) = 'Mary Patterson' );"
+mag-sql,1,challenging,Correlated-Subqueries,0,0.0,missing prediction,Which payments in any month and year are more than twice the average for that month and year (i.e. compare all payments in Oct 2004 with the average payment for Oct 2004)? Order the results by the date of the payment. You will need to use the date functions.,,"SELECT p.customerNumber, p.paymentDate, p.amount FROM payments p WHERE p.amount > 2 * ( SELECT AVG(p2.amount) FROM payments p2 WHERE MONTH(p2.paymentDate) = MONTH(p.paymentDate) AND YEAR(p2.paymentDate) = YEAR(p.paymentDate) ) ORDER BY p.paymentDate;"
+mag-sql,2,challenging,Correlated-Subqueries,0,0.0,missing prediction,"Report for each product, the percentage value of its stock on hand as a percentage of the stock on hand for product line to which it belongs. Order the report by product line and percentage value within product line descending. Show percentages with two decimal places.",,"SELECT productName, productLine, quantityInStock, ROUND((quantityInstock / ( SELECT SUM(p2.quantityInStock) FROM products p2 WHERE p2.productLine = p1.productLine )) * 100, 2) AS stock_percentage FROM products p1 ORDER BY productLine, stock_percentage DESC;"
+mag-sql,3,challenging,Correlated-Subqueries,0,0.0,missing prediction,"For orders containing more than two products, report those products that constitute more than 50% of the value of the order.",,"SELECT od.orderNumber, od.productCode, (od.priceEach * od.quantityOrdered) AS product_value, ROUND((od.priceEach * od.quantityOrdered) / (SELECT SUM(od2.priceEach * od2.quantityOrdered) FROM orderdetails od2 WHERE od2.orderNumber = od.orderNumber) * 100, 2) AS product_percentage FROM orderdetails od WHERE (od.priceEach * od.quantityOrdered) > (SELECT SUM(od2.priceEach * od2.quantityOrdered) * 0.5 FROM orderdetails od2 WHERE od2.orderNumber = od.orderNumber) AND od.orderNumber IN ( SELECT orderNumber FROM orderdetails GROUP BY orderNumber HAVING COUNT(DISTINCT productCode) > 2 ) ORDER BY od.orderNumber, product_percentage DESC;"
+mag-sql,4,simple,General-Queries,0,0.0,,"Who is at the top of the organization (i.e.,  reports to no one).","SELECT firstname, lastname AS top_manager FROM employees WHERE reportsto IS NULL;",SELECT * FROM employees WHERE reportsTo IS NULL;
+mag-sql,5,moderate,General-Queries,0,0.0,missing prediction,Who reports to William Patterson?,,"SELECT employeeNumber, firstName, lastName, jobTitle FROM employees WHERE reportsTo = ( SELECT employeeNumber FROM employees WHERE LOWER(CONCAT(firstname, ' ', lastname)) = 'William Patterson' );"
+mag-sql,6,moderate,General-Queries,1,114.53515489069916,,List all the products purchased by Herkku Gifts.,SELECT DISTINCT p.productname FROM customers AS c JOIN orders AS o ON o.customernumber = c.customernumber JOIN orderdetails AS od ON od.ordernumber = o.ordernumber JOIN products AS p ON p.productcode = od.productcode WHERE c.customername = 'Herkku Gifts';,SELECT DISTINCT p.productName FROM products p JOIN orderdetails od ON p.productCode = od.productCode JOIN orders o ON od.orderNumber = o.orderNumber JOIN customers c ON o.customerNumber = c.customerNumber WHERE c.customerName = 'Herkku Gifts';
+mag-sql,7,moderate,General-Queries,0,0.0,missing prediction,"Compute the commission for each sales representative, assuming the commission is 5% of the value of an order. Sort by employee last name and first name.",,"SELECT SUM(od.priceEach * od.quantityOrdered * 0.05) AS comission, CONCAT(e.lastName, ' ', e.firstName) AS sales_representative FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN customers c ON o.customerNumber = c.customerNumber JOIN employees e ON c.salesRepEmployeeNumber = e.employeeNumber GROUP BY e.employeeNumber, e.lastName, e.firstName ORDER BY e.lastName, e.firstName;"
+mag-sql,8,simple,General-Queries,0,0.0,missing prediction,What is the difference in days between the most recent and oldest order date in the Orders file?,,"SELECT DATEDIFF(MAX(orderDate), MIN(orderDate)) AS days_difference FROM orders;"
+mag-sql,9,moderate,General-Queries,0,0.0,missing prediction,Compute the average time between order date and ship date for each customer ordered by the largest difference.,,"SELECT AVG(DATEDIFF(o.shippedDate, o.orderDate)) AS difference_in_days, o.customerNumber, c.customerName FROM orders o JOIN customers c ON o.customerNumber = c.customerNumber GROUP BY o.customerNumber, c.customerName ORDER BY difference_in_days DESC;"
+mag-sql,10,moderate,General-Queries,0,0.0,missing prediction,What is the value of orders shipped in August 2004? (Hint).,,SELECT SUM(od.priceEach * od.quantityOrdered) AS value_of_order FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber WHERE o.shippedDate BETWEEN '2004-08-01' AND '2004-08-31';
+mag-sql,11,moderate,General-Queries,0,0.0,missing prediction,"Compute the total value ordered, total amount paid, and their difference for each customer for orders placed in 2004 and payments received in 2004 (Hint; Create views for the total paid and total ordered).",,"SELECT o.customerNumber, c.customerName, SUM(od.priceEach * od.quantityOrdered) AS total_value_ordered, SUM(p.amount) AS total_amount_paid, SUM(od.priceEach * od.quantityOrdered) - SUM(p.amount) AS difference FROM orders o JOIN orderdetails od ON o.orderNumber = od.orderNumber JOIN customers c ON o.customerNumber = c.customerNumber LEFT JOIN payments p ON o.customerNumber = p.customerNumber WHERE o.orderDate BETWEEN '2004-01-01' AND '2004-12-31' AND p.paymentDate BETWEEN '2004-01-01' AND '2004-12-31' GROUP BY o.customerNumber, c.customerName ORDER BY difference DESC;"
+mag-sql,12,moderate,General-Queries,0,0.0,missing prediction,List the employees who report to those employees who report to Diane Murphy. Use the CONCAT function to combine the employee's first name and last name into a single field for reporting.,,"SELECT e.employeeNumber, CONCAT(e.firstName, ' ', e.lastName) AS full_name FROM employees e WHERE e.reportsTo IN ( SELECT employeeNumber FROM employees WHERE reportsTo = ( SELECT employeeNumber FROM employees WHERE CONCAT(firstName, ' ', lastName) = 'Diane Murphy' ) );"
+mag-sql,13,moderate,General-Queries,0,0.0,missing prediction,What is the percentage value of each product in inventory sorted by the highest percentage first (Hint: Create a view first).,,"SELECT productCode, productName, (quantityInStock * buyPrice) AS product_value, ((quantityInStock * buyPrice) / (SELECT SUM(quantityInStock * buyPrice) FROM products)) * 100 AS percentage_value FROM products ORDER BY percentage_value DESC;"
+mag-sql,14,simple,General-Queries,1,111.02891209078591,,What is the value of payments received in July 2004?,SELECT SUM(amount) AS total_payments_july_2004 FROM payments WHERE paymentdate >= '2004-07-01' AND paymentdate < '2004-08-01';,SELECT SUM(amount) AS total_July_2004_payments FROM payments WHERE paymentDate BETWEEN '2004-07-01' AND '2004-07-31';
+mag-sql,15,moderate,General-Queries,0,0.0,missing prediction,"What is the ratio of the value of payments made to orders received for each month of 2004? (i.e., divide the value of payments made by the orders received)?",,"SELECT COALESCE(p.month, o.month) AS month, COALESCE(p.year, o.year) AS year, COALESCE(total_payments, 0) AS total_payments, COALESCE(total_order_value, 0) AS total_order_value, COALESCE(total_payments, 0) / COALESCE(total_order_value, 1) AS payment_to_order_ratio FROM ( SELECT MONTHNAME(paymentDate) AS month, YEAR(paymentDate) AS year, SUM(amount) AS total_payments FROM payments WHERE YEAR(paymentDate) = 2004 GROUP BY year, month ) p LEFT JOIN ( SELECT MONTHNAME(o.orderDate) AS month, YEAR(o.orderDate) AS year, SUM(od.priceEach * od.quantityOrdered) AS total_order_value FROM orders o JOIN orderdetails od ON o.orderNumber = od.orderNumber WHERE YEAR(o.orderDate) = 2004 GROUP BY year, month ) o ON p.month = o.month AND p.year = o.year UNION SELECT COALESCE(p.month, o.month) AS month, COALESCE(p.year, o.year) AS year, COALESCE(total_payments, 0) AS total_payments, COALESCE(total_order_value, 0) AS total_order_value, COALESCE(total_payments, 0) / COALESCE(total_order_value, 1) AS payment_to_order_ratio FROM ( SELECT MONTHNAME(paymentDate) AS month, YEAR(paymentDate) AS year, SUM(amount) AS total_payments FROM payments WHERE YEAR(paymentDate) = 2004 GROUP BY year, month ) p RIGHT JOIN ( SELECT MONTHNAME(o.orderDate) AS month, YEAR(o.orderDate) AS year, SUM(od.priceEach * od.quantityOrdered) AS total_order_value FROM orders o JOIN orderdetails od ON o.orderNumber = od.orderNumber WHERE YEAR(o.orderDate) = 2004 GROUP BY year, month ) o ON p.month = o.month AND p.year = o.year ORDER BY year, month;"
+mag-sql,16,moderate,General-Queries,0,0.0,missing prediction,What is the difference in the amount received for each month of 2004 compared to 2003?,,"SELECT MONTHNAME(paymentDate) AS month, MONTH(paymentDate) AS month_number, SUM(CASE WHEN YEAR(paymentDate) = 2004 THEN amount ELSE 0 END) AS total_2004, SUM(CASE WHEN YEAR(paymentDate) = 2003 THEN amount ELSE 0 END) AS total_2003, SUM(CASE WHEN YEAR(paymentDate) = 2004 THEN amount ELSE 0 END) - SUM(CASE WHEN YEAR(paymentDate) = 2003 THEN amount ELSE 0 END) AS difference FROM payments WHERE YEAR(paymentDate) IN (2003, 2004) GROUP BY month, month_number ORDER BY month_number;"
+mag-sql,17,moderate,General-Queries,0,0.0,missing prediction,Basket of goods analysis: A common retail analytics task is to analyze each basket or order to learn what products are often purchased together. Report the names of products that appear in the same order ten or more times.,,SELECT quantityOrdered FROM orderdetails WHERE productCode = ( SELECT productCode FROM products WHERE productName = '1969 Dodge Charger') AND orderNumber = 10405;
+mag-sql,18,moderate,General-Queries,0,0.0,missing prediction,"ABC reporting: Compute the revenue generated by each customer based on their orders. Also, show each customer's revenue as a percentage of total revenue. Sort by customer name.",,"SELECT c.customerName, SUM(od.priceEach * od.quantityOrdered) AS customer_revenue, ROUND((SUM(od.priceEach * od.quantityOrdered) / (SELECT SUM(od.priceEach * od.quantityOrdered) FROM orders o JOIN orderdetails od ON od.orderNumber = o.orderNumber)) * 100, 2) AS revenue_percentage FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN customers c ON o.customerNumber = c.customerNumber GROUP BY c.customerName ORDER BY c.customerName;"
+mag-sql,19,moderate,General-Queries,0,0.0,missing prediction,"Compute the profit generated by each customer based on their orders. Also, show each customer's profit as a percentage of total profit. Sort by profit descending.",,"SELECT c.customerName, ROUND(SUM((od.priceEach - p.buyPrice) * od.quantityOrdered), 2) AS customer_profit, ROUND((SUM((od.priceEach - p.buyPrice) * od.quantityOrdered) / (SELECT SUM((od.priceEach - p.buyPrice) * od.quantityOrdered) FROM orderdetails od JOIN products p ON od.productCode = p.productCode)) * 100, 2) AS profit_percentage FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN products p ON od.productCode = p.productCode JOIN customers c ON o.customerNumber = c.customerNumber GROUP BY c.customerName ORDER BY customer_profit DESC;"
+mag-sql,20,moderate,General-Queries,0,0.0,missing prediction,Compute the revenue generated by each sales representative based on the orders from the customers they serve.,,"SELECT c.salesRepEmployeeNumber, ROUND(SUM(od.priceEach * od.quantityOrdered), 2) AS salesrep_revenue FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN customers c ON o.customerNumber = c.customerNumber WHERE c.salesRepEmployeeNumber IS NOT NULL GROUP BY c.salesRepEmployeeNumber ORDER BY salesrep_revenue DESC;"
+mag-sql,21,moderate,General-Queries,0,0.0,missing prediction,Compute the profit generated by each sales representative based on the orders from the customers they serve. Sort by profit generated descending.,,"SELECT c.salesRepEmployeeNumber, ROUND(SUM((od.priceEach - p.buyPrice) * od.quantityOrdered), 2) AS salesrep_profit FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN products p ON od.productCode = p.productCode JOIN customers c ON o.customerNumber = c.customerNumber WHERE c.salesRepEmployeeNumber IS NOT NULL GROUP BY c.salesRepEmployeeNumber ORDER BY salesrep_profit DESC;"
+mag-sql,22,moderate,General-Queries,0,0.0,missing prediction,"Compute the revenue generated by each product, sorted by product name.",,"SELECT p.productName, ROUND(SUM(od.priceEach * od.quantityOrdered), 2) AS product_revenue FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN products p ON od.productCode = p.productCode GROUP BY p.productName ORDER BY p.productName;"
+mag-sql,23,moderate,General-Queries,0,0.0,missing prediction,"Compute the profit generated by each product line, sorted by profit descending.",,"SELECT p.productLine, ROUND(SUM((od.priceEach - p.buyPRice) * od.quantityOrdered), 2) AS productline_profit FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN products p ON od.productCode = p.productCode GROUP BY p.productLine ORDER BY productline_profit DESC;"
+mag-sql,24,moderate,General-Queries,0,0.0,missing prediction,Same as Last Year (SALY) analysis: Compute the ratio for each product of sales for 2003 versus 2004.,,"SELECT p.productName, p.productCode, SUM(CASE WHEN YEAR(o.orderDate) = 2004 THEN od.priceEach * od.quantityOrdered ELSE 0 END) AS sales_2004, SUM(CASE WHEN YEAR(o.orderDate) = 2003 THEN od.priceEach * od.quantityOrdered ELSE 0 END) AS sales_2003, (SUM(CASE WHEN YEAR(o.orderDate) = 2004 THEN od.priceEach * od.quantityOrdered ELSE 0 END) / NULLIF(SUM(CASE WHEN YEAR(o.orderDate) = 2003 THEN od.priceEach * od.quantityOrdered ELSE 0 END), 0) ) AS sales_ratio FROM products p JOIN orderdetails od ON p.productCode = od.productCode JOIN orders o ON od.orderNumber = o.orderNumber GROUP BY p.productCode ORDER BY sales_ratio DESC;"
+mag-sql,25,moderate,General-Queries,0,0.0,missing prediction,Compute the ratio of payments for each customer for 2003 versus 2004.,,"SELECT c.customerNumber, c.customerName, SUM(CASE WHEN YEAR(p.paymentDate) = 2004 THEN p.amount ELSE 0 END) AS payments_2004, SUM(CASE WHEN YEAR(p.paymentDate) = 2003 THEN p.amount ELSE 0 END) AS payments_2003, (SUM(CASE WHEN YEAR(p.paymentDate) = 2004 THEN p.amount ELSE 0 END) / NULLIF(SUM(CASE WHEN YEAR(p.paymentDate) = 2003 THEN p.amount ELSE 0 END), 0) ) AS payments_ratio FROM payments p JOIN customers c ON p.customerNumber = c.customerNumber GROUP BY c.customerNumber, c.customerName ORDER BY payments_ratio DESC;"
+mag-sql,26,moderate,General-Queries,0,0.0,missing prediction,Find the products sold in 2003 but not 2004.,,SELECT DISTINCT p.productName FROM products p JOIN orderdetails od ON p.productCode = od.productCode JOIN orders o ON od.orderNumber = o.orderNumber WHERE YEAR(o.orderDate) = 2003 AND p.productCode NOT IN ( SELECT DISTINCT p2.productCode FROM products p2 JOIN orderdetails od2 ON p2.productCode = od2.productCode JOIN orders o2 ON od2.orderNumber = o2.orderNumber WHERE YEAR(o2.orderDate) = 2004 );
+mag-sql,27,moderate,General-Queries,0,0.0,missing prediction,Find the customers without payments in 2003.,,"SELECT c.customerNumber, c.customerName FROM customers c WHERE NOT EXISTS ( SELECT 1 FROM payments p WHERE p.customerNumber = c.customerNumber AND YEAR(p.paymentDate) = 2003 );"
+mag-sql,28,moderate,Many-to-Many-Relationship,0,0.0,missing prediction,List products sold by order date.,,"SELECT p.productName, o.orderDate, DAYNAME(o.orderDate) AS Day FROM products p JOIN orderdetails od ON p.productCode = od.productCode JOIN orders o ON od.orderNumber = o.orderNumber ORDER BY o.orderDate DESC;"
+mag-sql,29,moderate,Many-to-Many-Relationship,0,0.0,missing prediction,List the order dates in descending order for orders for the 1940 Ford Pickup Truck.,,"SELECT DISTINCT(p.productName), o.orderDate FROM orders o JOIN orderdetails od ON o.orderNumber = od.orderNumber JOIN products p ON od.productCode = p.productCode WHERE p.productName = '1940 Ford Pickup Truck' ORDER BY o.orderDate DESC;"
+mag-sql,30,moderate,Many-to-Many-Relationship,0,0.0,missing prediction,"List the names of customers and their corresponding order number where a particular order from that customer has a value greater than $25,000?",,"SELECT c.customerName, o.orderNumber, SUM(od.quantityOrdered * od.priceEach) AS value FROM customers c JOIN orders o ON c.customerNumber = o.customerNumber JOIN orderdetails od ON o.orderNumber = od.orderNumber GROUP BY c.customerName, o.orderNumber HAVING value > 25000 ORDER BY value DESC;"
+mag-sql,31,moderate,Many-to-Many-Relationship,0,0.0,missing prediction,Are there any products that appear on all orders?,,SELECT od.productCode FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber GROUP BY od.productCode HAVING COUNT(DISTINCT o.orderNumber) = (SELECT COUNT(DISTINCT orderNumber) FROM orders);
+mag-sql,32,moderate,Many-to-Many-Relationship,0,0.0,,List the names of products sold at less than 80% of the MSRP.,SELECT p.productname FROM products AS p WHERE p.buyprice IS NOT NULL AND p.msrp IS NOT NULL AND p.buyprice < p.msrp * 0.8;,"SELECT p.productName, p.MSRP, od.priceEach FROM products p JOIN orderdetails od ON p.productCode = od.productCode WHERE od.priceEach < (p.MSRP * 0.8) ORDER BY p.MSRP;"
+mag-sql,33,moderate,Many-to-Many-Relationship,0,0.0,missing prediction,"Reports those products that have been sold with a markup of 100% or more (i.e.,  the priceEach is at least twice the buyPrice)",,"SELECT p.productName, 2*(p.buyPrice) AS twice_buy_price, od.priceEach FROM products p JOIN orderdetails od ON p.productcode = od.productcode WHERE od.priceEach > 2*(p.buyPrice);"
+mag-sql,34,moderate,Many-to-Many-Relationship,0,0.0,missing prediction,List the products ordered on a Monday.,,"SELECT p.productName, DAYNAME(o.orderDate) AS day_of_the_week, o.orderDate FROM products p JOIN orderdetails od ON p.productCode = od.productCode JOIN orders o ON od.orderNumber = o.orderNumber WHERE DAYNAME(o.orderDate) = 'Monday';"
+mag-sql,35,moderate,Many-to-Many-Relationship,0,0.0,missing prediction,What is the quantity on hand for products listed on 'On Hold' orders?,,"SELECT DISTINCT p.productName, p.quantityInStock, o.status FROM orderDetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN products p ON od.productCode = p.productCode WHERE o.status = 'On Hold' ORDER BY p.quantityInStock DESC;"
+mag-sql,36,moderate,One-to-Many-Relationship,0,0.0,missing prediction,Report the account representative for each customer.,,"SELECT c.customername, CONCAT(e.firstname, ' ', e.lastname) AS 'Account Representative' FROM customers c JOIN employees e ON c.salesrepemployeenumber = e.employeenumber;"
+mag-sql,37,moderate,One-to-Many-Relationship,0,0.0,"column ""c.customername"" must appear in the GROUP BY clause or be used in an aggregate function
+LINE 1: SELECT SUM(p.amount) AS total_payments, c.customername FROM ...
+                                                ^",Report total payments for Atelier graphique.,"SELECT COALESCE(SUM(p.amount), 0) AS total_payments FROM payments AS p JOIN customers AS c ON p.customernumber = c.customernumber WHERE c.customername = 'Atelier graphique';","SELECT SUM(p.amount) AS total_payments, c.customername FROM payments p JOIN customers c ON p.customernumber = c.customernumber WHERE c.customername = 'Atelier graphique';"
+mag-sql,38,moderate,One-to-Many-Relationship,0,0.0,missing prediction,Report the total payments by date.,,"SELECT SUM(amount) AS total_payments, paymentDate FROM payments GROUP BY paymentDate ORDER BY total_payments DESC;"
+mag-sql,39,moderate,One-to-Many-Relationship,0,0.0,,Report the products that have not been sold.,"SELECT p.productcode, p.productname FROM products AS p LEFT JOIN orderdetails AS od ON p.productcode = od.productcode WHERE od.productcode IS NULL;",SELECT * FROM products p WHERE NOT EXISTS ( SELECT * FROM orderdetails o WHERE p.productcode = o.productcode );
+mag-sql,40,moderate,One-to-Many-Relationship,0,0.0,missing prediction,List the amount paid by each customer.,,"SELECT c.customerName, o.ordernumber, ROUND(SUM(od.quantityOrdered * od.priceEach), 2) AS amount_paid FROM customers c JOIN orders o ON c.customernumber = o.customernumber JOIN orderdetails od ON o.orderNumber = od.orderNumber GROUP BY o.ordernumber, c.customerName ORDER BY amount_paid DESC;"
+mag-sql,41,moderate,One-to-Many-Relationship,0,0.0,"syntax error at or near ""'orders'""
+LINE 1: SELECT COUNT(o.ordernumber) AS 'orders', c.customerName FROM...
+                                       ^",How many orders have been placed by Herkku Gifts?,SELECT COUNT(*) AS order_count FROM orders JOIN customers ON orders.customernumber = customers.customernumber WHERE customers.customername = 'Herkku Gifts';,"SELECT COUNT(o.ordernumber) AS 'orders', c.customerName FROM orders o JOIN customers c ON o.customernumber = c.customernumber WHERE c.customername = 'Herkku Gifts' GROUP BY c.customername;"
+mag-sql,42,moderate,One-to-Many-Relationship,0,0.0,,Who are the employees in Boston?,"SELECT e.firstname, e.lastname FROM employees AS e JOIN offices AS o ON e.officecode = o.officecode WHERE o.city = 'Boston';","SELECT CONCAT(e.firstname, ' ', e.lastname) AS employee_name FROM employees e WHERE e.officecode IN ( SELECT o.officecode FROM offices o WHERE o.city = 'Boston');"
+mag-sql,43,moderate,One-to-Many-Relationship,0,0.0,missing prediction,"Report those payments greater than $100,000. Sort the report so the customer who made the highest payment appears first.",,"SELECT c.customerName, SUM(p.amount) AS high_payments FROM customers c JOIN payments p ON c.customernumber = p.customernumber WHERE p.amount > 100000 GROUP BY c.customername ORDER BY high_payments DESC;"
+mag-sql,44,moderate,One-to-Many-Relationship,0,0.0,"column ""o.status"" must appear in the GROUP BY clause or be used in an aggregate function
+LINE 1: SELECT SUM(p.amount) AS value, o.status FROM payments p JOIN...
+                                       ^",List the value of 'On Hold' orders.,SELECT o.`ordernumber` FROM orders AS o WHERE o.`status` = 'On Hold';,"SELECT SUM(p.amount) AS value, o.status FROM payments p JOIN orders o ON p.customernumber = o.customernumber WHERE o.status = 'On Hold';"
+mag-sql,45,moderate,One-to-Many-Relationship,0,0.0,missing prediction,Report the number of orders 'On Hold' for each customer.,,"SELECT COUNT(*) AS orders_on_hold, c.customername FROM orders o JOIN customers c ON o.customernumber = c.customernumber WHERE o.status = 'On Hold' GROUP BY c.customername;"
+mag-sql,46,moderate,Regular-Expressions,0,0.0,,Find products containing the name 'Ford'.,SELECT productname FROM products WHERE productname LIKE '%Ford%';,SELECT * FROM products WHERE productName LIKE '%Ford%';
+mag-sql,47,moderate,Regular-Expressions,1,119.10828306814427,,List products ending in 'ship'.,SELECT productname FROM products WHERE productname LIKE '%ship';,SELECT * FROM products WHERE productName LIKE '%ship';
+mag-sql,48,moderate,Regular-Expressions,0,0.0,,"Report the number of customers in Denmark, Norway, and Sweden.","SELECT country, COUNT(*) AS customer_count FROM customers WHERE country IN ('Denmark', 'Norway', 'Sweden') GROUP BY country;","SELECT COUNT(*) AS number_of_customers FROM customers WHERE country IN ('Denmark', 'Norway', 'Sweden');"
+mag-sql,49,moderate,Regular-Expressions,0,0.0,"operator does not exist: text >= integer
+LINE 1: ...ELECT * FROM products WHERE RIGHT(productCode, 4) BETWEEN 10...
+                                                             ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.",What are the products with a product code in the range S700_1000 to S700_1499?,"SELECT p.productcode, p.productname FROM products AS p WHERE p.productcode BETWEEN 'S700_1000' AND 'S700_1499';","SELECT * FROM products WHERE RIGHT(productCode, 4) BETWEEN 1000 AND 1499 ORDER BY RIGHT(productCode, 4);"
+mag-sql,50,moderate,Regular-Expressions,0,0.0,missing prediction,Which customers have a digit in their name?,,SELECT * FROM customers WHERE customerName REGEXP '[0-9]';
+mag-sql,51,moderate,Regular-Expressions,0,0.0,missing prediction,List the names of employees called Dianne or Diane.,,"SELECT * FROM employees WHERE firstName IN ('Dianne', 'Diane');"
+mag-sql,52,moderate,Regular-Expressions,0,0.0,"syntax error at or near ""REGEXP""
+LINE 1: SELECT * FROM products WHERE productName REGEXP ('ship'|'boa...
+                                                 ^",List the products containing ship or boat in their product name.,SELECT DISTINCT productname FROM products WHERE LOWER(productname) LIKE '%ship%' OR LOWER(productname) LIKE '%boat%';,SELECT * FROM products WHERE productName REGEXP ('ship'|'boat');
+mag-sql,53,moderate,Regular-Expressions,0,0.0,,List the products with a product code beginning with S700.,"SELECT p.productcode, p.productname FROM products AS p WHERE p.productcode LIKE 'S700%';",SELECT * FROM products WHERE productCode LIKE 'S700%';
+mag-sql,54,moderate,Regular-Expressions,0,0.0,,List the names of employees called Larry or Barry.,"SELECT firstname, lastname AS name FROM employees WHERE firstname IN ('Larry', 'Barry');","SELECT * FROM employees WHERE 'Larry' IN (lastName,firstName) OR 'Barry' IN (lastName,firstName);"
+mag-sql,55,moderate,Regular-Expressions,0,0.0,missing prediction,List the names of employees with non-alphabetic characters in their names.,,"SELECT * FROM employees WHERE CONCAT(firstname, ' ', lastname) REGEXP '[0-9%@]';"
+mag-sql,56,moderate,Regular-Expressions,0,0.0,,List the vendors whose name ends in Diecast.,SELECT DISTINCT productvendor FROM products WHERE productvendor LIKE '%Diecast';,SELECT * FROM products WHERE productVendor LIKE '%Diecast';
+mag-sql,57,simple,Single-Entity,0,0.0,missing prediction,"Prepare a list of offices sorted by country, state, city.",,"SELECT * FROM offices ORDER BY country , state , city;"
+mag-sql,58,simple,Single-Entity,1,100.61349437967723,,How many employees are there in the company?,SELECT COUNT(*) AS total_employees FROM employees;,SELECT COUNT(DISTINCT employeeNumber) AS num_of_employees FROM employees;
+mag-sql,59,simple,Single-Entity,1,94.37859265915672,,What is the total of payments received?,SELECT SUM(amount) AS total_payments FROM payments;,SELECT SUM(amount) AS total_payments FROM payments;
+mag-sql,60,simple,Single-Entity,0,0.0,"syntax error at or near ""'Cars'""
+LINE 1: SELECT productLine AS 'Cars' FROM productlines WHERE product...
+                              ^",List the product lines that contain 'Cars'.,SELECT DISTINCT `productline` FROM productlines WHERE `productline` LIKE '%Cars%',SELECT productLine AS 'Cars' FROM productlines WHERE productLine LIKE '%Cars%';
+mag-sql,61,simple,Single-Entity,0,0.0,"syntax error at or near ""'Amount for 28th oct 2004'""
+LINE 1: SELECT SUM(amount) AS 'Amount for 28th oct 2004' FROM paymen...
+                              ^","Report total payments for October 28, 2004.","SELECT COALESCE(SUM(amount), 0) AS total_payments FROM payments WHERE date(paymentdate) = '2004-10-28';",SELECT SUM(amount) AS 'Amount for 28th oct 2004' FROM payments WHERE paymentDate = '2004-10-28';
+mag-sql,62,simple,Single-Entity,1,112.87340105677323,,"Report those payments greater than $100,000.","SELECT checknumber, paymentdate, amount, customernumber FROM payments WHERE amount > 100000;",SELECT * FROM payments WHERE amount > 100000 ORDER BY amount DESC;
+mag-sql,63,simple,Single-Entity,0,0.0,missing prediction,List the products in each product line.,,"SELECT productName, productLine FROM products ORDER BY productLine;"
+mag-sql,64,moderate,Single-Entity,0,0.0,,How many products in each product line?,"SELECT productline, COUNT(*) AS product_count FROM products GROUP BY productline;","SELECT COUNT(productCode) AS num_of_products, productLine FROM products GROUP BY productLine ORDER BY num_of_products DESC;"
+mag-sql,65,simple,Single-Entity,1,91.09791208833539,,What is the minimum payment received?,SELECT MIN(p.amount) AS min_payment FROM payments AS p;,SELECT MIN(amount) AS minimum_payment FROM payments;
+mag-sql,66,moderate,Single-Entity,0,0.0,,List all payments greater than twice the average payment.,"SELECT checknumber, amount FROM payments WHERE amount > 2 * (SELECT AVG(amount) FROM payments);",SELECT amount FROM payments WHERE amount > 2 * ( SELECT AVG(amount) FROM payments );
+mag-sql,67,simple,Single-Entity,0,0.0,missing prediction,What is the average percentage markup of the MSRP on buyPrice?,,SELECT AVG((MSRP - buyPrice) / MSRP) * 100 AS 'Average Percentage Markup' FROM products;
+mag-sql,68,simple,Single-Entity,0,0.0,"syntax error at or near ""'Distinct Product'""
+LINE 1: SELECT COUNT(DISTINCT productName) AS 'Distinct Product' FRO...
+                                              ^",How many distinct products does ClassicModels sell?,SELECT COUNT(DISTINCT productcode) AS num_distinct_products FROM products;,SELECT COUNT(DISTINCT productName) AS 'Distinct Product' FROM products;
+mag-sql,69,simple,Single-Entity,1,95.04952183138394,,Report the name and city of customers who don't have sales representatives?,"SELECT customername, city FROM customers WHERE salesrepemployeenumber IS NULL;","SELECT customerName, city FROM customers WHERE salesRepEmployeeNumber IS NULL;"
+mag-sql,70,simple,Single-Entity,0,0.0,missing prediction,What are the names of executives with VP or Manager in their title? Use the CONCAT function to combine the employee's first name and last name into a single field for reporting.,,"SELECT CONCAT(firstName, ' ', lastName) AS full_name FROM employees WHERE jobTitle LIKE '%VP%' OR jobTitle LIKE '%Manager%';"
+mag-sql,71,moderate,Single-Entity,0,0.0,missing prediction,"Which orders have a value greater than $5,000?",,"SELECT orderNumber, SUM(quantityOrdered * priceEach) AS 'Value' FROM orderdetails GROUP BY orderNumber HAVING Value > 5000 ORDER BY Value DESC;"
+mag-sql,72,challenging,Spatial-Data,0,0.0,missing prediction,Which customers are in the Southern Hemisphere?,,"SELECT customerNumber, customerName, ST_AsText(customerLocation) AS location, ST_Y(customerLocation) AS latitude, ST_X(customerLocation) AS longitude FROM customers WHERE ST_Y(customerLocation) < 0;"
+mag-sql,73,challenging,Spatial-Data,0,0.0,missing prediction,Which US customers are south west of the New York office?,,"SELECT customerNumber, customerName, ST_AsText(customerLocation) AS location, ST_Y(customerLocation) AS latitude, ST_X(customerLocation) AS longitude FROM customers WHERE country = 'USA' AND ST_Y(customerLocation) < 40.7128 AND ST_X(customerLocation) < -74.0060;"
+mag-sql,74,challenging,Spatial-Data,0,0.0,missing prediction,"Which customers are closest to the Tokyo office (i.e., closer to Tokyo than any other office)?",,"SELECT c.customerNumber, c.customerName, ST_Distance(c.customerLocation, o.officeLocation) AS distance_to_tokyo FROM customers c JOIN offices o ON o.city = 'Tokyo' WHERE ST_Distance(c.customerLocation, o.officeLocation) <= ALL ( SELECT ST_Distance(c.customerLocation, o2.officeLocation) FROM offices o2 ) ORDER BY distance_to_tokyo ASC;"
+mag-sql,75,challenging,Spatial-Data,0,0.0,missing prediction,Which French customer is furthest from the Paris office?,,"SELECT c.customerNumber, c.customerName, ST_Distance(c.customerLocation, o.officeLocation) AS distance_to_paris FROM customers c JOIN offices o ON o.city = 'Paris' WHERE c.country = 'France' AND ST_Distance(c.customerLocation, o.officeLocation) = ( SELECT MAX(ST_Distance(c2.customerLocation, o.officeLocation)) FROM customers c2 WHERE c2.country = 'France' ) ORDER BY distance_to_paris DESC;"
+mag-sql,76,challenging,Spatial-Data,0,0.0,missing prediction,Who is the northernmost customer?,,"SELECT customerNumber, customerName, ST_Y(customerLocation) AS latitude, ST_X(customerLocation) AS longitude FROM customers WHERE ST_Y(customerLocation) = ( SELECT MAX(ST_Y(customerLocation)) FROM customers);"
+mag-sql,77,challenging,Spatial-Data,0,0.0,missing prediction,What is the distance between the Paris and Boston offices?,,"SELECT (ACOS(SIN(ST_Y(paris.officeLocation) * PI() / 180) * SIN(ST_Y(boston.officeLocation) * PI() / 180) + COS(ST_Y(paris.officeLocation) * PI() / 180) * COS(ST_Y(boston.officeLocation) * PI() / 180) * COS((ST_X(paris.officeLocation) - ST_X(boston.officeLocation)) * PI() / 180)) * 180 / PI()) * 60 * 1.8532 AS distance_km FROM offices paris, offices boston WHERE paris.city = 'Paris' AND boston.city = 'Boston';"
+agent,0,challenging,Correlated-Subqueries,0,0.0,,Who reports to Mary Patterson?,"SELECT e.employeenumber, e.firstname, e.lastname, e.jobtitle
+FROM employees e
+JOIN employees m ON e.reportsto = m.employeenumber
+WHERE m.firstname = 'Mary' AND m.lastname = 'Patterson'
+ORDER BY e.lastname, e.firstname
+LIMIT 5","SELECT CONCAT(firstName, ' ', lastName) AS full_name FROM employees WHERE reportsTo = ( SELECT employeeNumber FROM employees WHERE CONCAT(firstName, ' ', lastName) = 'Mary Patterson' );"
+agent,1,challenging,Correlated-Subqueries,0,0.0,,Which payments in any month and year are more than twice the average for that month and year (i.e. compare all payments in Oct 2004 with the average payment for Oct 2004)? Order the results by the date of the payment. You will need to use the date functions.,"WITH monthly AS (
+  SELECT
+    p.checknumber,
+    p.paymentdate,
+    p.amount,
+    p.customernumber,
+    AVG(p.amount) OVER (PARTITION BY date_trunc('month', p.paymentdate)) AS monthly_avg
+  FROM payments p
+)
+SELECT
+  checknumber,
+  paymentdate,
+  amount,
+  customernumber,
+  monthly_avg
+FROM monthly
+WHERE amount > 2 * monthly_avg
+ORDER BY paymentdate
+LIMIT 5","SELECT p.customerNumber, p.paymentDate, p.amount FROM payments p WHERE p.amount > 2 * ( SELECT AVG(p2.amount) FROM payments p2 WHERE MONTH(p2.paymentDate) = MONTH(p.paymentDate) AND YEAR(p2.paymentDate) = YEAR(p.paymentDate) ) ORDER BY p.paymentDate;"
+agent,2,challenging,Correlated-Subqueries,0,0.0,,"Report for each product, the percentage value of its stock on hand as a percentage of the stock on hand for product line to which it belongs. Order the report by product line and percentage value within product line descending. Show percentages with two decimal places.","WITH t AS (
+  SELECT
+    p.productcode,
+    p.productname,
+    p.productline,
+    p.quantityinstock,
+    SUM(p.quantityinstock) OVER (PARTITION BY p.productline) AS line_stock
+  FROM products p
+)
+SELECT
+  productline,
+  productcode,
+  productname,
+  to_char((quantityinstock * 100.0) / NULLIF(line_stock, 0), 'FM9909999.00') AS percentage_of_line_stock
+FROM t
+ORDER BY productline,
+         ((quantityinstock * 100.0) / NULLIF(line_stock, 0)) DESC
+LIMIT 5","SELECT productName, productLine, quantityInStock, ROUND((quantityInstock / ( SELECT SUM(p2.quantityInStock) FROM products p2 WHERE p2.productLine = p1.productLine )) * 100, 2) AS stock_percentage FROM products p1 ORDER BY productLine, stock_percentage DESC;"
+agent,3,challenging,Correlated-Subqueries,0,0.0,,"For orders containing more than two products, report those products that constitute more than 50% of the value of the order.","WITH order_totals AS (
+  SELECT o.ordernumber,
+         SUM(od.quantityordered * od.priceeach) AS order_total,
+         COUNT(DISTINCT od.productcode) AS product_count
+  FROM orders o
+  JOIN orderdetails od ON od.ordernumber = o.ordernumber
+  GROUP BY o.ordernumber
+  HAVING COUNT(DISTINCT od.productcode) > 2
+),
+order_items AS (
+  SELECT o.ordernumber,
+         od.productcode,
+         p.productname,
+         od.quantityordered * od.priceeach AS item_value
+  FROM orders o
+  JOIN orderdetails od ON od.ordernumber = o.ordernumber
+  JOIN products p ON p.productcode = od.productcode
+  JOIN order_totals ot ON ot.ordernumber = o.ordernumber
+)
+SELECT oi.ordernumber,
+       oi.productcode,
+       oi.productname,
+       oi.item_value,
+       ot.order_total,
+       ROUND((oi.item_value * 100.0) / NULLIF(ot.order_total, 0), 2) AS percent_of_order
+FROM order_items oi
+JOIN order_totals ot ON ot.ordernumber = oi.ordernumber
+WHERE oi.item_value > ot.order_total * 0.5
+ORDER BY oi.ordernumber, percent_of_order DESC
+LIMIT 5","SELECT od.orderNumber, od.productCode, (od.priceEach * od.quantityOrdered) AS product_value, ROUND((od.priceEach * od.quantityOrdered) / (SELECT SUM(od2.priceEach * od2.quantityOrdered) FROM orderdetails od2 WHERE od2.orderNumber = od.orderNumber) * 100, 2) AS product_percentage FROM orderdetails od WHERE (od.priceEach * od.quantityOrdered) > (SELECT SUM(od2.priceEach * od2.quantityOrdered) * 0.5 FROM orderdetails od2 WHERE od2.orderNumber = od.orderNumber) AND od.orderNumber IN ( SELECT orderNumber FROM orderdetails GROUP BY orderNumber HAVING COUNT(DISTINCT productCode) > 2 ) ORDER BY od.orderNumber, product_percentage DESC;"
+agent,4,simple,General-Queries,0,0.0,,"Who is at the top of the organization (i.e.,  reports to no one).","SELECT employeenumber, firstname, lastname, jobtitle
+FROM employees
+WHERE reportsto IS NULL
+ORDER BY employeenumber
+LIMIT 5",SELECT * FROM employees WHERE reportsTo IS NULL;
+agent,5,moderate,General-Queries,0,0.0,,Who reports to William Patterson?,"SELECT sub.firstname, sub.lastname, sub.jobtitle
+FROM employees AS sub
+JOIN employees AS mgr ON sub.reportsto = mgr.employeenumber
+WHERE mgr.firstname = 'William' AND mgr.lastname = 'Patterson'
+LIMIT 5","SELECT employeeNumber, firstName, lastName, jobTitle FROM employees WHERE reportsTo = ( SELECT employeeNumber FROM employees WHERE LOWER(CONCAT(firstname, ' ', lastname)) = 'William Patterson' );"
+agent,6,moderate,General-Queries,0,0.0,,List all the products purchased by Herkku Gifts.,"SELECT p.productcode, p.productname, SUM(od.quantityordered) AS total_quantity
+FROM customers c
+JOIN orders o ON o.customernumber = c.customernumber
+JOIN orderdetails od ON od.ordernumber = o.ordernumber
+JOIN products p ON p.productcode = od.productcode
+WHERE c.customername = 'Herkku Gifts'
+GROUP BY p.productcode, p.productname
+ORDER BY total_quantity DESC
+LIMIT 5",SELECT DISTINCT p.productName FROM products p JOIN orderdetails od ON p.productCode = od.productCode JOIN orders o ON od.orderNumber = o.orderNumber JOIN customers c ON o.customerNumber = c.customerNumber WHERE c.customerName = 'Herkku Gifts';
+agent,7,moderate,General-Queries,0,0.0,,"Compute the commission for each sales representative, assuming the commission is 5% of the value of an order. Sort by employee last name and first name.","SELECT e.lastname, e.firstname,
+       COALESCE(SUM(od.quantityordered * od.priceeach), 0) * 0.05 AS commission
+FROM employees e
+JOIN customers c ON c.salesrepemployeenumber = e.employeenumber
+LEFT JOIN orders o ON o.customernumber = c.customernumber
+LEFT JOIN orderdetails od ON od.ordernumber = o.ordernumber
+GROUP BY e.employeenumber, e.lastname, e.firstname
+ORDER BY e.lastname, e.firstname
+LIMIT 5","SELECT SUM(od.priceEach * od.quantityOrdered * 0.05) AS comission, CONCAT(e.lastName, ' ', e.firstName) AS sales_representative FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN customers c ON o.customerNumber = c.customerNumber JOIN employees e ON c.salesRepEmployeeNumber = e.employeeNumber GROUP BY e.employeeNumber, e.lastName, e.firstName ORDER BY e.lastName, e.firstName;"
+agent,8,simple,General-Queries,1,101.45581491397853,,What is the difference in days between the most recent and oldest order date in the Orders file?,"SELECT (MAX(orderdate::date) - MIN(orderdate::date)) AS diff_days
+FROM orders","SELECT DATEDIFF(MAX(orderDate), MIN(orderDate)) AS days_difference FROM orders;"
+agent,9,moderate,General-Queries,0,0.0,,Compute the average time between order date and ship date for each customer ordered by the largest difference.,"SELECT
+  c.customernumber,
+  c.customername,
+  AVG(EXTRACT(EPOCH FROM (o.shippeddate - o.orderdate)) / 86400) AS avg_days_to_ship
+FROM
+  orders o
+JOIN
+  customers c ON o.customernumber = c.customernumber
+WHERE
+  o.shippeddate IS NOT NULL
+GROUP BY
+  c.customernumber, c.customername
+ORDER BY
+  AVG(EXTRACT(EPOCH FROM (o.shippeddate - o.orderdate)) / 86400) DESC
+LIMIT 5","SELECT AVG(DATEDIFF(o.shippedDate, o.orderDate)) AS difference_in_days, o.customerNumber, c.customerName FROM orders o JOIN customers c ON o.customerNumber = c.customerNumber GROUP BY o.customerNumber, c.customerName ORDER BY difference_in_days DESC;"
+agent,10,moderate,General-Queries,1,92.00846502482575,,What is the value of orders shipped in August 2004? (Hint).,"SELECT COALESCE(SUM(od.quantityordered * od.priceeach), 0) AS total_value_shipped_august_2004
+FROM orders o
+JOIN orderdetails od ON od.ordernumber = o.ordernumber
+WHERE o.shippeddate >= TIMESTAMP '2004-08-01 00:00:00'
+  AND o.shippeddate <  TIMESTAMP '2004-09-01 00:00:00'",SELECT SUM(od.priceEach * od.quantityOrdered) AS value_of_order FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber WHERE o.shippedDate BETWEEN '2004-08-01' AND '2004-08-31';
+agent,11,moderate,General-Queries,0,0.0,,"Compute the total value ordered, total amount paid, and their difference for each customer for orders placed in 2004 and payments received in 2004 (Hint; Create views for the total paid and total ordered).","WITH
+total_ordered AS (
+  SELECT o.customernumber, SUM(od.quantityordered * od.priceeach) AS total_ordered
+  FROM orders o
+  JOIN orderdetails od ON od.ordernumber = o.ordernumber
+  WHERE date_part('year', o.orderdate) = 2004
+  GROUP BY o.customernumber
+),
+total_paid AS (
+  SELECT p.customernumber, SUM(p.amount) AS total_paid
+  FROM payments p
+  WHERE date_part('year', p.paymentdate) = 2004
+  GROUP BY p.customernumber
+)
+SELECT
+  c.customernumber,
+  c.customername,
+  COALESCE(too.total_ordered, 0) AS total_ordered_2004,
+  COALESCE(tpa.total_paid, 0) AS total_paid_2004,
+  COALESCE(tpa.total_paid, 0) - COALESCE(too.total_ordered, 0) AS difference_2004
+FROM customers c
+LEFT JOIN total_ordered too ON too.customernumber = c.customernumber
+LEFT JOIN total_paid tpa ON tpa.customernumber = c.customernumber
+ORDER BY c.customernumber
+LIMIT 5","SELECT o.customerNumber, c.customerName, SUM(od.priceEach * od.quantityOrdered) AS total_value_ordered, SUM(p.amount) AS total_amount_paid, SUM(od.priceEach * od.quantityOrdered) - SUM(p.amount) AS difference FROM orders o JOIN orderdetails od ON o.orderNumber = od.orderNumber JOIN customers c ON o.customerNumber = c.customerNumber LEFT JOIN payments p ON o.customerNumber = p.customerNumber WHERE o.orderDate BETWEEN '2004-01-01' AND '2004-12-31' AND p.paymentDate BETWEEN '2004-01-01' AND '2004-12-31' GROUP BY o.customerNumber, c.customerName ORDER BY difference DESC;"
+agent,12,moderate,General-Queries,0,0.0,,List the employees who report to those employees who report to Diane Murphy. Use the CONCAT function to combine the employee's first name and last name into a single field for reporting.,"SELECT CONCAT(e.firstname, ' ', e.lastname) AS full_name
+FROM employees e
+WHERE e.reportsto IN (
+  SELECT s.employeenumber
+  FROM employees s
+  WHERE s.reportsto = (
+    SELECT d.employeenumber
+    FROM employees d
+    WHERE d.firstname = 'Diane' AND d.lastname = 'Murphy'
+    LIMIT 1
+  )
+)
+LIMIT 5","SELECT e.employeeNumber, CONCAT(e.firstName, ' ', e.lastName) AS full_name FROM employees e WHERE e.reportsTo IN ( SELECT employeeNumber FROM employees WHERE reportsTo = ( SELECT employeeNumber FROM employees WHERE CONCAT(firstName, ' ', lastName) = 'Diane Murphy' ) );"
+agent,13,moderate,General-Queries,0,0.0,,What is the percentage value of each product in inventory sorted by the highest percentage first (Hint: Create a view first).,"WITH inventory AS (
+  SELECT productcode, productname,
+         (quantityinstock * buyprice) AS value
+  FROM products
+),
+tot AS (
+  SELECT SUM(value) AS total_value FROM inventory
+),
+percent AS (
+  SELECT i.productcode, i.productname,
+         (i.value / NULLIF(t.total_value, 0)) * 100 AS value_percent
+  FROM inventory i CROSS JOIN tot t
+)
+SELECT productcode, productname, value_percent
+FROM percent
+ORDER BY value_percent DESC
+LIMIT 5","SELECT productCode, productName, (quantityInStock * buyPrice) AS product_value, ((quantityInStock * buyPrice) / (SELECT SUM(quantityInStock * buyPrice) FROM products)) * 100 AS percentage_value FROM products ORDER BY percentage_value DESC;"
+agent,14,simple,General-Queries,1,98.86833693335271,,What is the value of payments received in July 2004?,"SELECT COALESCE(SUM(amount), 0) AS total_payments_july_2004
+FROM payments
+WHERE paymentdate >= DATE '2004-07-01' AND paymentdate < DATE '2004-08-01'",SELECT SUM(amount) AS total_July_2004_payments FROM payments WHERE paymentDate BETWEEN '2004-07-01' AND '2004-07-31';
+agent,15,moderate,General-Queries,0,0.0,,"What is the ratio of the value of payments made to orders received for each month of 2004? (i.e., divide the value of payments made by the orders received)?","WITH
+order_values AS (
+    SELECT
+        date_trunc('month', o.orderdate) AS month_start,
+        SUM(od.quantityordered * od.priceeach) AS total_order_value
+    FROM orders o
+    JOIN orderdetails od ON od.ordernumber = o.ordernumber
+    WHERE o.orderdate >= '2004-01-01' AND o.orderdate < '2005-01-01'
+    GROUP BY date_trunc('month', o.orderdate)
+),
+payments_sum AS (
+    SELECT
+        date_trunc('month', p.paymentdate) AS month_start,
+        SUM(p.amount) AS total_payments
+    FROM payments p
+    WHERE p.paymentdate >= '2004-01-01' AND p.paymentdate < '2005-01-01'
+    GROUP BY date_trunc('month', p.paymentdate)
+)
+SELECT
+    to_char(coalesce(ov.month_start, pv.month_start), 'YYYY-MM') AS month_yyyy_mm,
+    COALESCE(pv.total_payments, 0) AS total_payments,
+    COALESCE(ov.total_order_value, 0) AS total_order_value,
+    CASE
+        WHEN COALESCE(ov.total_order_value, 0) = 0 THEN NULL
+        ELSE COALESCE(pv.total_payments, 0) / COALESCE(ov.total_order_value, 0)
+    END AS payments_to_orders_ratio
+FROM order_values ov
+FULL OUTER JOIN payments_sum pv ON ov.month_start = pv.month_start
+ORDER BY coalesce(ov.month_start, pv.month_start)
+LIMIT 5","SELECT COALESCE(p.month, o.month) AS month, COALESCE(p.year, o.year) AS year, COALESCE(total_payments, 0) AS total_payments, COALESCE(total_order_value, 0) AS total_order_value, COALESCE(total_payments, 0) / COALESCE(total_order_value, 1) AS payment_to_order_ratio FROM ( SELECT MONTHNAME(paymentDate) AS month, YEAR(paymentDate) AS year, SUM(amount) AS total_payments FROM payments WHERE YEAR(paymentDate) = 2004 GROUP BY year, month ) p LEFT JOIN ( SELECT MONTHNAME(o.orderDate) AS month, YEAR(o.orderDate) AS year, SUM(od.priceEach * od.quantityOrdered) AS total_order_value FROM orders o JOIN orderdetails od ON o.orderNumber = od.orderNumber WHERE YEAR(o.orderDate) = 2004 GROUP BY year, month ) o ON p.month = o.month AND p.year = o.year UNION SELECT COALESCE(p.month, o.month) AS month, COALESCE(p.year, o.year) AS year, COALESCE(total_payments, 0) AS total_payments, COALESCE(total_order_value, 0) AS total_order_value, COALESCE(total_payments, 0) / COALESCE(total_order_value, 1) AS payment_to_order_ratio FROM ( SELECT MONTHNAME(paymentDate) AS month, YEAR(paymentDate) AS year, SUM(amount) AS total_payments FROM payments WHERE YEAR(paymentDate) = 2004 GROUP BY year, month ) p RIGHT JOIN ( SELECT MONTHNAME(o.orderDate) AS month, YEAR(o.orderDate) AS year, SUM(od.priceEach * od.quantityOrdered) AS total_order_value FROM orders o JOIN orderdetails od ON o.orderNumber = od.orderNumber WHERE YEAR(o.orderDate) = 2004 GROUP BY year, month ) o ON p.month = o.month AND p.year = o.year ORDER BY year, month;"
+agent,16,moderate,General-Queries,0,0.0,,What is the difference in the amount received for each month of 2004 compared to 2003?,"WITH months AS (
+  SELECT date_trunc('month', gs) AS month_start
+  FROM generate_series('2003-01-01'::date, '2004-12-01'::date, '1 month'::interval) AS gs
+),
+paid AS (
+  SELECT date_trunc('month', paymentdate) AS month_start,
+         EXTRACT(YEAR FROM paymentdate) AS yr,
+         SUM(amount) AS total_amt
+  FROM payments
+  GROUP BY 1,2
+)
+SELECT
+  to_char(m.month_start, 'YYYY-MM') AS year_month,
+  COALESCE(MAX(CASE WHEN p.yr = 2003 THEN p.total_amt END), 0) AS total_2003,
+  COALESCE(MAX(CASE WHEN p.yr = 2004 THEN p.total_amt END), 0) AS total_2004,
+  COALESCE(MAX(CASE WHEN p.yr = 2004 THEN p.total_amt END), 0) -
+  COALESCE(MAX(CASE WHEN p.yr = 2003 THEN p.total_amt END), 0) AS diff_2004_minus_2003
+FROM months m
+LEFT JOIN paid p ON p.month_start = m.month_start
+GROUP BY m.month_start
+ORDER BY m.month_start
+LIMIT 5","SELECT MONTHNAME(paymentDate) AS month, MONTH(paymentDate) AS month_number, SUM(CASE WHEN YEAR(paymentDate) = 2004 THEN amount ELSE 0 END) AS total_2004, SUM(CASE WHEN YEAR(paymentDate) = 2003 THEN amount ELSE 0 END) AS total_2003, SUM(CASE WHEN YEAR(paymentDate) = 2004 THEN amount ELSE 0 END) - SUM(CASE WHEN YEAR(paymentDate) = 2003 THEN amount ELSE 0 END) AS difference FROM payments WHERE YEAR(paymentDate) IN (2003, 2004) GROUP BY month, month_number ORDER BY month_number;"
+agent,17,moderate,General-Queries,0,0.0,,Basket of goods analysis: A common retail analytics task is to analyze each basket or order to learn what products are often purchased together. Report the names of products that appear in the same order ten or more times.,"WITH ordered_pairs AS (
+  SELECT od1.productcode AS code1,
+         od2.productcode AS code2,
+         COUNT(*) AS cnt
+  FROM orderdetails od1
+  JOIN orderdetails od2
+    ON od1.ordernumber = od2.ordernumber
+   AND od1.productcode < od2.productcode
+  GROUP BY od1.productcode, od2.productcode
+  HAVING COUNT(*) >= 10
+)
+SELECT p1.productname AS product_a,
+       p2.productname AS product_b,
+       op.cnt AS cooccurrence_count
+FROM ordered_pairs op
+JOIN products p1 ON p1.productcode = op.code1
+JOIN products p2 ON p2.productcode = op.code2
+ORDER BY op.cnt DESC, p1.productname, p2.productname
+LIMIT 5",SELECT quantityOrdered FROM orderdetails WHERE productCode = ( SELECT productCode FROM products WHERE productName = '1969 Dodge Charger') AND orderNumber = 10405;
+agent,18,moderate,General-Queries,0,0.0,,"ABC reporting: Compute the revenue generated by each customer based on their orders. Also, show each customer's revenue as a percentage of total revenue. Sort by customer name.","WITH per_customer AS (
+  SELECT c.customernumber,
+         c.customername,
+         COALESCE(SUM(od.quantityordered * od.priceeach), 0) AS revenue
+  FROM customers c
+  LEFT JOIN orders o ON o.customernumber = c.customernumber
+  LEFT JOIN orderdetails od ON od.ordernumber = o.ordernumber
+  GROUP BY c.customernumber, c.customername
+),
+total AS (
+  SELECT SUM(revenue) AS total_revenue FROM per_customer
+)
+SELECT pc.customername,
+       pc.revenue,
+       CASE WHEN t.total_revenue = 0 THEN 0
+            ELSE ROUND((pc.revenue / t.total_revenue) * 100, 2)
+       END AS revenue_percentage
+FROM per_customer pc
+CROSS JOIN total t
+ORDER BY pc.customername
+LIMIT 5","SELECT c.customerName, SUM(od.priceEach * od.quantityOrdered) AS customer_revenue, ROUND((SUM(od.priceEach * od.quantityOrdered) / (SELECT SUM(od.priceEach * od.quantityOrdered) FROM orders o JOIN orderdetails od ON od.orderNumber = o.orderNumber)) * 100, 2) AS revenue_percentage FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN customers c ON o.customerNumber = c.customerNumber GROUP BY c.customerName ORDER BY c.customerName;"
+agent,19,moderate,General-Queries,0,0.0,,"Compute the profit generated by each customer based on their orders. Also, show each customer's profit as a percentage of total profit. Sort by profit descending.","WITH per_customer_profit AS (
+  SELECT c.customernumber,
+         c.customername,
+         SUM((od.priceeach - p.buyprice) * od.quantityordered) AS profit
+  FROM customers c
+  JOIN orders o ON o.customernumber = c.customernumber
+  JOIN orderdetails od ON od.ordernumber = o.ordernumber
+  JOIN products p ON od.productcode = p.productcode
+  GROUP BY c.customernumber, c.customername
+),
+total_profit AS (
+  SELECT SUM(profit) AS total_profit FROM per_customer_profit
+)
+SELECT pcp.customernumber,
+       pcp.customername,
+       pcp.profit,
+       ROUND((pcp.profit * 100.0) / NULLIF(tp.total_profit, 0), 2) AS profit_percentage
+FROM per_customer_profit pcp
+CROSS JOIN total_profit tp
+ORDER BY pcp.profit DESC
+LIMIT 5","SELECT c.customerName, ROUND(SUM((od.priceEach - p.buyPrice) * od.quantityOrdered), 2) AS customer_profit, ROUND((SUM((od.priceEach - p.buyPrice) * od.quantityOrdered) / (SELECT SUM((od.priceEach - p.buyPrice) * od.quantityOrdered) FROM orderdetails od JOIN products p ON od.productCode = p.productCode)) * 100, 2) AS profit_percentage FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN products p ON od.productCode = p.productCode JOIN customers c ON o.customerNumber = c.customerNumber GROUP BY c.customerName ORDER BY customer_profit DESC;"
+agent,20,moderate,General-Queries,0,0.0,,Compute the revenue generated by each sales representative based on the orders from the customers they serve.,"SELECT
+  e.employeenumber,
+  (e.firstname || ' ' || e.lastname) AS salesrep,
+  SUM(od.quantityordered * od.priceeach) AS revenue
+FROM employees e
+JOIN customers c ON c.salesrepemployeenumber = e.employeenumber
+JOIN orders o ON o.customernumber = c.customernumber
+JOIN orderdetails od ON od.ordernumber = o.ordernumber
+GROUP BY e.employeenumber, (e.firstname || ' ' || e.lastname)
+ORDER BY revenue DESC
+LIMIT 5","SELECT c.salesRepEmployeeNumber, ROUND(SUM(od.priceEach * od.quantityOrdered), 2) AS salesrep_revenue FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN customers c ON o.customerNumber = c.customerNumber WHERE c.salesRepEmployeeNumber IS NOT NULL GROUP BY c.salesRepEmployeeNumber ORDER BY salesrep_revenue DESC;"
+agent,21,moderate,General-Queries,0,0.0,,Compute the profit generated by each sales representative based on the orders from the customers they serve. Sort by profit generated descending.,"WITH rep_profits AS (
+  SELECT
+    e.employeenumber AS salesrepemployeenumber,
+    (e.firstname || ' ' || e.lastname) AS repname,
+    SUM((od.priceeach - p.buyprice) * od.quantityordered) AS profit
+  FROM employees e
+  JOIN customers c ON c.salesrepemployeenumber = e.employeenumber
+  JOIN orders o ON o.customernumber = c.customernumber
+  JOIN orderdetails od ON od.ordernumber = o.ordernumber
+  JOIN products p ON p.productcode = od.productcode
+  GROUP BY e.employeenumber, repname
+)
+SELECT salesrepemployeenumber, repname, profit
+FROM rep_profits
+ORDER BY profit DESC
+LIMIT 5","SELECT c.salesRepEmployeeNumber, ROUND(SUM((od.priceEach - p.buyPrice) * od.quantityOrdered), 2) AS salesrep_profit FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN products p ON od.productCode = p.productCode JOIN customers c ON o.customerNumber = c.customerNumber WHERE c.salesRepEmployeeNumber IS NOT NULL GROUP BY c.salesRepEmployeeNumber ORDER BY salesrep_profit DESC;"
+agent,22,moderate,General-Queries,0,0.0,,"Compute the revenue generated by each product, sorted by product name.","SELECT p.productname, SUM(od.quantityordered * od.priceeach) AS revenue
+FROM orderdetails od
+JOIN products p ON od.productcode = p.productcode
+GROUP BY p.productcode, p.productname
+ORDER BY p.productname
+LIMIT 5","SELECT p.productName, ROUND(SUM(od.priceEach * od.quantityOrdered), 2) AS product_revenue FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN products p ON od.productCode = p.productCode GROUP BY p.productName ORDER BY p.productName;"
+agent,23,moderate,General-Queries,0,0.0,,"Compute the profit generated by each product line, sorted by profit descending.","SELECT pl.productline,
+       COALESCE(SUM((od.priceeach - p.buyprice) * od.quantityordered), 0) AS profit
+FROM productlines pl
+LEFT JOIN products p ON p.productline = pl.productline
+LEFT JOIN orderdetails od ON od.productcode = p.productcode
+GROUP BY pl.productline
+ORDER BY profit DESC
+LIMIT 5","SELECT p.productLine, ROUND(SUM((od.priceEach - p.buyPRice) * od.quantityOrdered), 2) AS productline_profit FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN products p ON od.productCode = p.productCode GROUP BY p.productLine ORDER BY productline_profit DESC;"
+agent,24,moderate,General-Queries,0,0.0,,Same as Last Year (SALY) analysis: Compute the ratio for each product of sales for 2003 versus 2004.,"SELECT
+  p.productcode,
+  p.productname,
+  COALESCE(SUM(CASE WHEN EXTRACT(YEAR FROM o.orderdate) = 2003 THEN od.quantityordered * od.priceeach END), 0) AS sales_2003,
+  COALESCE(SUM(CASE WHEN EXTRACT(YEAR FROM o.orderdate) = 2004 THEN od.quantityordered * od.priceeach END), 0) AS sales_2004,
+  CASE
+    WHEN COALESCE(SUM(CASE WHEN EXTRACT(YEAR FROM o.orderdate) = 2003 THEN od.quantityordered * od.priceeach END), 0) = 0
+      THEN NULL
+    ELSE COALESCE(SUM(CASE WHEN EXTRACT(YEAR FROM o.orderdate) = 2004 THEN od.quantityordered * od.priceeach END), 0)
+         / COALESCE(SUM(CASE WHEN EXTRACT(YEAR FROM o.orderdate) = 2003 THEN od.quantityordered * od.priceeach END), 0)
+  END AS ratio_2004_to_2003
+FROM products p
+LEFT JOIN orderdetails od ON p.productcode = od.productcode
+LEFT JOIN orders o ON od.ordernumber = o.ordernumber
+GROUP BY p.productcode, p.productname
+ORDER BY p.productcode
+LIMIT 5","SELECT p.productName, p.productCode, SUM(CASE WHEN YEAR(o.orderDate) = 2004 THEN od.priceEach * od.quantityOrdered ELSE 0 END) AS sales_2004, SUM(CASE WHEN YEAR(o.orderDate) = 2003 THEN od.priceEach * od.quantityOrdered ELSE 0 END) AS sales_2003, (SUM(CASE WHEN YEAR(o.orderDate) = 2004 THEN od.priceEach * od.quantityOrdered ELSE 0 END) / NULLIF(SUM(CASE WHEN YEAR(o.orderDate) = 2003 THEN od.priceEach * od.quantityOrdered ELSE 0 END), 0) ) AS sales_ratio FROM products p JOIN orderdetails od ON p.productCode = od.productCode JOIN orders o ON od.orderNumber = o.orderNumber GROUP BY p.productCode ORDER BY sales_ratio DESC;"
+agent,25,moderate,General-Queries,0,0.0,,Compute the ratio of payments for each customer for 2003 versus 2004.,"SELECT
+  c.customernumber,
+  c.customername,
+  SUM(CASE WHEN EXTRACT(YEAR FROM p.paymentdate) = 2003 THEN p.amount ELSE 0 END) AS sum_2003,
+  SUM(CASE WHEN EXTRACT(YEAR FROM p.paymentdate) = 2004 THEN p.amount ELSE 0 END) AS sum_2004,
+  SUM(CASE WHEN EXTRACT(YEAR FROM p.paymentdate) = 2003 THEN p.amount ELSE 0 END)
+  / NULLIF(SUM(CASE WHEN EXTRACT(YEAR FROM p.paymentdate) = 2004 THEN p.amount ELSE 0 END), 0) AS ratio_2003_to_2004
+FROM customers c
+LEFT JOIN payments p ON p.customernumber = c.customernumber
+GROUP BY c.customernumber, c.customername
+ORDER BY c.customernumber
+LIMIT 5","SELECT c.customerNumber, c.customerName, SUM(CASE WHEN YEAR(p.paymentDate) = 2004 THEN p.amount ELSE 0 END) AS payments_2004, SUM(CASE WHEN YEAR(p.paymentDate) = 2003 THEN p.amount ELSE 0 END) AS payments_2003, (SUM(CASE WHEN YEAR(p.paymentDate) = 2004 THEN p.amount ELSE 0 END) / NULLIF(SUM(CASE WHEN YEAR(p.paymentDate) = 2003 THEN p.amount ELSE 0 END), 0) ) AS payments_ratio FROM payments p JOIN customers c ON p.customerNumber = c.customerNumber GROUP BY c.customerNumber, c.customerName ORDER BY payments_ratio DESC;"
+agent,26,moderate,General-Queries,1,107.54318050783141,,Find the products sold in 2003 but not 2004.,"WITH sold2003 AS (
+  SELECT DISTINCT od.productcode
+  FROM orders o
+  JOIN orderdetails od ON od.ordernumber = o.ordernumber
+  WHERE o.orderdate >= TIMESTAMP '2003-01-01 00:00:00'
+    AND o.orderdate < TIMESTAMP '2004-01-01 00:00:00'
+),
+sold2004 AS (
+  SELECT DISTINCT od.productcode
+  FROM orders o
+  JOIN orderdetails od ON od.ordernumber = o.ordernumber
+  WHERE o.orderdate >= TIMESTAMP '2004-01-01 00:00:00'
+    AND o.orderdate < TIMESTAMP '2005-01-01 00:00:00'
+)
+SELECT p.productcode, p.productname
+FROM products p
+WHERE p.productcode IN (SELECT productcode FROM sold2003)
+  AND p.productcode NOT IN (SELECT productcode FROM sold2004)
+LIMIT 5",SELECT DISTINCT p.productName FROM products p JOIN orderdetails od ON p.productCode = od.productCode JOIN orders o ON od.orderNumber = o.orderNumber WHERE YEAR(o.orderDate) = 2003 AND p.productCode NOT IN ( SELECT DISTINCT p2.productCode FROM products p2 JOIN orderdetails od2 ON p2.productCode = od2.productCode JOIN orders o2 ON od2.orderNumber = o2.orderNumber WHERE YEAR(o2.orderDate) = 2004 );
+agent,27,moderate,General-Queries,0,0.0,,Find the customers without payments in 2003.,"SELECT c.customernumber,
+       c.customername,
+       c.contactlastname,
+       c.contactfirstname,
+       c.city,
+       c.country
+FROM customers AS c
+WHERE NOT EXISTS (
+  SELECT 1
+  FROM payments AS p
+  WHERE p.customernumber = c.customernumber
+    AND EXTRACT(YEAR FROM p.paymentdate) = 2003
+)
+LIMIT 5","SELECT c.customerNumber, c.customerName FROM customers c WHERE NOT EXISTS ( SELECT 1 FROM payments p WHERE p.customerNumber = c.customerNumber AND YEAR(p.paymentDate) = 2003 );"
+agent,28,moderate,Many-to-Many-Relationship,0,0.0,"function dayname(timestamp without time zone) does not exist
+LINE 1: SELECT p.productName, o.orderDate, DAYNAME(o.orderDate) AS D...
+                                           ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.",List products sold by order date.,"SELECT o.orderdate, p.productname, od.quantityordered, od.priceeach
+FROM orders o
+JOIN orderdetails od ON od.ordernumber = o.ordernumber
+JOIN products p ON od.productcode = p.productcode
+ORDER BY o.orderdate, p.productname
+LIMIT 5","SELECT p.productName, o.orderDate, DAYNAME(o.orderDate) AS Day FROM products p JOIN orderdetails od ON p.productCode = od.productCode JOIN orders o ON od.orderNumber = o.orderNumber ORDER BY o.orderDate DESC;"
+agent,29,moderate,Many-to-Many-Relationship,0,0.0,,List the order dates in descending order for orders for the 1940 Ford Pickup Truck.,"SELECT o.orderdate
+FROM orders o
+JOIN orderdetails od ON od.ordernumber = o.ordernumber
+JOIN products p ON p.productcode = od.productcode
+WHERE p.productname = '1940 Ford Pickup Truck'
+ORDER BY o.orderdate DESC
+LIMIT 5","SELECT DISTINCT(p.productName), o.orderDate FROM orders o JOIN orderdetails od ON o.orderNumber = od.orderNumber JOIN products p ON od.productCode = p.productCode WHERE p.productName = '1940 Ford Pickup Truck' ORDER BY o.orderDate DESC;"
+agent,30,moderate,Many-to-Many-Relationship,0,0.0,"column ""value"" does not exist
+LINE 1: ...ber GROUP BY c.customerName, o.orderNumber HAVING value > 25...
+                                                             ^","List the names of customers and their corresponding order number where a particular order from that customer has a value greater than $25,000?","SELECT c.customername, o.ordernumber
+FROM orders o
+JOIN customers c ON o.customernumber = c.customernumber
+JOIN orderdetails od ON od.ordernumber = o.ordernumber
+GROUP BY c.customername, o.ordernumber
+HAVING SUM(od.quantityordered * od.priceeach) > 25000
+ORDER BY c.customername, o.ordernumber
+LIMIT 5","SELECT c.customerName, o.orderNumber, SUM(od.quantityOrdered * od.priceEach) AS value FROM customers c JOIN orders o ON c.customerNumber = o.customerNumber JOIN orderdetails od ON o.orderNumber = od.orderNumber GROUP BY c.customerName, o.orderNumber HAVING value > 25000 ORDER BY value DESC;"
+agent,31,moderate,Many-to-Many-Relationship,1,109.83372153815299,,Are there any products that appear on all orders?,"SELECT p.productcode, p.productname
+FROM products p
+JOIN orderdetails od ON od.productcode = p.productcode
+GROUP BY p.productcode, p.productname
+HAVING COUNT(DISTINCT od.ordernumber) = (SELECT COUNT(*) FROM orders)
+ORDER BY p.productcode
+LIMIT 5",SELECT od.productCode FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber GROUP BY od.productCode HAVING COUNT(DISTINCT o.orderNumber) = (SELECT COUNT(DISTINCT orderNumber) FROM orders);
+agent,32,moderate,Many-to-Many-Relationship,0,0.0,,List the names of products sold at less than 80% of the MSRP.,"SELECT DISTINCT p.productname
+FROM products p
+JOIN orderdetails od ON od.productcode = p.productcode
+WHERE od.priceeach < 0.8 * p.msrp
+LIMIT 5","SELECT p.productName, p.MSRP, od.priceEach FROM products p JOIN orderdetails od ON p.productCode = od.productCode WHERE od.priceEach < (p.MSRP * 0.8) ORDER BY p.MSRP;"
+agent,33,moderate,Many-to-Many-Relationship,0,0.0,,"Reports those products that have been sold with a markup of 100% or more (i.e.,  the priceEach is at least twice the buyPrice)","SELECT
+  p.productcode,
+  p.productname,
+  p.buyprice,
+  MAX(od.priceeach) AS max_priceeach,
+  (MAX(od.priceeach) / NULLIF(p.buyprice, 0)) AS markup_ratio
+FROM products p
+JOIN orderdetails od ON od.productcode = p.productcode
+GROUP BY p.productcode, p.productname, p.buyprice
+HAVING MAX(od.priceeach) >= 2 * p.buyprice
+ORDER BY p.productcode
+LIMIT 5","SELECT p.productName, 2*(p.buyPrice) AS twice_buy_price, od.priceEach FROM products p JOIN orderdetails od ON p.productcode = od.productcode WHERE od.priceEach > 2*(p.buyPrice);"
+agent,34,moderate,Many-to-Many-Relationship,0,0.0,"function dayname(timestamp without time zone) does not exist
+LINE 1: SELECT p.productName, DAYNAME(o.orderDate) AS day_of_the_wee...
+                              ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.",List the products ordered on a Monday.,"SELECT DISTINCT p.productcode, p.productname
+FROM orders o
+JOIN orderdetails od ON od.ordernumber = o.ordernumber
+JOIN products p ON p.productcode = od.productcode
+WHERE EXTRACT(DOW FROM o.orderdate) = 1
+ORDER BY p.productname
+LIMIT 5","SELECT p.productName, DAYNAME(o.orderDate) AS day_of_the_week, o.orderDate FROM products p JOIN orderdetails od ON p.productCode = od.productCode JOIN orders o ON od.orderNumber = o.orderNumber WHERE DAYNAME(o.orderDate) = 'Monday';"
+agent,35,moderate,Many-to-Many-Relationship,0,0.0,,What is the quantity on hand for products listed on 'On Hold' orders?,"SELECT DISTINCT p.productcode, p.productname, p.quantityinstock
+FROM products p
+JOIN orderdetails od ON od.productcode = p.productcode
+JOIN orders o ON o.ordernumber = od.ordernumber
+WHERE o.status = 'On Hold'
+LIMIT 5","SELECT DISTINCT p.productName, p.quantityInStock, o.status FROM orderDetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN products p ON od.productCode = p.productCode WHERE o.status = 'On Hold' ORDER BY p.quantityInStock DESC;"
+agent,36,moderate,One-to-Many-Relationship,0,0.0,"syntax error at or near ""'Account Representative'""
+LINE 1: ...omername, CONCAT(e.firstname, ' ', e.lastname) AS 'Account R...
+                                                             ^",Report the account representative for each customer.,"SELECT
+  c.customernumber,
+  c.customername,
+  (e.firstname || ' ' || e.lastname) AS account_representative
+FROM customers AS c
+LEFT JOIN employees AS e
+  ON c.salesrepemployeenumber = e.employeenumber
+ORDER BY c.customernumber
+LIMIT 5","SELECT c.customername, CONCAT(e.firstname, ' ', e.lastname) AS 'Account Representative' FROM customers c JOIN employees e ON c.salesrepemployeenumber = e.employeenumber;"
+agent,37,moderate,One-to-Many-Relationship,0,0.0,"column ""c.customername"" must appear in the GROUP BY clause or be used in an aggregate function
+LINE 1: SELECT SUM(p.amount) AS total_payments, c.customername FROM ...
+                                                ^",Report total payments for Atelier graphique.,"SELECT c.customername,
+       COALESCE(SUM(p.amount), 0) AS total_payments
+FROM customers c
+LEFT JOIN payments p ON p.customernumber = c.customernumber
+WHERE c.customername = 'Atelier graphique'
+GROUP BY c.customername
+LIMIT 5","SELECT SUM(p.amount) AS total_payments, c.customername FROM payments p JOIN customers c ON p.customernumber = c.customernumber WHERE c.customername = 'Atelier graphique';"
+agent,38,moderate,One-to-Many-Relationship,0,0.0,,Report the total payments by date.,"SELECT
+    paymentdate::date AS payment_date,
+    SUM(amount) AS total_payments
+FROM payments
+GROUP BY paymentdate::date
+ORDER BY payment_date
+LIMIT 5","SELECT SUM(amount) AS total_payments, paymentDate FROM payments GROUP BY paymentDate ORDER BY total_payments DESC;"
+agent,39,moderate,One-to-Many-Relationship,0,0.0,,Report the products that have not been sold.,"SELECT p.productcode,
+       p.productname,
+       p.productline,
+       p.quantityinstock
+FROM products p
+LEFT JOIN orderdetails od ON od.productcode = p.productcode
+WHERE od.productcode IS NULL
+ORDER BY p.productcode
+LIMIT 5",SELECT * FROM products p WHERE NOT EXISTS ( SELECT * FROM orderdetails o WHERE p.productcode = o.productcode );
+agent,40,moderate,One-to-Many-Relationship,0,0.0,,List the amount paid by each customer.,"SELECT c.customernumber,
+       c.customername,
+       COALESCE(SUM(p.amount), 0) AS total_amount_paid
+FROM customers c
+LEFT JOIN payments p ON p.customernumber = c.customernumber
+GROUP BY c.customernumber, c.customername
+ORDER BY total_amount_paid DESC
+LIMIT 5","SELECT c.customerName, o.ordernumber, ROUND(SUM(od.quantityOrdered * od.priceEach), 2) AS amount_paid FROM customers c JOIN orders o ON c.customernumber = o.customernumber JOIN orderdetails od ON o.orderNumber = od.orderNumber GROUP BY o.ordernumber, c.customerName ORDER BY amount_paid DESC;"
+agent,41,moderate,One-to-Many-Relationship,0,0.0,"syntax error at or near ""'orders'""
+LINE 1: SELECT COUNT(o.ordernumber) AS 'orders', c.customerName FROM...
+                                       ^",How many orders have been placed by Herkku Gifts?,"SELECT COUNT(*) AS order_count
+FROM orders o
+JOIN customers c ON o.customernumber = c.customernumber
+WHERE c.customername = 'Herkku Gifts'","SELECT COUNT(o.ordernumber) AS 'orders', c.customerName FROM orders o JOIN customers c ON o.customernumber = c.customernumber WHERE c.customername = 'Herkku Gifts' GROUP BY c.customername;"
+agent,42,moderate,One-to-Many-Relationship,0,0.0,,Who are the employees in Boston?,"SELECT e.employeenumber, e.firstname, e.lastname, e.jobtitle, o.city
+FROM employees e
+JOIN offices o ON e.officecode = o.officecode
+WHERE o.city = 'Boston'
+ORDER BY e.lastname, e.firstname
+LIMIT 5","SELECT CONCAT(e.firstname, ' ', e.lastname) AS employee_name FROM employees e WHERE e.officecode IN ( SELECT o.officecode FROM offices o WHERE o.city = 'Boston');"
+agent,43,moderate,One-to-Many-Relationship,0,0.0,,"Report those payments greater than $100,000. Sort the report so the customer who made the highest payment appears first.","SELECT
+  p.checknumber,
+  p.paymentdate,
+  p.amount,
+  c.customernumber,
+  c.customername
+FROM payments p
+JOIN customers c ON p.customernumber = c.customernumber
+WHERE p.amount > 100000
+ORDER BY p.amount DESC, p.paymentdate DESC
+LIMIT 5","SELECT c.customerName, SUM(p.amount) AS high_payments FROM customers c JOIN payments p ON c.customernumber = p.customernumber WHERE p.amount > 100000 GROUP BY c.customername ORDER BY high_payments DESC;"
+agent,44,moderate,One-to-Many-Relationship,0,0.0,"column ""o.status"" must appear in the GROUP BY clause or be used in an aggregate function
+LINE 1: SELECT SUM(p.amount) AS value, o.status FROM payments p JOIN...
+                                       ^",List the value of 'On Hold' orders.,"SELECT o.ordernumber,
+       o.orderdate,
+       c.customername,
+       SUM(od.quantityordered * od.priceeach) AS ordervalue
+FROM orders o
+JOIN orderdetails od ON od.ordernumber = o.ordernumber
+JOIN customers c ON o.customernumber = c.customernumber
+WHERE o.status = 'On Hold'
+GROUP BY o.ordernumber, o.orderdate, c.customername
+ORDER BY ordervalue DESC
+LIMIT 5","SELECT SUM(p.amount) AS value, o.status FROM payments p JOIN orders o ON p.customernumber = o.customernumber WHERE o.status = 'On Hold';"
+agent,45,moderate,One-to-Many-Relationship,0,0.0,,Report the number of orders 'On Hold' for each customer.,"SELECT
+  c.customernumber,
+  c.customername,
+  COUNT(o.ordernumber) AS on_hold_orders
+FROM customers AS c
+LEFT JOIN orders AS o
+  ON o.customernumber = c.customernumber
+  AND o.status = 'On Hold'
+GROUP BY c.customernumber, c.customername
+ORDER BY on_hold_orders DESC, c.customernumber
+LIMIT 5","SELECT COUNT(*) AS orders_on_hold, c.customername FROM orders o JOIN customers c ON o.customernumber = c.customernumber WHERE o.status = 'On Hold' GROUP BY c.customername;"
+agent,46,moderate,Regular-Expressions,0,0.0,,Find products containing the name 'Ford'.,"SELECT productcode, productname, productvendor, productdescription
+FROM products
+WHERE productname ILIKE '%Ford%'
+ORDER BY productname
+LIMIT 5",SELECT * FROM products WHERE productName LIKE '%Ford%';
+agent,47,moderate,Regular-Expressions,0,0.0,,List products ending in 'ship'.,"SELECT productcode, productname, productline
+FROM products
+WHERE productname ILIKE '%ship'
+ORDER BY productname
+LIMIT 5",SELECT * FROM products WHERE productName LIKE '%ship';
+agent,48,moderate,Regular-Expressions,0,0.0,,"Report the number of customers in Denmark, Norway, and Sweden.","SELECT v.country, COALESCE(t.cnt, 0) AS customer_count
+FROM (VALUES ('Denmark'), ('Norway'), ('Sweden')) AS v(country)
+LEFT JOIN (
+  SELECT country, COUNT(*) AS cnt
+  FROM customers
+  WHERE LOWER(country) IN ('denmark','norway','sweden')
+  GROUP BY country
+) AS t ON LOWER(t.country) = LOWER(v.country)
+ORDER BY v.country","SELECT COUNT(*) AS number_of_customers FROM customers WHERE country IN ('Denmark', 'Norway', 'Sweden');"
+agent,49,moderate,Regular-Expressions,0,0.0,"operator does not exist: text >= integer
+LINE 1: ...ELECT * FROM products WHERE RIGHT(productCode, 4) BETWEEN 10...
+                                                             ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.",What are the products with a product code in the range S700_1000 to S700_1499?,"SELECT
+  productcode,
+  productname,
+  productscale,
+  productvendor,
+  productdescription,
+  quantityinstock,
+  buyprice,
+  msrp,
+  productline
+FROM products
+WHERE productcode BETWEEN 'S700_1000' AND 'S700_1499'
+ORDER BY productcode
+LIMIT 5","SELECT * FROM products WHERE RIGHT(productCode, 4) BETWEEN 1000 AND 1499 ORDER BY RIGHT(productCode, 4);"
+agent,50,moderate,Regular-Expressions,0,0.0,"syntax error at or near ""REGEXP""
+LINE 1: SELECT * FROM customers WHERE customerName REGEXP '[0-9]';
+                                                   ^",Which customers have a digit in their name?,"SELECT customernumber, customername
+FROM customers
+WHERE customername ~ '[0-9]'
+LIMIT 5",SELECT * FROM customers WHERE customerName REGEXP '[0-9]';
+agent,51,moderate,Regular-Expressions,0,0.0,,List the names of employees called Dianne or Diane.,"SELECT firstname || ' ' || lastname AS name
+FROM employees
+WHERE firstname IN ('Diane','Dianne')
+ORDER BY lastname, firstname
+LIMIT 5","SELECT * FROM employees WHERE firstName IN ('Dianne', 'Diane');"
+agent,52,moderate,Regular-Expressions,0,0.0,"syntax error at or near ""REGEXP""
+LINE 1: SELECT * FROM products WHERE productName REGEXP ('ship'|'boa...
+                                                 ^",List the products containing ship or boat in their product name.,"SELECT productcode, productname
+FROM products
+WHERE productname ILIKE '%ship%' OR productname ILIKE '%boat%'
+LIMIT 5",SELECT * FROM products WHERE productName REGEXP ('ship'|'boat');
+agent,53,moderate,Regular-Expressions,0,0.0,,List the products with a product code beginning with S700.,"SELECT
+    productcode,
+    productname,
+    productscale,
+    productvendor,
+    productdescription,
+    quantityinstock,
+    buyprice,
+    msrp,
+    productline
+FROM products
+WHERE productcode LIKE 'S700%'
+ORDER BY productcode
+LIMIT 5",SELECT * FROM products WHERE productCode LIKE 'S700%';
+agent,54,moderate,Regular-Expressions,0,0.0,,List the names of employees called Larry or Barry.,"SELECT firstname || ' ' || lastname AS full_name
+FROM employees
+WHERE LOWER(firstname) IN ('larry','barry')
+ORDER BY full_name
+LIMIT 5","SELECT * FROM employees WHERE 'Larry' IN (lastName,firstName) OR 'Barry' IN (lastName,firstName);"
+agent,55,moderate,Regular-Expressions,0,0.0,"syntax error at or near ""REGEXP""
+LINE 1: ... employees WHERE CONCAT(firstname, ' ', lastname) REGEXP '[0...
+                                                             ^",List the names of employees with non-alphabetic characters in their names.,"SELECT firstname || ' ' || lastname AS employee_name
+FROM employees
+WHERE firstname ~ '[^A-Za-z]' OR lastname ~ '[^A-Za-z]'
+LIMIT 5","SELECT * FROM employees WHERE CONCAT(firstname, ' ', lastname) REGEXP '[0-9%@]';"
+agent,56,moderate,Regular-Expressions,0,0.0,,List the vendors whose name ends in Diecast.,"SELECT DISTINCT productvendor AS vendor
+FROM products
+WHERE productvendor ILIKE '%Diecast'
+ORDER BY vendor
+LIMIT 5",SELECT * FROM products WHERE productVendor LIKE '%Diecast';
+agent,57,simple,Single-Entity,0,0.0,,"Prepare a list of offices sorted by country, state, city.","SELECT
+  officecode,
+  country,
+  state,
+  city,
+  postalcode,
+  addressline1,
+  addressline2
+FROM offices
+ORDER BY country ASC NULLS LAST, state ASC NULLS LAST, city ASC NULLS LAST
+LIMIT 5","SELECT * FROM offices ORDER BY country , state , city;"
+agent,58,simple,Single-Entity,1,108.93254513940857,,How many employees are there in the company?,"SELECT COUNT(*) AS employee_count
+FROM employees
+LIMIT 5",SELECT COUNT(DISTINCT employeeNumber) AS num_of_employees FROM employees;
+agent,59,simple,Single-Entity,1,106.928107651043,,What is the total of payments received?,SELECT SUM(amount) AS total_payments_received FROM payments,SELECT SUM(amount) AS total_payments FROM payments;
+agent,60,simple,Single-Entity,0,0.0,"syntax error at or near ""'Cars'""
+LINE 1: SELECT productLine AS 'Cars' FROM productlines WHERE product...
+                              ^",List the product lines that contain 'Cars'.,"SELECT productline
+FROM productlines
+WHERE productline ILIKE '%Cars%'
+LIMIT 5",SELECT productLine AS 'Cars' FROM productlines WHERE productLine LIKE '%Cars%';
+agent,61,simple,Single-Entity,0,0.0,"syntax error at or near ""'Amount for 28th oct 2004'""
+LINE 1: SELECT SUM(amount) AS 'Amount for 28th oct 2004' FROM paymen...
+                              ^","Report total payments for October 28, 2004.","SELECT COALESCE(SUM(p.amount), 0) AS total_payments_oct_28_2004
+FROM payments p
+WHERE p.paymentdate >= TIMESTAMP '2004-10-28 00:00:00'
+  AND p.paymentdate < TIMESTAMP '2004-10-29 00:00:00'",SELECT SUM(amount) AS 'Amount for 28th oct 2004' FROM payments WHERE paymentDate = '2004-10-28';
+agent,62,simple,Single-Entity,0,0.0,,"Report those payments greater than $100,000.","SELECT
+    pm.checknumber,
+    pm.paymentdate,
+    pm.amount,
+    pm.customernumber,
+    cu.customername
+FROM payments pm
+JOIN customers cu ON pm.customernumber = cu.customernumber
+WHERE pm.amount > 100000
+ORDER BY pm.amount DESC
+LIMIT 5",SELECT * FROM payments WHERE amount > 100000 ORDER BY amount DESC;
+agent,63,simple,Single-Entity,0,0.0,,List the products in each product line.,"SELECT pl.productline,
+       COALESCE(string_agg(p.productname, ', ' ORDER BY p.productname), '') AS products
+FROM productlines pl
+LEFT JOIN products p ON p.productline = pl.productline
+GROUP BY pl.productline
+ORDER BY pl.productline
+LIMIT 5","SELECT productName, productLine FROM products ORDER BY productLine;"
+agent,64,moderate,Single-Entity,0,0.0,,How many products in each product line?,"SELECT
+  pl.productline,
+  COUNT(p.productcode) AS product_count
+FROM productlines pl
+LEFT JOIN products p ON p.productline = pl.productline
+GROUP BY pl.productline
+ORDER BY pl.productline
+LIMIT 5","SELECT COUNT(productCode) AS num_of_products, productLine FROM products GROUP BY productLine ORDER BY num_of_products DESC;"
+agent,65,simple,Single-Entity,1,100.24533459431424,,What is the minimum payment received?,"SELECT MIN(amount) AS minimum_payment_received
+FROM payments",SELECT MIN(amount) AS minimum_payment FROM payments;
+agent,66,moderate,Single-Entity,0,0.0,,List all payments greater than twice the average payment.,"WITH avg_payment AS (
+  SELECT AVG(amount) AS avg_amount FROM payments
+)
+SELECT p.checknumber, p.paymentdate, p.amount, p.customernumber
+FROM payments p
+CROSS JOIN avg_payment
+WHERE p.amount > 2 * avg_payment.avg_amount
+ORDER BY p.amount DESC
+LIMIT 5",SELECT amount FROM payments WHERE amount > 2 * ( SELECT AVG(amount) FROM payments );
+agent,67,simple,Single-Entity,0,0.0,"syntax error at or near ""'Average Percentage Markup'""
+LINE 1: SELECT AVG((MSRP - buyPrice) / MSRP) * 100 AS 'Average Perce...
+                                                      ^",What is the average percentage markup of the MSRP on buyPrice?,"SELECT ROUND(AVG((msrp - buyprice) / NULLIF(buyprice, 0) * 100), 2) AS avg_markup_percent
+FROM products",SELECT AVG((MSRP - buyPrice) / MSRP) * 100 AS 'Average Percentage Markup' FROM products;
+agent,68,simple,Single-Entity,0,0.0,"syntax error at or near ""'Distinct Product'""
+LINE 1: SELECT COUNT(DISTINCT productName) AS 'Distinct Product' FRO...
+                                              ^",How many distinct products does ClassicModels sell?,"SELECT COUNT(DISTINCT productcode) AS distinct_products
+FROM products",SELECT COUNT(DISTINCT productName) AS 'Distinct Product' FROM products;
+agent,69,simple,Single-Entity,0,0.0,,Report the name and city of customers who don't have sales representatives?,"SELECT customername, city
+FROM customers
+WHERE salesrepemployeenumber IS NULL
+LIMIT 5","SELECT customerName, city FROM customers WHERE salesRepEmployeeNumber IS NULL;"
+agent,70,simple,Single-Entity,1,95.97191873871667,,What are the names of executives with VP or Manager in their title? Use the CONCAT function to combine the employee's first name and last name into a single field for reporting.,"SELECT CONCAT(firstname, ' ', lastname) AS executive_name
+FROM employees
+WHERE jobtitle ILIKE '%VP%' OR jobtitle ILIKE '%Manager%'
+ORDER BY executive_name
+LIMIT 5","SELECT CONCAT(firstName, ' ', lastName) AS full_name FROM employees WHERE jobTitle LIKE '%VP%' OR jobTitle LIKE '%Manager%';"
+agent,71,moderate,Single-Entity,0,0.0,"syntax error at or near ""'Value'""
+LINE 1: ... orderNumber, SUM(quantityOrdered * priceEach) AS 'Value' FR...
+                                                             ^","Which orders have a value greater than $5,000?","WITH order_totals AS (
+  SELECT
+    o.ordernumber,
+    o.orderdate,
+    c.customername,
+    SUM(od.quantityordered * od.priceeach) AS totalvalue
+  FROM orders o
+  JOIN orderdetails od ON od.ordernumber = o.ordernumber
+  JOIN customers c ON o.customernumber = c.customernumber
+  GROUP BY o.ordernumber, o.orderdate, c.customername
+)
+SELECT
+  ordernumber,
+  orderdate,
+  customername,
+  totalvalue
+FROM order_totals
+WHERE totalvalue > 5000
+ORDER BY totalvalue DESC
+LIMIT 5","SELECT orderNumber, SUM(quantityOrdered * priceEach) AS 'Value' FROM orderdetails GROUP BY orderNumber HAVING Value > 5000 ORDER BY Value DESC;"
+agent,72,challenging,Spatial-Data,0,0.0,"function st_astext(public.geometry) does not exist
+LINE 1: SELECT customerNumber, customerName, ST_AsText(customerLocat...
+                                             ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.",Which customers are in the Southern Hemisphere?,"SELECT
+  customernumber,
+  customername,
+  city,
+  country
+FROM customers
+WHERE country IN ('Australia', 'Argentina', 'Chile', 'New Zealand', 'South Africa', 'Peru', 'Uruguay', 'Bolivia')
+ORDER BY country, city
+LIMIT 5","SELECT customerNumber, customerName, ST_AsText(customerLocation) AS location, ST_Y(customerLocation) AS latitude, ST_X(customerLocation) AS longitude FROM customers WHERE ST_Y(customerLocation) < 0;"
+agent,73,challenging,Spatial-Data,0,0.0,"function st_astext(public.geometry) does not exist
+LINE 1: SELECT customerNumber, customerName, ST_AsText(customerLocat...
+                                             ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.",Which US customers are south west of the New York office?,"SELECT c.customernumber, c.customername, c.city, c.state, c.country
+FROM customers AS c
+WHERE c.country = 'USA'
+  AND c.state IN ('CA','NV','AZ','NM','UT','CO','OK','TX','KS')
+ORDER BY c.customernumber
+LIMIT 5","SELECT customerNumber, customerName, ST_AsText(customerLocation) AS location, ST_Y(customerLocation) AS latitude, ST_X(customerLocation) AS longitude FROM customers WHERE country = 'USA' AND ST_Y(customerLocation) < 40.7128 AND ST_X(customerLocation) < -74.0060;"
+agent,74,challenging,Spatial-Data,0,0.0,"function st_distance(public.geometry, public.geometry) does not exist
+LINE 1: SELECT c.customerNumber, c.customerName, ST_Distance(c.custo...
+                                                 ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.","Which customers are closest to the Tokyo office (i.e., closer to Tokyo than any other office)?","WITH city_coords AS (
+  SELECT city, lat, lon
+  FROM (VALUES
+    ('Nantes', 47.2184, -1.5536),
+    ('Las Vegas', 36.1699, -115.1398),
+    ('Melbourne', -37.8136, 144.9631),
+    ('San Francisco', 37.7749, -122.4194),
+    ('Boston', 42.3601, -71.0589),
+    ('NYC', 40.7128, -74.0060),
+    ('Tokyo', 35.6895, 139.6917)
+  ) AS t(city, lat, lon)
+),
+customer_geo AS (
+  SELECT c.customernumber, c.customername, c.city AS c_city, cc.lat AS cust_lat, cc.lon AS cust_lon
+  FROM customers c
+  JOIN city_coords cc ON cc.city = c.city
+),
+office_geo AS (
+  SELECT o.officecode, o.city, oc.lat AS office_lat, oc.lon AS office_lon
+  FROM offices o
+  JOIN city_coords oc ON oc.city = o.city
+),
+tokyo AS (
+  SELECT lat AS tokyo_lat, lon AS tokyo_lon
+  FROM city_coords
+  WHERE city = 'Tokyo'
+),
+tokyo_dist AS (
+  SELECT cg.customernumber, cg.customername,
+         6371 * 2 * asin(
+           sqrt(
+             POWER( sin( (radians(t.tokyo_lat) - radians(cg.cust_lat)) / 2) , 2 )
+             + cos( radians(cg.cust_lat) ) * cos( radians(t.tokyo_lat) )
+             * POWER( sin( (radians(t.tokyo_lon) - radians(cg.cust_lon)) / 2) , 2 )
+           )
+         ) AS dist_to_tokyo
+  FROM customer_geo cg CROSS JOIN tokyo t
+),
+min_dist_excl_tokyo AS (
+  SELECT cg.customernumber, min(
+    6371 * 2 * asin(
+      sqrt(
+        POWER( sin( (radians(og.office_lat) - radians(cg.cust_lat)) / 2) , 2 )
+        + cos( radians(cg.cust_lat) ) * cos( radians(og.office_lat) )
+        * POWER( sin( (radians(og.office_lon) - radians(cg.cust_lon)) / 2) , 2 )
+      )
+    )
+  ) AS min_dist
+  FROM customer_geo cg
+  JOIN office_geo og ON true
+  WHERE og.city <> 'Tokyo'
+  GROUP BY cg.customernumber
+)
+SELECT t.customernumber, t.customername
+FROM tokyo_dist t
+JOIN min_dist_excl_tokyo m ON m.customernumber = t.customernumber
+WHERE t.dist_to_tokyo < COALESCE(m.min_dist, 1e9)
+LIMIT 5","SELECT c.customerNumber, c.customerName, ST_Distance(c.customerLocation, o.officeLocation) AS distance_to_tokyo FROM customers c JOIN offices o ON o.city = 'Tokyo' WHERE ST_Distance(c.customerLocation, o.officeLocation) <= ALL ( SELECT ST_Distance(c.customerLocation, o2.officeLocation) FROM offices o2 ) ORDER BY distance_to_tokyo ASC;"
+agent,75,challenging,Spatial-Data,0,0.0,"function st_distance(public.geometry, public.geometry) does not exist
+LINE 1: SELECT c.customerNumber, c.customerName, ST_Distance(c.custo...
+                                                 ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.",Which French customer is furthest from the Paris office?,"WITH 
+city_coords AS (
+  SELECT 'Paris' as city, 48.8566 as lat, 2.3522 as lon
+  UNION ALL SELECT 'Nantes', 47.2184, -1.5540
+  UNION ALL SELECT 'Lyon', 45.7640, 4.8357
+  UNION ALL SELECT 'Bordeaux', 44.8400, -0.5800
+  UNION ALL SELECT 'Marseille', 43.2965, 5.3698
+),
+paris_point AS (
+  SELECT lat AS paris_lat, lon AS paris_lon
+  FROM city_coords
+  WHERE city = 'Paris'
+),
+fr_france_customers AS (
+  SELECT c.customernumber, c.customername, c.contactfirstname, c.contactlastname, c.city AS customer_city
+  FROM customers c
+  WHERE c.country = 'France'
+),
+customer_dist AS (
+  SELECT f.customernumber, f.customername, f.contactfirstname, f.contactlastname, f.customer_city,
+         6371 * 2 * ASIN(SQRT(
+           POWER(SIN((cc.lat - p.paris_lat) * pi()/180 / 2), 2) +
+           COS(cc.lat * pi()/180) * COS(p.paris_lat * pi()/180) * POWER(SIN((cc.lon - p.paris_lon) * pi()/180 / 2), 2)
+         )) AS distance_km
+  FROM fr_france_customers f
+  JOIN city_coords cc ON cc.city = f.customer_city
+  CROSS JOIN paris_point p
+)
+SELECT customername, contactfirstname, contactlastname, customer_city, distance_km
+FROM (
+  SELECT *, ROW_NUMBER() OVER (ORDER BY distance_km DESC) AS rn
+  FROM customer_dist
+) t
+WHERE rn = 1
+LIMIT 1","SELECT c.customerNumber, c.customerName, ST_Distance(c.customerLocation, o.officeLocation) AS distance_to_paris FROM customers c JOIN offices o ON o.city = 'Paris' WHERE c.country = 'France' AND ST_Distance(c.customerLocation, o.officeLocation) = ( SELECT MAX(ST_Distance(c2.customerLocation, o.officeLocation)) FROM customers c2 WHERE c2.country = 'France' ) ORDER BY distance_to_paris DESC;"
+agent,76,challenging,Spatial-Data,0,0.0,"function st_y(public.geometry) does not exist
+LINE 1: SELECT customerNumber, customerName, ST_Y(customerLocation) ...
+                                             ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.",Who is the northernmost customer?,"SELECT customernumber, customername, city, country, latitude
+FROM (
+  SELECT
+    c.customernumber,
+    c.customername,
+    c.city,
+    c.country,
+    CASE
+      WHEN c.city = 'Nantes' AND c.country = 'France' THEN 47.21836
+      WHEN c.city = 'Las Vegas' AND c.country = 'USA' THEN 36.16994
+      WHEN c.city = 'Melbourne' AND c.country = 'Australia' THEN -37.81363
+      ELSE NULL
+    END AS latitude
+  FROM customers c
+) AS t
+ORDER BY latitude DESC NULLS LAST
+LIMIT 1","SELECT customerNumber, customerName, ST_Y(customerLocation) AS latitude, ST_X(customerLocation) AS longitude FROM customers WHERE ST_Y(customerLocation) = ( SELECT MAX(ST_Y(customerLocation)) FROM customers);"
+agent,77,challenging,Spatial-Data,0,0.0,"function st_y(public.geometry) does not exist
+LINE 1: SELECT (ACOS(SIN(ST_Y(paris.officeLocation) * PI() / 180) * ...
+                         ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.",What is the distance between the Paris and Boston offices?,"WITH paris_office AS (
+  SELECT officecode, city,
+         CASE city WHEN 'Paris' THEN 48.8566 END AS lat,
+         CASE city WHEN 'Paris' THEN 2.3522 END AS lon
+  FROM offices
+  WHERE city = 'Paris'
+  LIMIT 1
+),
+boston_office AS (
+  SELECT officecode, city,
+         CASE city WHEN 'Boston' THEN 42.3601 END AS lat,
+         CASE city WHEN 'Boston' THEN -71.0589 END AS lon
+  FROM offices
+  WHERE city = 'Boston'
+  LIMIT 1
+)
+SELECT
+  paris_office.officecode AS paris_officecode,
+  boston_office.officecode AS boston_officecode,
+  6371 * 2 * asin(
+     sqrt(
+       power(sin(radians((boston_office.lat - paris_office.lat) / 2.0)), 2)
+       + cos(radians(paris_office.lat)) * cos(radians(boston_office.lat)) *
+         power(sin(radians((boston_office.lon - paris_office.lon) / 2.0)), 2)
+     )
+  ) AS distance_km
+FROM paris_office
+CROSS JOIN boston_office","SELECT (ACOS(SIN(ST_Y(paris.officeLocation) * PI() / 180) * SIN(ST_Y(boston.officeLocation) * PI() / 180) + COS(ST_Y(paris.officeLocation) * PI() / 180) * COS(ST_Y(boston.officeLocation) * PI() / 180) * COS((ST_X(paris.officeLocation) - ST_X(boston.officeLocation)) * PI() / 180)) * 180 / PI()) * 60 * 1.8532 AS distance_km FROM offices paris, offices boston WHERE paris.city = 'Paris' AND boston.city = 'Boston';"

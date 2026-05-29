@@ -1,0 +1,314 @@
+[
+  [
+    0,
+    "SELECT e.employeenumber, e.firstname, e.lastname, e.jobtitle\nFROM employees e\nJOIN employees m ON e.reportsto = m.employeenumber\nWHERE m.firstname = 'Mary' AND m.lastname = 'Patterson'\nORDER BY e.lastname, e.firstname\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    1,
+    "WITH monthly AS (\n  SELECT\n    p.checknumber,\n    p.paymentdate,\n    p.amount,\n    p.customernumber,\n    AVG(p.amount) OVER (PARTITION BY date_trunc('month', p.paymentdate)) AS monthly_avg\n  FROM payments p\n)\nSELECT\n  checknumber,\n  paymentdate,\n  amount,\n  customernumber,\n  monthly_avg\nFROM monthly\nWHERE amount > 2 * monthly_avg\nORDER BY paymentdate\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    2,
+    "WITH t AS (\n  SELECT\n    p.productcode,\n    p.productname,\n    p.productline,\n    p.quantityinstock,\n    SUM(p.quantityinstock) OVER (PARTITION BY p.productline) AS line_stock\n  FROM products p\n)\nSELECT\n  productline,\n  productcode,\n  productname,\n  to_char((quantityinstock * 100.0) / NULLIF(line_stock, 0), 'FM9909999.00') AS percentage_of_line_stock\nFROM t\nORDER BY productline,\n         ((quantityinstock * 100.0) / NULLIF(line_stock, 0)) DESC\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    3,
+    "WITH order_totals AS (\n  SELECT o.ordernumber,\n         SUM(od.quantityordered * od.priceeach) AS order_total,\n         COUNT(DISTINCT od.productcode) AS product_count\n  FROM orders o\n  JOIN orderdetails od ON od.ordernumber = o.ordernumber\n  GROUP BY o.ordernumber\n  HAVING COUNT(DISTINCT od.productcode) > 2\n),\norder_items AS (\n  SELECT o.ordernumber,\n         od.productcode,\n         p.productname,\n         od.quantityordered * od.priceeach AS item_value\n  FROM orders o\n  JOIN orderdetails od ON od.ordernumber = o.ordernumber\n  JOIN products p ON p.productcode = od.productcode\n  JOIN order_totals ot ON ot.ordernumber = o.ordernumber\n)\nSELECT oi.ordernumber,\n       oi.productcode,\n       oi.productname,\n       oi.item_value,\n       ot.order_total,\n       ROUND((oi.item_value * 100.0) / NULLIF(ot.order_total, 0), 2) AS percent_of_order\nFROM order_items oi\nJOIN order_totals ot ON ot.ordernumber = oi.ordernumber\nWHERE oi.item_value > ot.order_total * 0.5\nORDER BY oi.ordernumber, percent_of_order DESC\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    4,
+    "SELECT employeenumber, firstname, lastname, jobtitle\nFROM employees\nWHERE reportsto IS NULL\nORDER BY employeenumber\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    5,
+    "SELECT sub.firstname, sub.lastname, sub.jobtitle\nFROM employees AS sub\nJOIN employees AS mgr ON sub.reportsto = mgr.employeenumber\nWHERE mgr.firstname = 'William' AND mgr.lastname = 'Patterson'\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    6,
+    "SELECT p.productcode, p.productname, SUM(od.quantityordered) AS total_quantity\nFROM customers c\nJOIN orders o ON o.customernumber = c.customernumber\nJOIN orderdetails od ON od.ordernumber = o.ordernumber\nJOIN products p ON p.productcode = od.productcode\nWHERE c.customername = 'Herkku Gifts'\nGROUP BY p.productcode, p.productname\nORDER BY total_quantity DESC\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    7,
+    "SELECT e.lastname, e.firstname,\n       COALESCE(SUM(od.quantityordered * od.priceeach), 0) * 0.05 AS commission\nFROM employees e\nJOIN customers c ON c.salesrepemployeenumber = e.employeenumber\nLEFT JOIN orders o ON o.customernumber = c.customernumber\nLEFT JOIN orderdetails od ON od.ordernumber = o.ordernumber\nGROUP BY e.employeenumber, e.lastname, e.firstname\nORDER BY e.lastname, e.firstname\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    8,
+    "SELECT (MAX(orderdate::date) - MIN(orderdate::date)) AS diff_days\nFROM orders\t----- bird -----\tclassicmodels"
+  ],
+  [
+    9,
+    "SELECT\n  c.customernumber,\n  c.customername,\n  AVG(EXTRACT(EPOCH FROM (o.shippeddate - o.orderdate)) / 86400) AS avg_days_to_ship\nFROM\n  orders o\nJOIN\n  customers c ON o.customernumber = c.customernumber\nWHERE\n  o.shippeddate IS NOT NULL\nGROUP BY\n  c.customernumber, c.customername\nORDER BY\n  AVG(EXTRACT(EPOCH FROM (o.shippeddate - o.orderdate)) / 86400) DESC\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    10,
+    "SELECT COALESCE(SUM(od.quantityordered * od.priceeach), 0) AS total_value_shipped_august_2004\nFROM orders o\nJOIN orderdetails od ON od.ordernumber = o.ordernumber\nWHERE o.shippeddate >= TIMESTAMP '2004-08-01 00:00:00'\n  AND o.shippeddate <  TIMESTAMP '2004-09-01 00:00:00'\t----- bird -----\tclassicmodels"
+  ],
+  [
+    11,
+    "WITH\ntotal_ordered AS (\n  SELECT o.customernumber, SUM(od.quantityordered * od.priceeach) AS total_ordered\n  FROM orders o\n  JOIN orderdetails od ON od.ordernumber = o.ordernumber\n  WHERE date_part('year', o.orderdate) = 2004\n  GROUP BY o.customernumber\n),\ntotal_paid AS (\n  SELECT p.customernumber, SUM(p.amount) AS total_paid\n  FROM payments p\n  WHERE date_part('year', p.paymentdate) = 2004\n  GROUP BY p.customernumber\n)\nSELECT\n  c.customernumber,\n  c.customername,\n  COALESCE(too.total_ordered, 0) AS total_ordered_2004,\n  COALESCE(tpa.total_paid, 0) AS total_paid_2004,\n  COALESCE(tpa.total_paid, 0) - COALESCE(too.total_ordered, 0) AS difference_2004\nFROM customers c\nLEFT JOIN total_ordered too ON too.customernumber = c.customernumber\nLEFT JOIN total_paid tpa ON tpa.customernumber = c.customernumber\nORDER BY c.customernumber\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    12,
+    "SELECT CONCAT(e.firstname, ' ', e.lastname) AS full_name\nFROM employees e\nWHERE e.reportsto IN (\n  SELECT s.employeenumber\n  FROM employees s\n  WHERE s.reportsto = (\n    SELECT d.employeenumber\n    FROM employees d\n    WHERE d.firstname = 'Diane' AND d.lastname = 'Murphy'\n    LIMIT 1\n  )\n)\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    13,
+    "WITH inventory AS (\n  SELECT productcode, productname,\n         (quantityinstock * buyprice) AS value\n  FROM products\n),\ntot AS (\n  SELECT SUM(value) AS total_value FROM inventory\n),\npercent AS (\n  SELECT i.productcode, i.productname,\n         (i.value / NULLIF(t.total_value, 0)) * 100 AS value_percent\n  FROM inventory i CROSS JOIN tot t\n)\nSELECT productcode, productname, value_percent\nFROM percent\nORDER BY value_percent DESC\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    14,
+    "SELECT COALESCE(SUM(amount), 0) AS total_payments_july_2004\nFROM payments\nWHERE paymentdate >= DATE '2004-07-01' AND paymentdate < DATE '2004-08-01'\t----- bird -----\tclassicmodels"
+  ],
+  [
+    15,
+    "WITH\norder_values AS (\n    SELECT\n        date_trunc('month', o.orderdate) AS month_start,\n        SUM(od.quantityordered * od.priceeach) AS total_order_value\n    FROM orders o\n    JOIN orderdetails od ON od.ordernumber = o.ordernumber\n    WHERE o.orderdate >= '2004-01-01' AND o.orderdate < '2005-01-01'\n    GROUP BY date_trunc('month', o.orderdate)\n),\npayments_sum AS (\n    SELECT\n        date_trunc('month', p.paymentdate) AS month_start,\n        SUM(p.amount) AS total_payments\n    FROM payments p\n    WHERE p.paymentdate >= '2004-01-01' AND p.paymentdate < '2005-01-01'\n    GROUP BY date_trunc('month', p.paymentdate)\n)\nSELECT\n    to_char(coalesce(ov.month_start, pv.month_start), 'YYYY-MM') AS month_yyyy_mm,\n    COALESCE(pv.total_payments, 0) AS total_payments,\n    COALESCE(ov.total_order_value, 0) AS total_order_value,\n    CASE\n        WHEN COALESCE(ov.total_order_value, 0) = 0 THEN NULL\n        ELSE COALESCE(pv.total_payments, 0) / COALESCE(ov.total_order_value, 0)\n    END AS payments_to_orders_ratio\nFROM order_values ov\nFULL OUTER JOIN payments_sum pv ON ov.month_start = pv.month_start\nORDER BY coalesce(ov.month_start, pv.month_start)\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    16,
+    "WITH months AS (\n  SELECT date_trunc('month', gs) AS month_start\n  FROM generate_series('2003-01-01'::date, '2004-12-01'::date, '1 month'::interval) AS gs\n),\npaid AS (\n  SELECT date_trunc('month', paymentdate) AS month_start,\n         EXTRACT(YEAR FROM paymentdate) AS yr,\n         SUM(amount) AS total_amt\n  FROM payments\n  GROUP BY 1,2\n)\nSELECT\n  to_char(m.month_start, 'YYYY-MM') AS year_month,\n  COALESCE(MAX(CASE WHEN p.yr = 2003 THEN p.total_amt END), 0) AS total_2003,\n  COALESCE(MAX(CASE WHEN p.yr = 2004 THEN p.total_amt END), 0) AS total_2004,\n  COALESCE(MAX(CASE WHEN p.yr = 2004 THEN p.total_amt END), 0) -\n  COALESCE(MAX(CASE WHEN p.yr = 2003 THEN p.total_amt END), 0) AS diff_2004_minus_2003\nFROM months m\nLEFT JOIN paid p ON p.month_start = m.month_start\nGROUP BY m.month_start\nORDER BY m.month_start\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    17,
+    "WITH ordered_pairs AS (\n  SELECT od1.productcode AS code1,\n         od2.productcode AS code2,\n         COUNT(*) AS cnt\n  FROM orderdetails od1\n  JOIN orderdetails od2\n    ON od1.ordernumber = od2.ordernumber\n   AND od1.productcode < od2.productcode\n  GROUP BY od1.productcode, od2.productcode\n  HAVING COUNT(*) >= 10\n)\nSELECT p1.productname AS product_a,\n       p2.productname AS product_b,\n       op.cnt AS cooccurrence_count\nFROM ordered_pairs op\nJOIN products p1 ON p1.productcode = op.code1\nJOIN products p2 ON p2.productcode = op.code2\nORDER BY op.cnt DESC, p1.productname, p2.productname\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    18,
+    "WITH per_customer AS (\n  SELECT c.customernumber,\n         c.customername,\n         COALESCE(SUM(od.quantityordered * od.priceeach), 0) AS revenue\n  FROM customers c\n  LEFT JOIN orders o ON o.customernumber = c.customernumber\n  LEFT JOIN orderdetails od ON od.ordernumber = o.ordernumber\n  GROUP BY c.customernumber, c.customername\n),\ntotal AS (\n  SELECT SUM(revenue) AS total_revenue FROM per_customer\n)\nSELECT pc.customername,\n       pc.revenue,\n       CASE WHEN t.total_revenue = 0 THEN 0\n            ELSE ROUND((pc.revenue / t.total_revenue) * 100, 2)\n       END AS revenue_percentage\nFROM per_customer pc\nCROSS JOIN total t\nORDER BY pc.customername\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    19,
+    "WITH per_customer_profit AS (\n  SELECT c.customernumber,\n         c.customername,\n         SUM((od.priceeach - p.buyprice) * od.quantityordered) AS profit\n  FROM customers c\n  JOIN orders o ON o.customernumber = c.customernumber\n  JOIN orderdetails od ON od.ordernumber = o.ordernumber\n  JOIN products p ON od.productcode = p.productcode\n  GROUP BY c.customernumber, c.customername\n),\ntotal_profit AS (\n  SELECT SUM(profit) AS total_profit FROM per_customer_profit\n)\nSELECT pcp.customernumber,\n       pcp.customername,\n       pcp.profit,\n       ROUND((pcp.profit * 100.0) / NULLIF(tp.total_profit, 0), 2) AS profit_percentage\nFROM per_customer_profit pcp\nCROSS JOIN total_profit tp\nORDER BY pcp.profit DESC\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    20,
+    "SELECT\n  e.employeenumber,\n  (e.firstname || ' ' || e.lastname) AS salesrep,\n  SUM(od.quantityordered * od.priceeach) AS revenue\nFROM employees e\nJOIN customers c ON c.salesrepemployeenumber = e.employeenumber\nJOIN orders o ON o.customernumber = c.customernumber\nJOIN orderdetails od ON od.ordernumber = o.ordernumber\nGROUP BY e.employeenumber, (e.firstname || ' ' || e.lastname)\nORDER BY revenue DESC\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    21,
+    "WITH rep_profits AS (\n  SELECT\n    e.employeenumber AS salesrepemployeenumber,\n    (e.firstname || ' ' || e.lastname) AS repname,\n    SUM((od.priceeach - p.buyprice) * od.quantityordered) AS profit\n  FROM employees e\n  JOIN customers c ON c.salesrepemployeenumber = e.employeenumber\n  JOIN orders o ON o.customernumber = c.customernumber\n  JOIN orderdetails od ON od.ordernumber = o.ordernumber\n  JOIN products p ON p.productcode = od.productcode\n  GROUP BY e.employeenumber, repname\n)\nSELECT salesrepemployeenumber, repname, profit\nFROM rep_profits\nORDER BY profit DESC\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    22,
+    "SELECT p.productname, SUM(od.quantityordered * od.priceeach) AS revenue\nFROM orderdetails od\nJOIN products p ON od.productcode = p.productcode\nGROUP BY p.productcode, p.productname\nORDER BY p.productname\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    23,
+    "SELECT pl.productline,\n       COALESCE(SUM((od.priceeach - p.buyprice) * od.quantityordered), 0) AS profit\nFROM productlines pl\nLEFT JOIN products p ON p.productline = pl.productline\nLEFT JOIN orderdetails od ON od.productcode = p.productcode\nGROUP BY pl.productline\nORDER BY profit DESC\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    24,
+    "SELECT\n  p.productcode,\n  p.productname,\n  COALESCE(SUM(CASE WHEN EXTRACT(YEAR FROM o.orderdate) = 2003 THEN od.quantityordered * od.priceeach END), 0) AS sales_2003,\n  COALESCE(SUM(CASE WHEN EXTRACT(YEAR FROM o.orderdate) = 2004 THEN od.quantityordered * od.priceeach END), 0) AS sales_2004,\n  CASE\n    WHEN COALESCE(SUM(CASE WHEN EXTRACT(YEAR FROM o.orderdate) = 2003 THEN od.quantityordered * od.priceeach END), 0) = 0\n      THEN NULL\n    ELSE COALESCE(SUM(CASE WHEN EXTRACT(YEAR FROM o.orderdate) = 2004 THEN od.quantityordered * od.priceeach END), 0)\n         / COALESCE(SUM(CASE WHEN EXTRACT(YEAR FROM o.orderdate) = 2003 THEN od.quantityordered * od.priceeach END), 0)\n  END AS ratio_2004_to_2003\nFROM products p\nLEFT JOIN orderdetails od ON p.productcode = od.productcode\nLEFT JOIN orders o ON od.ordernumber = o.ordernumber\nGROUP BY p.productcode, p.productname\nORDER BY p.productcode\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    25,
+    "SELECT\n  c.customernumber,\n  c.customername,\n  SUM(CASE WHEN EXTRACT(YEAR FROM p.paymentdate) = 2003 THEN p.amount ELSE 0 END) AS sum_2003,\n  SUM(CASE WHEN EXTRACT(YEAR FROM p.paymentdate) = 2004 THEN p.amount ELSE 0 END) AS sum_2004,\n  SUM(CASE WHEN EXTRACT(YEAR FROM p.paymentdate) = 2003 THEN p.amount ELSE 0 END)\n  / NULLIF(SUM(CASE WHEN EXTRACT(YEAR FROM p.paymentdate) = 2004 THEN p.amount ELSE 0 END), 0) AS ratio_2003_to_2004\nFROM customers c\nLEFT JOIN payments p ON p.customernumber = c.customernumber\nGROUP BY c.customernumber, c.customername\nORDER BY c.customernumber\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    26,
+    "WITH sold2003 AS (\n  SELECT DISTINCT od.productcode\n  FROM orders o\n  JOIN orderdetails od ON od.ordernumber = o.ordernumber\n  WHERE o.orderdate >= TIMESTAMP '2003-01-01 00:00:00'\n    AND o.orderdate < TIMESTAMP '2004-01-01 00:00:00'\n),\nsold2004 AS (\n  SELECT DISTINCT od.productcode\n  FROM orders o\n  JOIN orderdetails od ON od.ordernumber = o.ordernumber\n  WHERE o.orderdate >= TIMESTAMP '2004-01-01 00:00:00'\n    AND o.orderdate < TIMESTAMP '2005-01-01 00:00:00'\n)\nSELECT p.productcode, p.productname\nFROM products p\nWHERE p.productcode IN (SELECT productcode FROM sold2003)\n  AND p.productcode NOT IN (SELECT productcode FROM sold2004)\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    27,
+    "SELECT c.customernumber,\n       c.customername,\n       c.contactlastname,\n       c.contactfirstname,\n       c.city,\n       c.country\nFROM customers AS c\nWHERE NOT EXISTS (\n  SELECT 1\n  FROM payments AS p\n  WHERE p.customernumber = c.customernumber\n    AND EXTRACT(YEAR FROM p.paymentdate) = 2003\n)\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    28,
+    "SELECT o.orderdate, p.productname, od.quantityordered, od.priceeach\nFROM orders o\nJOIN orderdetails od ON od.ordernumber = o.ordernumber\nJOIN products p ON od.productcode = p.productcode\nORDER BY o.orderdate, p.productname\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    29,
+    "SELECT o.orderdate\nFROM orders o\nJOIN orderdetails od ON od.ordernumber = o.ordernumber\nJOIN products p ON p.productcode = od.productcode\nWHERE p.productname = '1940 Ford Pickup Truck'\nORDER BY o.orderdate DESC\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    30,
+    "SELECT c.customername, o.ordernumber\nFROM orders o\nJOIN customers c ON o.customernumber = c.customernumber\nJOIN orderdetails od ON od.ordernumber = o.ordernumber\nGROUP BY c.customername, o.ordernumber\nHAVING SUM(od.quantityordered * od.priceeach) > 25000\nORDER BY c.customername, o.ordernumber\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    31,
+    "SELECT p.productcode, p.productname\nFROM products p\nJOIN orderdetails od ON od.productcode = p.productcode\nGROUP BY p.productcode, p.productname\nHAVING COUNT(DISTINCT od.ordernumber) = (SELECT COUNT(*) FROM orders)\nORDER BY p.productcode\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    32,
+    "SELECT DISTINCT p.productname\nFROM products p\nJOIN orderdetails od ON od.productcode = p.productcode\nWHERE od.priceeach < 0.8 * p.msrp\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    33,
+    "SELECT\n  p.productcode,\n  p.productname,\n  p.buyprice,\n  MAX(od.priceeach) AS max_priceeach,\n  (MAX(od.priceeach) / NULLIF(p.buyprice, 0)) AS markup_ratio\nFROM products p\nJOIN orderdetails od ON od.productcode = p.productcode\nGROUP BY p.productcode, p.productname, p.buyprice\nHAVING MAX(od.priceeach) >= 2 * p.buyprice\nORDER BY p.productcode\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    34,
+    "SELECT DISTINCT p.productcode, p.productname\nFROM orders o\nJOIN orderdetails od ON od.ordernumber = o.ordernumber\nJOIN products p ON p.productcode = od.productcode\nWHERE EXTRACT(DOW FROM o.orderdate) = 1\nORDER BY p.productname\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    35,
+    "SELECT DISTINCT p.productcode, p.productname, p.quantityinstock\nFROM products p\nJOIN orderdetails od ON od.productcode = p.productcode\nJOIN orders o ON o.ordernumber = od.ordernumber\nWHERE o.status = 'On Hold'\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    36,
+    "SELECT\n  c.customernumber,\n  c.customername,\n  (e.firstname || ' ' || e.lastname) AS account_representative\nFROM customers AS c\nLEFT JOIN employees AS e\n  ON c.salesrepemployeenumber = e.employeenumber\nORDER BY c.customernumber\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    37,
+    "SELECT c.customername,\n       COALESCE(SUM(p.amount), 0) AS total_payments\nFROM customers c\nLEFT JOIN payments p ON p.customernumber = c.customernumber\nWHERE c.customername = 'Atelier graphique'\nGROUP BY c.customername\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    38,
+    "SELECT\n    paymentdate::date AS payment_date,\n    SUM(amount) AS total_payments\nFROM payments\nGROUP BY paymentdate::date\nORDER BY payment_date\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    39,
+    "SELECT p.productcode,\n       p.productname,\n       p.productline,\n       p.quantityinstock\nFROM products p\nLEFT JOIN orderdetails od ON od.productcode = p.productcode\nWHERE od.productcode IS NULL\nORDER BY p.productcode\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    40,
+    "SELECT c.customernumber,\n       c.customername,\n       COALESCE(SUM(p.amount), 0) AS total_amount_paid\nFROM customers c\nLEFT JOIN payments p ON p.customernumber = c.customernumber\nGROUP BY c.customernumber, c.customername\nORDER BY total_amount_paid DESC\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    41,
+    "SELECT COUNT(*) AS order_count\nFROM orders o\nJOIN customers c ON o.customernumber = c.customernumber\nWHERE c.customername = 'Herkku Gifts'\t----- bird -----\tclassicmodels"
+  ],
+  [
+    42,
+    "SELECT e.employeenumber, e.firstname, e.lastname, e.jobtitle, o.city\nFROM employees e\nJOIN offices o ON e.officecode = o.officecode\nWHERE o.city = 'Boston'\nORDER BY e.lastname, e.firstname\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    43,
+    "SELECT\n  p.checknumber,\n  p.paymentdate,\n  p.amount,\n  c.customernumber,\n  c.customername\nFROM payments p\nJOIN customers c ON p.customernumber = c.customernumber\nWHERE p.amount > 100000\nORDER BY p.amount DESC, p.paymentdate DESC\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    44,
+    "SELECT o.ordernumber,\n       o.orderdate,\n       c.customername,\n       SUM(od.quantityordered * od.priceeach) AS ordervalue\nFROM orders o\nJOIN orderdetails od ON od.ordernumber = o.ordernumber\nJOIN customers c ON o.customernumber = c.customernumber\nWHERE o.status = 'On Hold'\nGROUP BY o.ordernumber, o.orderdate, c.customername\nORDER BY ordervalue DESC\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    45,
+    "SELECT\n  c.customernumber,\n  c.customername,\n  COUNT(o.ordernumber) AS on_hold_orders\nFROM customers AS c\nLEFT JOIN orders AS o\n  ON o.customernumber = c.customernumber\n  AND o.status = 'On Hold'\nGROUP BY c.customernumber, c.customername\nORDER BY on_hold_orders DESC, c.customernumber\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    46,
+    "SELECT productcode, productname, productvendor, productdescription\nFROM products\nWHERE productname ILIKE '%Ford%'\nORDER BY productname\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    47,
+    "SELECT productcode, productname, productline\nFROM products\nWHERE productname ILIKE '%ship'\nORDER BY productname\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    48,
+    "SELECT v.country, COALESCE(t.cnt, 0) AS customer_count\nFROM (VALUES ('Denmark'), ('Norway'), ('Sweden')) AS v(country)\nLEFT JOIN (\n  SELECT country, COUNT(*) AS cnt\n  FROM customers\n  WHERE LOWER(country) IN ('denmark','norway','sweden')\n  GROUP BY country\n) AS t ON LOWER(t.country) = LOWER(v.country)\nORDER BY v.country\t----- bird -----\tclassicmodels"
+  ],
+  [
+    49,
+    "SELECT\n  productcode,\n  productname,\n  productscale,\n  productvendor,\n  productdescription,\n  quantityinstock,\n  buyprice,\n  msrp,\n  productline\nFROM products\nWHERE productcode BETWEEN 'S700_1000' AND 'S700_1499'\nORDER BY productcode\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    50,
+    "SELECT customernumber, customername\nFROM customers\nWHERE customername ~ '[0-9]'\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    51,
+    "SELECT firstname || ' ' || lastname AS name\nFROM employees\nWHERE firstname IN ('Diane','Dianne')\nORDER BY lastname, firstname\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    52,
+    "SELECT productcode, productname\nFROM products\nWHERE productname ILIKE '%ship%' OR productname ILIKE '%boat%'\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    53,
+    "SELECT\n    productcode,\n    productname,\n    productscale,\n    productvendor,\n    productdescription,\n    quantityinstock,\n    buyprice,\n    msrp,\n    productline\nFROM products\nWHERE productcode LIKE 'S700%'\nORDER BY productcode\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    54,
+    "SELECT firstname || ' ' || lastname AS full_name\nFROM employees\nWHERE LOWER(firstname) IN ('larry','barry')\nORDER BY full_name\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    55,
+    "SELECT firstname || ' ' || lastname AS employee_name\nFROM employees\nWHERE firstname ~ '[^A-Za-z]' OR lastname ~ '[^A-Za-z]'\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    56,
+    "SELECT DISTINCT productvendor AS vendor\nFROM products\nWHERE productvendor ILIKE '%Diecast'\nORDER BY vendor\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    57,
+    "SELECT\n  officecode,\n  country,\n  state,\n  city,\n  postalcode,\n  addressline1,\n  addressline2\nFROM offices\nORDER BY country ASC NULLS LAST, state ASC NULLS LAST, city ASC NULLS LAST\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    58,
+    "SELECT COUNT(*) AS employee_count\nFROM employees\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    59,
+    "SELECT SUM(amount) AS total_payments_received FROM payments\t----- bird -----\tclassicmodels"
+  ],
+  [
+    60,
+    "SELECT productline\nFROM productlines\nWHERE productline ILIKE '%Cars%'\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    61,
+    "SELECT COALESCE(SUM(p.amount), 0) AS total_payments_oct_28_2004\nFROM payments p\nWHERE p.paymentdate >= TIMESTAMP '2004-10-28 00:00:00'\n  AND p.paymentdate < TIMESTAMP '2004-10-29 00:00:00'\t----- bird -----\tclassicmodels"
+  ],
+  [
+    62,
+    "SELECT\n    pm.checknumber,\n    pm.paymentdate,\n    pm.amount,\n    pm.customernumber,\n    cu.customername\nFROM payments pm\nJOIN customers cu ON pm.customernumber = cu.customernumber\nWHERE pm.amount > 100000\nORDER BY pm.amount DESC\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    63,
+    "SELECT pl.productline,\n       COALESCE(string_agg(p.productname, ', ' ORDER BY p.productname), '') AS products\nFROM productlines pl\nLEFT JOIN products p ON p.productline = pl.productline\nGROUP BY pl.productline\nORDER BY pl.productline\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    64,
+    "SELECT\n  pl.productline,\n  COUNT(p.productcode) AS product_count\nFROM productlines pl\nLEFT JOIN products p ON p.productline = pl.productline\nGROUP BY pl.productline\nORDER BY pl.productline\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    65,
+    "SELECT MIN(amount) AS minimum_payment_received\nFROM payments\t----- bird -----\tclassicmodels"
+  ],
+  [
+    66,
+    "WITH avg_payment AS (\n  SELECT AVG(amount) AS avg_amount FROM payments\n)\nSELECT p.checknumber, p.paymentdate, p.amount, p.customernumber\nFROM payments p\nCROSS JOIN avg_payment\nWHERE p.amount > 2 * avg_payment.avg_amount\nORDER BY p.amount DESC\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    67,
+    "SELECT ROUND(AVG((msrp - buyprice) / NULLIF(buyprice, 0) * 100), 2) AS avg_markup_percent\nFROM products\t----- bird -----\tclassicmodels"
+  ],
+  [
+    68,
+    "SELECT COUNT(DISTINCT productcode) AS distinct_products\nFROM products\t----- bird -----\tclassicmodels"
+  ],
+  [
+    69,
+    "SELECT customername, city\nFROM customers\nWHERE salesrepemployeenumber IS NULL\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    70,
+    "SELECT CONCAT(firstname, ' ', lastname) AS executive_name\nFROM employees\nWHERE jobtitle ILIKE '%VP%' OR jobtitle ILIKE '%Manager%'\nORDER BY executive_name\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    71,
+    "WITH order_totals AS (\n  SELECT\n    o.ordernumber,\n    o.orderdate,\n    c.customername,\n    SUM(od.quantityordered * od.priceeach) AS totalvalue\n  FROM orders o\n  JOIN orderdetails od ON od.ordernumber = o.ordernumber\n  JOIN customers c ON o.customernumber = c.customernumber\n  GROUP BY o.ordernumber, o.orderdate, c.customername\n)\nSELECT\n  ordernumber,\n  orderdate,\n  customername,\n  totalvalue\nFROM order_totals\nWHERE totalvalue > 5000\nORDER BY totalvalue DESC\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    72,
+    "SELECT\n  customernumber,\n  customername,\n  city,\n  country\nFROM customers\nWHERE country IN ('Australia', 'Argentina', 'Chile', 'New Zealand', 'South Africa', 'Peru', 'Uruguay', 'Bolivia')\nORDER BY country, city\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    73,
+    "SELECT c.customernumber, c.customername, c.city, c.state, c.country\nFROM customers AS c\nWHERE c.country = 'USA'\n  AND c.state IN ('CA','NV','AZ','NM','UT','CO','OK','TX','KS')\nORDER BY c.customernumber\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    74,
+    "WITH city_coords AS (\n  SELECT city, lat, lon\n  FROM (VALUES\n    ('Nantes', 47.2184, -1.5536),\n    ('Las Vegas', 36.1699, -115.1398),\n    ('Melbourne', -37.8136, 144.9631),\n    ('San Francisco', 37.7749, -122.4194),\n    ('Boston', 42.3601, -71.0589),\n    ('NYC', 40.7128, -74.0060),\n    ('Tokyo', 35.6895, 139.6917)\n  ) AS t(city, lat, lon)\n),\ncustomer_geo AS (\n  SELECT c.customernumber, c.customername, c.city AS c_city, cc.lat AS cust_lat, cc.lon AS cust_lon\n  FROM customers c\n  JOIN city_coords cc ON cc.city = c.city\n),\noffice_geo AS (\n  SELECT o.officecode, o.city, oc.lat AS office_lat, oc.lon AS office_lon\n  FROM offices o\n  JOIN city_coords oc ON oc.city = o.city\n),\ntokyo AS (\n  SELECT lat AS tokyo_lat, lon AS tokyo_lon\n  FROM city_coords\n  WHERE city = 'Tokyo'\n),\ntokyo_dist AS (\n  SELECT cg.customernumber, cg.customername,\n         6371 * 2 * asin(\n           sqrt(\n             POWER( sin( (radians(t.tokyo_lat) - radians(cg.cust_lat)) / 2) , 2 )\n             + cos( radians(cg.cust_lat) ) * cos( radians(t.tokyo_lat) )\n             * POWER( sin( (radians(t.tokyo_lon) - radians(cg.cust_lon)) / 2) , 2 )\n           )\n         ) AS dist_to_tokyo\n  FROM customer_geo cg CROSS JOIN tokyo t\n),\nmin_dist_excl_tokyo AS (\n  SELECT cg.customernumber, min(\n    6371 * 2 * asin(\n      sqrt(\n        POWER( sin( (radians(og.office_lat) - radians(cg.cust_lat)) / 2) , 2 )\n        + cos( radians(cg.cust_lat) ) * cos( radians(og.office_lat) )\n        * POWER( sin( (radians(og.office_lon) - radians(cg.cust_lon)) / 2) , 2 )\n      )\n    )\n  ) AS min_dist\n  FROM customer_geo cg\n  JOIN office_geo og ON true\n  WHERE og.city <> 'Tokyo'\n  GROUP BY cg.customernumber\n)\nSELECT t.customernumber, t.customername\nFROM tokyo_dist t\nJOIN min_dist_excl_tokyo m ON m.customernumber = t.customernumber\nWHERE t.dist_to_tokyo < COALESCE(m.min_dist, 1e9)\nLIMIT 5\t----- bird -----\tclassicmodels"
+  ],
+  [
+    75,
+    "WITH \ncity_coords AS (\n  SELECT 'Paris' as city, 48.8566 as lat, 2.3522 as lon\n  UNION ALL SELECT 'Nantes', 47.2184, -1.5540\n  UNION ALL SELECT 'Lyon', 45.7640, 4.8357\n  UNION ALL SELECT 'Bordeaux', 44.8400, -0.5800\n  UNION ALL SELECT 'Marseille', 43.2965, 5.3698\n),\nparis_point AS (\n  SELECT lat AS paris_lat, lon AS paris_lon\n  FROM city_coords\n  WHERE city = 'Paris'\n),\nfr_france_customers AS (\n  SELECT c.customernumber, c.customername, c.contactfirstname, c.contactlastname, c.city AS customer_city\n  FROM customers c\n  WHERE c.country = 'France'\n),\ncustomer_dist AS (\n  SELECT f.customernumber, f.customername, f.contactfirstname, f.contactlastname, f.customer_city,\n         6371 * 2 * ASIN(SQRT(\n           POWER(SIN((cc.lat - p.paris_lat) * pi()/180 / 2), 2) +\n           COS(cc.lat * pi()/180) * COS(p.paris_lat * pi()/180) * POWER(SIN((cc.lon - p.paris_lon) * pi()/180 / 2), 2)\n         )) AS distance_km\n  FROM fr_france_customers f\n  JOIN city_coords cc ON cc.city = f.customer_city\n  CROSS JOIN paris_point p\n)\nSELECT customername, contactfirstname, contactlastname, customer_city, distance_km\nFROM (\n  SELECT *, ROW_NUMBER() OVER (ORDER BY distance_km DESC) AS rn\n  FROM customer_dist\n) t\nWHERE rn = 1\nLIMIT 1\t----- bird -----\tclassicmodels"
+  ],
+  [
+    76,
+    "SELECT customernumber, customername, city, country, latitude\nFROM (\n  SELECT\n    c.customernumber,\n    c.customername,\n    c.city,\n    c.country,\n    CASE\n      WHEN c.city = 'Nantes' AND c.country = 'France' THEN 47.21836\n      WHEN c.city = 'Las Vegas' AND c.country = 'USA' THEN 36.16994\n      WHEN c.city = 'Melbourne' AND c.country = 'Australia' THEN -37.81363\n      ELSE NULL\n    END AS latitude\n  FROM customers c\n) AS t\nORDER BY latitude DESC NULLS LAST\nLIMIT 1\t----- bird -----\tclassicmodels"
+  ],
+  [
+    77,
+    "WITH paris_office AS (\n  SELECT officecode, city,\n         CASE city WHEN 'Paris' THEN 48.8566 END AS lat,\n         CASE city WHEN 'Paris' THEN 2.3522 END AS lon\n  FROM offices\n  WHERE city = 'Paris'\n  LIMIT 1\n),\nboston_office AS (\n  SELECT officecode, city,\n         CASE city WHEN 'Boston' THEN 42.3601 END AS lat,\n         CASE city WHEN 'Boston' THEN -71.0589 END AS lon\n  FROM offices\n  WHERE city = 'Boston'\n  LIMIT 1\n)\nSELECT\n  paris_office.officecode AS paris_officecode,\n  boston_office.officecode AS boston_officecode,\n  6371 * 2 * asin(\n     sqrt(\n       power(sin(radians((boston_office.lat - paris_office.lat) / 2.0)), 2)\n       + cos(radians(paris_office.lat)) * cos(radians(boston_office.lat)) *\n         power(sin(radians((boston_office.lon - paris_office.lon) / 2.0)), 2)\n     )\n  ) AS distance_km\nFROM paris_office\nCROSS JOIN boston_office\t----- bird -----\tclassicmodels"
+  ]
+]

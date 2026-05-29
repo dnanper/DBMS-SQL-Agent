@@ -1,0 +1,702 @@
+2026-05-29 21:23:23,027 INFO case_start id=3 difficulty=challenging question=For orders containing more than two products, report those products that constitute more than 50% of the value of the order.
+2026-05-29 21:23:23,032 INFO case_start id=0 difficulty=challenging question=Who reports to Mary Patterson?
+2026-05-29 21:23:23,033 INFO case_start id=2 difficulty=challenging question=Report for each product, the percentage value of its stock on hand as a percentage of the stock on hand for product line to which it belongs. Order the report by product line and percentage value within product line descending. Show percentages with two decimal places.
+2026-05-29 21:23:23,066 INFO case_start id=1 difficulty=challenging question=Which payments in any month and year are more than twice the average for that month and year (i.e. compare all payments in Oct 2004 with the average payment for Oct 2004)? Order the results by the date of the payment. You will need to use the date functions.
+2026-05-29 21:23:23,089 INFO case_step id=2 turn=1 keys=['messages']
+2026-05-29 21:23:23,089 INFO case_step id=3 turn=1 keys=['messages']
+2026-05-29 21:23:23,090 INFO case_step id=0 turn=1 keys=['messages']
+2026-05-29 21:23:23,097 INFO case_step id=1 turn=1 keys=['messages']
+2026-05-29 21:23:23,152 INFO case_step id=2 turn=2 keys=['messages', 'question']
+2026-05-29 21:23:23,152 INFO case_step id=3 turn=2 keys=['messages', 'question']
+2026-05-29 21:23:23,157 INFO case_step id=0 turn=2 keys=['messages', 'question']
+2026-05-29 21:23:23,157 INFO case_step id=1 turn=2 keys=['messages', 'question']
+2026-05-29 21:23:25,999 INFO case_step id=3 turn=3 keys=['messages', 'question']
+2026-05-29 21:23:26,072 INFO case_step id=3 turn=4 keys=['messages', 'question']
+2026-05-29 21:23:26,749 INFO case_step id=0 turn=3 keys=['messages', 'question']
+2026-05-29 21:23:26,881 INFO case_step id=0 turn=4 keys=['messages', 'question']
+2026-05-29 21:23:27,265 INFO case_step id=1 turn=3 keys=['messages', 'question']
+2026-05-29 21:23:27,340 INFO case_step id=1 turn=4 keys=['messages', 'question']
+2026-05-29 21:23:27,353 INFO case_step id=2 turn=3 keys=['messages', 'question']
+2026-05-29 21:23:27,427 INFO case_step id=2 turn=4 keys=['messages', 'question']
+2026-05-29 21:23:31,197 INFO case_step id=0 turn=5 keys=['messages', 'question']
+2026-05-29 21:23:32,715 INFO case_step id=3 turn=5 keys=['messages', 'question']
+2026-05-29 21:23:33,659 INFO case_step id=2 turn=5 keys=['messages', 'question']
+2026-05-29 21:23:35,088 INFO case_step id=1 turn=5 keys=['messages', 'question']
+2026-05-29 21:23:38,382 INFO case_step id=0 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:23:38,384 INFO case_step id=0 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:23:38,385 INFO case_end id=0 status=sql_generated turns=7 elapsed_ms=15353.27 sql_chars=225 error=
+2026-05-29 21:23:38,450 INFO case_start id=4 difficulty=simple question=Who is at the top of the organization (i.e.,  reports to no one).
+2026-05-29 21:23:38,452 INFO case_step id=4 turn=1 keys=['messages']
+2026-05-29 21:23:38,453 INFO case_step id=4 turn=2 keys=['messages', 'question']
+2026-05-29 21:23:42,570 INFO case_step id=4 turn=3 keys=['messages', 'question']
+2026-05-29 21:23:42,664 INFO case_step id=4 turn=4 keys=['messages', 'question']
+2026-05-29 21:23:42,852 INFO case_step id=1 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:23:42,854 INFO case_step id=1 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:23:42,854 INFO case_end id=1 status=sql_generated turns=7 elapsed_ms=19788.9 sql_chars=360 error=
+2026-05-29 21:23:42,917 INFO case_start id=5 difficulty=moderate question=Who reports to William Patterson?
+2026-05-29 21:23:42,919 INFO case_step id=5 turn=1 keys=['messages']
+2026-05-29 21:23:42,920 INFO case_step id=5 turn=2 keys=['messages', 'question']
+2026-05-29 21:23:45,596 INFO case_step id=2 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:23:45,599 INFO case_step id=2 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:23:45,599 INFO case_end id=2 status=sql_generated turns=7 elapsed_ms=22566.59 sql_chars=455 error=
+2026-05-29 21:23:45,661 INFO case_start id=6 difficulty=moderate question=List all the products purchased by Herkku Gifts.
+2026-05-29 21:23:45,663 INFO case_step id=6 turn=1 keys=['messages']
+2026-05-29 21:23:45,663 INFO case_step id=6 turn=2 keys=['messages', 'question']
+2026-05-29 21:23:46,902 INFO case_step id=5 turn=3 keys=['messages', 'question']
+2026-05-29 21:23:46,965 INFO case_step id=3 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:23:46,967 INFO case_step id=3 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:23:46,968 INFO case_end id=3 status=sql_generated turns=7 elapsed_ms=23941.08 sql_chars=1020 error=
+2026-05-29 21:23:46,976 INFO case_step id=5 turn=4 keys=['messages', 'question']
+2026-05-29 21:23:47,031 INFO case_start id=7 difficulty=moderate question=Compute the commission for each sales representative, assuming the commission is 5% of the value of an order. Sort by employee last name and first name.
+2026-05-29 21:23:47,031 INFO case_step id=7 turn=1 keys=['messages']
+2026-05-29 21:23:47,031 INFO case_step id=7 turn=2 keys=['messages', 'question']
+2026-05-29 21:23:47,349 INFO case_step id=4 turn=5 keys=['messages', 'question']
+2026-05-29 21:23:48,577 INFO case_step id=6 turn=3 keys=['messages', 'question']
+2026-05-29 21:23:48,652 INFO case_step id=6 turn=4 keys=['messages', 'question']
+2026-05-29 21:23:51,178 INFO case_step id=7 turn=3 keys=['messages', 'question']
+2026-05-29 21:23:51,247 INFO case_step id=7 turn=4 keys=['messages', 'question']
+2026-05-29 21:23:52,345 INFO case_step id=4 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:23:52,346 INFO case_step id=4 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:23:52,347 INFO case_end id=4 status=sql_generated turns=7 elapsed_ms=13896.93 sql_chars=123 error=
+2026-05-29 21:23:52,406 INFO case_start id=8 difficulty=simple question=What is the difference in days between the most recent and oldest order date in the Orders file?
+2026-05-29 21:23:52,408 INFO case_step id=8 turn=1 keys=['messages']
+2026-05-29 21:23:52,409 INFO case_step id=8 turn=2 keys=['messages', 'question']
+2026-05-29 21:23:53,284 INFO case_step id=5 turn=5 keys=['messages', 'question']
+2026-05-29 21:23:56,088 INFO case_step id=8 turn=3 keys=['messages', 'question']
+2026-05-29 21:23:56,162 INFO case_step id=8 turn=4 keys=['messages', 'question']
+2026-05-29 21:23:57,395 INFO case_step id=6 turn=5 keys=['messages', 'question']
+2026-05-29 21:23:59,501 INFO case_step id=8 turn=5 keys=['messages', 'question']
+2026-05-29 21:23:59,988 INFO case_step id=7 turn=5 keys=['messages', 'question']
+2026-05-29 21:24:00,418 INFO case_step id=5 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:00,420 INFO case_step id=5 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:00,420 INFO case_end id=5 status=sql_generated turns=7 elapsed_ms=17503.67 sql_chars=201 error=
+2026-05-29 21:24:00,488 INFO case_start id=9 difficulty=moderate question=Compute the average time between order date and ship date for each customer ordered by the largest difference.
+2026-05-29 21:24:00,490 INFO case_step id=9 turn=1 keys=['messages']
+2026-05-29 21:24:00,490 INFO case_step id=9 turn=2 keys=['messages', 'question']
+2026-05-29 21:24:03,011 INFO case_step id=6 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:03,013 INFO case_step id=6 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:03,013 INFO case_end id=6 status=sql_generated turns=7 elapsed_ms=17352.06 sql_chars=366 error=
+2026-05-29 21:24:03,079 INFO case_start id=10 difficulty=moderate question=What is the value of orders shipped in August 2004? (Hint).
+2026-05-29 21:24:03,081 INFO case_step id=10 turn=1 keys=['messages']
+2026-05-29 21:24:03,081 INFO case_step id=10 turn=2 keys=['messages', 'question']
+2026-05-29 21:24:03,840 INFO case_step id=9 turn=3 keys=['messages', 'question']
+2026-05-29 21:24:03,926 INFO case_step id=9 turn=4 keys=['messages', 'question']
+2026-05-29 21:24:06,582 INFO case_step id=8 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:06,584 INFO case_step id=8 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:06,584 INFO case_end id=8 status=sql_generated turns=7 elapsed_ms=14177.99 sql_chars=77 error=
+2026-05-29 21:24:06,739 INFO case_start id=11 difficulty=moderate question=Compute the total value ordered, total amount paid, and their difference for each customer for orders placed in 2004 and payments received in 2004 (Hint; Create views for the total paid and total ordered).
+2026-05-29 21:24:06,740 INFO case_step id=11 turn=1 keys=['messages']
+2026-05-29 21:24:06,741 INFO case_step id=11 turn=2 keys=['messages', 'question']
+2026-05-29 21:24:07,413 INFO case_step id=10 turn=3 keys=['messages', 'question']
+2026-05-29 21:24:07,484 INFO case_step id=10 turn=4 keys=['messages', 'question']
+2026-05-29 21:24:11,372 INFO case_step id=9 turn=5 keys=['messages', 'question']
+2026-05-29 21:24:15,347 INFO case_step id=10 turn=5 keys=['messages', 'question']
+2026-05-29 21:24:15,731 INFO case_step id=7 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:15,732 INFO case_step id=7 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:15,732 INFO case_end id=7 status=sql_generated turns=7 elapsed_ms=28700.87 sql_chars=402 error=
+2026-05-29 21:24:15,800 INFO case_start id=12 difficulty=moderate question=List the employees who report to those employees who report to Diane Murphy. Use the CONCAT function to combine the employee's first name and last name into a single field for reporting.
+2026-05-29 21:24:15,802 INFO case_step id=12 turn=1 keys=['messages']
+2026-05-29 21:24:15,804 INFO case_step id=12 turn=2 keys=['messages', 'question']
+2026-05-29 21:24:15,947 INFO case_step id=11 turn=3 keys=['messages', 'question']
+2026-05-29 21:24:16,027 INFO case_step id=11 turn=4 keys=['messages', 'question']
+2026-05-29 21:24:18,684 INFO case_step id=9 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:18,686 INFO case_step id=9 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:18,686 INFO case_end id=9 status=sql_generated turns=7 elapsed_ms=18198.16 sql_chars=368 error=
+2026-05-29 21:24:18,753 INFO case_start id=13 difficulty=moderate question=What is the percentage value of each product in inventory sorted by the highest percentage first (Hint: Create a view first).
+2026-05-29 21:24:18,754 INFO case_step id=13 turn=1 keys=['messages']
+2026-05-29 21:24:18,755 INFO case_step id=13 turn=2 keys=['messages', 'question']
+2026-05-29 21:24:19,542 INFO case_step id=12 turn=3 keys=['messages', 'question']
+2026-05-29 21:24:19,620 INFO case_step id=12 turn=4 keys=['messages', 'question']
+2026-05-29 21:24:22,375 INFO case_step id=10 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:22,379 INFO case_step id=10 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:22,380 INFO case_end id=10 status=sql_generated turns=7 elapsed_ms=19300.95 sql_chars=272 error=
+2026-05-29 21:24:22,459 INFO case_start id=14 difficulty=simple question=What is the value of payments received in July 2004?
+2026-05-29 21:24:22,461 INFO case_step id=14 turn=1 keys=['messages']
+2026-05-29 21:24:22,462 INFO case_step id=14 turn=2 keys=['messages', 'question']
+2026-05-29 21:24:22,989 INFO case_step id=13 turn=3 keys=['messages', 'question']
+2026-05-29 21:24:23,134 INFO case_step id=13 turn=4 keys=['messages', 'question']
+2026-05-29 21:24:25,676 INFO case_step id=14 turn=3 keys=['messages', 'question']
+2026-05-29 21:24:25,769 INFO case_step id=14 turn=4 keys=['messages', 'question']
+2026-05-29 21:24:26,883 INFO case_step id=11 turn=5 keys=['messages', 'question']
+2026-05-29 21:24:29,532 INFO case_step id=12 turn=5 keys=['messages', 'question']
+2026-05-29 21:24:34,298 INFO case_step id=14 turn=5 keys=['messages', 'question']
+2026-05-29 21:24:36,393 INFO case_step id=13 turn=5 keys=['messages', 'question']
+2026-05-29 21:24:38,094 INFO case_step id=14 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:38,095 INFO case_step id=14 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:38,096 INFO case_end id=14 status=sql_generated turns=7 elapsed_ms=15635.59 sql_chars=148 error=
+2026-05-29 21:24:38,168 INFO case_start id=15 difficulty=moderate question=What is the ratio of the value of payments made to orders received for each month of 2004? (i.e., divide the value of payments made by the orders received)?
+2026-05-29 21:24:38,176 INFO case_step id=15 turn=1 keys=['messages']
+2026-05-29 21:24:38,177 INFO case_step id=15 turn=2 keys=['messages', 'question']
+2026-05-29 21:24:41,101 INFO case_step id=12 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:41,101 INFO case_step id=12 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:41,108 INFO case_end id=12 status=sql_generated turns=7 elapsed_ms=25308.44 sql_chars=298 error=
+2026-05-29 21:24:41,188 INFO case_start id=16 difficulty=moderate question=What is the difference in the amount received for each month of 2004 compared to 2003?
+2026-05-29 21:24:41,190 INFO case_step id=16 turn=1 keys=['messages']
+2026-05-29 21:24:41,191 INFO case_step id=16 turn=2 keys=['messages', 'question']
+2026-05-29 21:24:42,060 INFO case_step id=15 turn=3 keys=['messages', 'question']
+2026-05-29 21:24:42,135 INFO case_step id=15 turn=4 keys=['messages', 'question']
+2026-05-29 21:24:44,815 INFO case_step id=16 turn=3 keys=['messages', 'question']
+2026-05-29 21:24:44,912 INFO case_step id=16 turn=4 keys=['messages', 'question']
+2026-05-29 21:24:46,181 INFO case_step id=13 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:46,182 INFO case_step id=13 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:46,183 INFO case_end id=13 status=sql_generated turns=7 elapsed_ms=27430.54 sql_chars=437 error=
+2026-05-29 21:24:46,249 INFO case_start id=17 difficulty=moderate question=Basket of goods analysis: A common retail analytics task is to analyze each basket or order to learn what products are often purchased together. Report the names of products that appear in the same order ten or more times.
+2026-05-29 21:24:46,251 INFO case_step id=17 turn=1 keys=['messages']
+2026-05-29 21:24:46,252 INFO case_step id=17 turn=2 keys=['messages', 'question']
+2026-05-29 21:24:49,276 INFO case_step id=11 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:49,278 INFO case_step id=11 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:24:49,279 INFO case_end id=11 status=sql_generated turns=7 elapsed_ms=42539.31 sql_chars=842 error=
+2026-05-29 21:24:49,351 INFO case_start id=18 difficulty=moderate question=ABC reporting: Compute the revenue generated by each customer based on their orders. Also, show each customer's revenue as a percentage of total revenue. Sort by customer name.
+2026-05-29 21:24:49,353 INFO case_step id=18 turn=1 keys=['messages']
+2026-05-29 21:24:49,354 INFO case_step id=18 turn=2 keys=['messages', 'question']
+2026-05-29 21:24:49,410 INFO case_step id=17 turn=3 keys=['messages', 'question']
+2026-05-29 21:24:49,423 INFO case_step id=15 turn=5 keys=['messages', 'question']
+2026-05-29 21:24:49,584 INFO case_step id=17 turn=4 keys=['messages', 'question']
+2026-05-29 21:24:53,250 INFO case_step id=18 turn=3 keys=['messages', 'question']
+2026-05-29 21:24:53,324 INFO case_step id=18 turn=4 keys=['messages', 'question']
+2026-05-29 21:24:55,864 INFO case_step id=16 turn=5 keys=['messages', 'question']
+2026-05-29 21:24:57,475 INFO case_step id=17 turn=5 keys=['messages', 'question']
+2026-05-29 21:25:03,879 INFO case_step id=18 turn=5 keys=['messages', 'question']
+2026-05-29 21:25:06,284 INFO case_step id=15 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:06,286 INFO case_step id=15 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:06,287 INFO case_end id=15 status=sql_generated turns=7 elapsed_ms=28112.61 sql_chars=1160 error=
+2026-05-29 21:25:06,380 INFO case_start id=19 difficulty=moderate question=Compute the profit generated by each customer based on their orders. Also, show each customer's profit as a percentage of total profit. Sort by profit descending.
+2026-05-29 21:25:06,382 INFO case_step id=19 turn=1 keys=['messages']
+2026-05-29 21:25:06,383 INFO case_step id=19 turn=2 keys=['messages', 'question']
+2026-05-29 21:25:09,029 INFO case_step id=16 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:09,030 INFO case_step id=16 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:09,031 INFO case_end id=16 status=sql_generated turns=7 elapsed_ms=27842.49 sql_chars=823 error=
+2026-05-29 21:25:09,108 INFO case_start id=20 difficulty=moderate question=Compute the revenue generated by each sales representative based on the orders from the customers they serve.
+2026-05-29 21:25:09,109 INFO case_step id=20 turn=1 keys=['messages']
+2026-05-29 21:25:09,109 INFO case_step id=20 turn=2 keys=['messages', 'question']
+2026-05-29 21:25:10,347 INFO case_step id=17 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:10,351 INFO case_step id=17 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:10,351 INFO case_end id=17 status=sql_generated turns=7 elapsed_ms=24102.98 sql_chars=601 error=
+2026-05-29 21:25:10,427 INFO case_start id=21 difficulty=moderate question=Compute the profit generated by each sales representative based on the orders from the customers they serve. Sort by profit generated descending.
+2026-05-29 21:25:10,429 INFO case_step id=21 turn=1 keys=['messages']
+2026-05-29 21:25:10,430 INFO case_step id=21 turn=2 keys=['messages', 'question']
+2026-05-29 21:25:11,190 INFO case_step id=20 turn=3 keys=['messages', 'question']
+2026-05-29 21:25:11,282 INFO case_step id=20 turn=4 keys=['messages', 'question']
+2026-05-29 21:25:12,379 INFO case_step id=21 turn=3 keys=['messages', 'question']
+2026-05-29 21:25:12,481 INFO case_step id=21 turn=4 keys=['messages', 'question']
+2026-05-29 21:25:16,779 INFO case_step id=18 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:16,780 INFO case_step id=18 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:16,781 INFO case_end id=18 status=sql_generated turns=7 elapsed_ms=27429.98 sql_chars=661 error=
+2026-05-29 21:25:16,857 INFO case_start id=22 difficulty=moderate question=Compute the revenue generated by each product, sorted by product name.
+2026-05-29 21:25:16,860 INFO case_step id=22 turn=1 keys=['messages']
+2026-05-29 21:25:16,860 INFO case_step id=22 turn=2 keys=['messages', 'question']
+2026-05-29 21:25:17,932 INFO case_step id=19 turn=3 keys=['messages', 'question']
+2026-05-29 21:25:18,007 INFO case_step id=19 turn=4 keys=['messages', 'question']
+2026-05-29 21:25:19,979 INFO case_step id=21 turn=5 keys=['messages', 'question']
+2026-05-29 21:25:20,052 INFO case_step id=22 turn=3 keys=['messages', 'question']
+2026-05-29 21:25:20,083 INFO case_step id=20 turn=5 keys=['messages', 'question']
+2026-05-29 21:25:20,140 INFO case_step id=22 turn=4 keys=['messages', 'question']
+2026-05-29 21:25:25,429 INFO case_step id=22 turn=5 keys=['messages', 'question']
+2026-05-29 21:25:26,857 INFO case_step id=19 turn=5 keys=['messages', 'question']
+2026-05-29 21:25:27,464 INFO case_step id=21 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:27,464 INFO case_step id=21 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:27,464 INFO case_end id=21 status=sql_generated turns=7 elapsed_ms=17038.6 sql_chars=578 error=
+2026-05-29 21:25:27,533 INFO case_start id=23 difficulty=moderate question=Compute the profit generated by each product line, sorted by profit descending.
+2026-05-29 21:25:27,535 INFO case_step id=23 turn=1 keys=['messages']
+2026-05-29 21:25:27,535 INFO case_step id=23 turn=2 keys=['messages', 'question']
+2026-05-29 21:25:29,533 INFO case_step id=23 turn=3 keys=['messages', 'question']
+2026-05-29 21:25:29,616 INFO case_step id=23 turn=4 keys=['messages', 'question']
+2026-05-29 21:25:29,815 INFO case_step id=20 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:29,815 INFO case_step id=20 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:29,815 INFO case_end id=20 status=sql_generated turns=7 elapsed_ms=20714.37 sql_chars=409 error=
+2026-05-29 21:25:29,908 INFO case_start id=24 difficulty=moderate question=Same as Last Year (SALY) analysis: Compute the ratio for each product of sales for 2003 versus 2004.
+2026-05-29 21:25:29,909 INFO case_step id=24 turn=1 keys=['messages']
+2026-05-29 21:25:29,910 INFO case_step id=24 turn=2 keys=['messages', 'question']
+2026-05-29 21:25:32,985 INFO case_step id=22 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:32,986 INFO case_step id=22 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:32,988 INFO case_end id=22 status=sql_generated turns=7 elapsed_ms=16129.76 sql_chars=211 error=
+2026-05-29 21:25:33,052 INFO case_start id=25 difficulty=moderate question=Compute the ratio of payments for each customer for 2003 versus 2004.
+2026-05-29 21:25:33,052 INFO case_step id=25 turn=1 keys=['messages']
+2026-05-29 21:25:33,055 INFO case_step id=25 turn=2 keys=['messages', 'question']
+2026-05-29 21:25:34,659 INFO case_step id=24 turn=3 keys=['messages', 'question']
+2026-05-29 21:25:34,699 INFO case_step id=19 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:34,699 INFO case_step id=19 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:34,699 INFO case_end id=19 status=sql_generated turns=7 elapsed_ms=28325.23 sql_chars=714 error=
+2026-05-29 21:25:34,771 INFO case_start id=26 difficulty=moderate question=Find the products sold in 2003 but not 2004.
+2026-05-29 21:25:34,772 INFO case_step id=26 turn=1 keys=['messages']
+2026-05-29 21:25:34,774 INFO case_step id=26 turn=2 keys=['messages', 'question']
+2026-05-29 21:25:34,774 INFO case_step id=24 turn=4 keys=['messages', 'question']
+2026-05-29 21:25:35,932 INFO case_step id=23 turn=5 keys=['messages', 'question']
+2026-05-29 21:25:37,423 INFO case_step id=26 turn=3 keys=['messages', 'question']
+2026-05-29 21:25:37,551 INFO case_step id=25 turn=3 keys=['messages', 'question']
+2026-05-29 21:25:37,616 INFO case_step id=26 turn=4 keys=['messages', 'question']
+2026-05-29 21:25:37,638 INFO case_step id=25 turn=4 keys=['messages', 'question']
+2026-05-29 21:25:43,073 INFO case_step id=23 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:43,075 INFO case_step id=23 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:43,076 INFO case_end id=23 status=sql_generated turns=7 elapsed_ms=15543.61 sql_chars=295 error=
+2026-05-29 21:25:43,160 INFO case_start id=27 difficulty=moderate question=Find the customers without payments in 2003.
+2026-05-29 21:25:43,161 INFO case_step id=27 turn=1 keys=['messages']
+2026-05-29 21:25:43,162 INFO case_step id=27 turn=2 keys=['messages', 'question']
+2026-05-29 21:25:46,046 INFO case_step id=25 turn=5 keys=['messages', 'question']
+2026-05-29 21:25:47,438 INFO case_step id=27 turn=3 keys=['messages', 'question']
+2026-05-29 21:25:47,461 INFO case_step id=24 turn=5 keys=['messages', 'question']
+2026-05-29 21:25:47,530 INFO case_step id=27 turn=4 keys=['messages', 'question']
+2026-05-29 21:25:50,360 INFO case_step id=26 turn=5 keys=['messages', 'question']
+2026-05-29 21:25:55,331 INFO case_step id=27 turn=5 keys=['messages', 'question']
+2026-05-29 21:25:58,066 INFO case_step id=25 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:58,068 INFO case_step id=25 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:25:58,070 INFO case_end id=25 status=sql_generated turns=7 elapsed_ms=25017.06 sql_chars=586 error=
+2026-05-29 21:25:58,160 INFO case_start id=28 difficulty=moderate question=List products sold by order date.
+2026-05-29 21:25:58,161 INFO case_step id=28 turn=1 keys=['messages']
+2026-05-29 21:25:58,162 INFO case_step id=28 turn=2 keys=['messages', 'question']
+2026-05-29 21:26:00,162 INFO case_step id=26 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:00,168 INFO case_step id=26 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:00,170 INFO case_end id=26 status=sql_generated turns=7 elapsed_ms=25399.08 sql_chars=647 error=
+2026-05-29 21:26:00,244 INFO case_start id=29 difficulty=moderate question=List the order dates in descending order for orders for the 1940 Ford Pickup Truck.
+2026-05-29 21:26:00,246 INFO case_step id=29 turn=1 keys=['messages']
+2026-05-29 21:26:00,247 INFO case_step id=29 turn=2 keys=['messages', 'question']
+2026-05-29 21:26:02,029 INFO case_step id=27 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:02,030 INFO case_step id=27 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:02,030 INFO case_end id=27 status=sql_generated turns=7 elapsed_ms=18871.98 sql_chars=305 error=
+2026-05-29 21:26:02,099 INFO case_start id=30 difficulty=moderate question=List the names of customers and their corresponding order number where a particular order from that customer has a value greater than $25,000?
+2026-05-29 21:26:02,101 INFO case_step id=30 turn=1 keys=['messages']
+2026-05-29 21:26:02,102 INFO case_step id=30 turn=2 keys=['messages', 'question']
+2026-05-29 21:26:04,236 INFO case_step id=29 turn=3 keys=['messages', 'question']
+2026-05-29 21:26:04,313 INFO case_step id=29 turn=4 keys=['messages', 'question']
+2026-05-29 21:26:05,302 INFO case_step id=28 turn=3 keys=['messages', 'question']
+2026-05-29 21:26:05,380 INFO case_step id=28 turn=4 keys=['messages', 'question']
+2026-05-29 21:26:06,962 INFO case_step id=30 turn=3 keys=['messages', 'question']
+2026-05-29 21:26:07,046 INFO case_step id=30 turn=4 keys=['messages', 'question']
+2026-05-29 21:26:08,440 INFO case_step id=24 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:08,442 INFO case_step id=24 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:08,443 INFO case_end id=24 status=sql_generated turns=7 elapsed_ms=38534.68 sql_chars=901 error=
+2026-05-29 21:26:08,515 INFO case_start id=31 difficulty=moderate question=Are there any products that appear on all orders?
+2026-05-29 21:26:08,515 INFO case_step id=31 turn=1 keys=['messages']
+2026-05-29 21:26:08,515 INFO case_step id=31 turn=2 keys=['messages', 'question']
+2026-05-29 21:26:10,598 INFO case_step id=31 turn=3 keys=['messages', 'question']
+2026-05-29 21:26:10,696 INFO case_step id=31 turn=4 keys=['messages', 'question']
+2026-05-29 21:26:11,351 INFO case_step id=28 turn=5 keys=['messages', 'question']
+2026-05-29 21:26:11,630 INFO case_step id=30 turn=5 keys=['messages', 'question']
+2026-05-29 21:26:12,199 INFO case_step id=29 turn=5 keys=['messages', 'question']
+2026-05-29 21:26:15,596 INFO case_step id=28 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:15,598 INFO case_step id=28 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:15,599 INFO case_end id=28 status=sql_generated turns=7 elapsed_ms=17439.08 sql_chars=230 error=
+2026-05-29 21:26:15,672 INFO case_start id=32 difficulty=moderate question=List the names of products sold at less than 80% of the MSRP.
+2026-05-29 21:26:15,674 INFO case_step id=32 turn=1 keys=['messages']
+2026-05-29 21:26:15,675 INFO case_step id=32 turn=2 keys=['messages', 'question']
+2026-05-29 21:26:17,779 INFO case_step id=30 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:17,780 INFO case_step id=30 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:17,781 INFO case_end id=30 status=sql_generated turns=7 elapsed_ms=15682.07 sql_chars=301 error=
+2026-05-29 21:26:17,846 INFO case_start id=33 difficulty=moderate question=Reports those products that have been sold with a markup of 100% or more (i.e.,  the priceEach is at least twice the buyPrice)
+2026-05-29 21:26:17,847 INFO case_step id=33 turn=1 keys=['messages']
+2026-05-29 21:26:17,848 INFO case_step id=33 turn=2 keys=['messages', 'question']
+2026-05-29 21:26:18,007 INFO case_step id=29 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:18,009 INFO case_step id=29 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:18,009 INFO case_end id=29 status=sql_generated turns=7 elapsed_ms=17764.88 sql_chars=218 error=
+2026-05-29 21:26:18,093 INFO case_start id=34 difficulty=moderate question=List the products ordered on a Monday.
+2026-05-29 21:26:18,095 INFO case_step id=34 turn=1 keys=['messages']
+2026-05-29 21:26:18,096 INFO case_step id=34 turn=2 keys=['messages', 'question']
+2026-05-29 21:26:18,132 INFO case_step id=31 turn=5 keys=['messages', 'question']
+2026-05-29 21:26:20,962 INFO case_step id=32 turn=3 keys=['messages', 'question']
+2026-05-29 21:26:21,051 INFO case_step id=32 turn=4 keys=['messages', 'question']
+2026-05-29 21:26:21,328 INFO case_step id=33 turn=3 keys=['messages', 'question']
+2026-05-29 21:26:21,412 INFO case_step id=33 turn=4 keys=['messages', 'question']
+2026-05-29 21:26:23,329 INFO case_step id=31 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:23,330 INFO case_step id=31 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:23,330 INFO case_end id=31 status=sql_generated turns=7 elapsed_ms=14812.68 sql_chars=245 error=
+2026-05-29 21:26:23,574 INFO case_start id=35 difficulty=moderate question=What is the quantity on hand for products listed on 'On Hold' orders?
+2026-05-29 21:26:23,576 INFO case_step id=35 turn=1 keys=['messages']
+2026-05-29 21:26:23,576 INFO case_step id=35 turn=2 keys=['messages', 'question']
+2026-05-29 21:26:23,636 INFO case_step id=34 turn=3 keys=['messages', 'question']
+2026-05-29 21:26:23,712 INFO case_step id=34 turn=4 keys=['messages', 'question']
+2026-05-29 21:26:26,172 INFO case_step id=35 turn=3 keys=['messages', 'question']
+2026-05-29 21:26:26,248 INFO case_step id=35 turn=4 keys=['messages', 'question']
+2026-05-29 21:26:28,954 INFO case_step id=32 turn=5 keys=['messages', 'question']
+2026-05-29 21:26:30,790 INFO case_step id=34 turn=5 keys=['messages', 'question']
+2026-05-29 21:26:34,765 INFO case_step id=32 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:34,768 INFO case_step id=32 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:34,769 INFO case_end id=32 status=sql_generated turns=7 elapsed_ms=19096.34 sql_chars=142 error=
+2026-05-29 21:26:34,856 INFO case_start id=36 difficulty=moderate question=Report the account representative for each customer.
+2026-05-29 21:26:34,859 INFO case_step id=36 turn=1 keys=['messages']
+2026-05-29 21:26:34,860 INFO case_step id=36 turn=2 keys=['messages', 'question']
+2026-05-29 21:26:35,064 INFO case_step id=35 turn=5 keys=['messages', 'question']
+2026-05-29 21:26:35,328 INFO case_step id=33 turn=5 keys=['messages', 'question']
+2026-05-29 21:26:38,389 INFO case_step id=36 turn=3 keys=['messages', 'question']
+2026-05-29 21:26:38,477 INFO case_step id=36 turn=4 keys=['messages', 'question']
+2026-05-29 21:26:38,488 INFO case_step id=34 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:38,490 INFO case_step id=34 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:38,491 INFO case_end id=34 status=sql_generated turns=7 elapsed_ms=20396.97 sql_chars=234 error=
+2026-05-29 21:26:38,550 INFO case_start id=37 difficulty=moderate question=Report total payments for Atelier graphique.
+2026-05-29 21:26:38,552 INFO case_step id=37 turn=1 keys=['messages']
+2026-05-29 21:26:38,552 INFO case_step id=37 turn=2 keys=['messages', 'question']
+2026-05-29 21:26:44,932 INFO case_step id=36 turn=5 keys=['messages', 'question']
+2026-05-29 21:26:45,230 INFO case_step id=33 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:45,231 INFO case_step id=33 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:45,231 INFO case_end id=33 status=sql_generated turns=7 elapsed_ms=27387.61 sql_chars=349 error=
+2026-05-29 21:26:45,303 INFO case_start id=38 difficulty=moderate question=Report the total payments by date.
+2026-05-29 21:26:45,304 INFO case_step id=38 turn=1 keys=['messages']
+2026-05-29 21:26:45,305 INFO case_step id=38 turn=2 keys=['messages', 'question']
+2026-05-29 21:26:46,571 INFO case_step id=37 turn=3 keys=['messages', 'question']
+2026-05-29 21:26:46,655 INFO case_step id=37 turn=4 keys=['messages', 'question']
+2026-05-29 21:26:48,869 INFO case_step id=38 turn=3 keys=['messages', 'question']
+2026-05-29 21:26:48,946 INFO case_step id=38 turn=4 keys=['messages', 'question']
+2026-05-29 21:26:50,431 INFO case_step id=35 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:50,431 INFO case_step id=35 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:50,431 INFO case_end id=35 status=sql_generated turns=7 elapsed_ms=26859.13 sql_chars=217 error=
+2026-05-29 21:26:50,495 INFO case_start id=39 difficulty=moderate question=Report the products that have not been sold.
+2026-05-29 21:26:50,497 INFO case_step id=39 turn=1 keys=['messages']
+2026-05-29 21:26:50,497 INFO case_step id=39 turn=2 keys=['messages', 'question']
+2026-05-29 21:26:52,715 INFO case_step id=37 turn=5 keys=['messages', 'question']
+2026-05-29 21:26:53,606 INFO case_step id=39 turn=3 keys=['messages', 'question']
+2026-05-29 21:26:53,679 INFO case_step id=39 turn=4 keys=['messages', 'question']
+2026-05-29 21:26:54,675 INFO case_step id=36 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:54,676 INFO case_step id=36 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:54,676 INFO case_end id=36 status=sql_generated turns=7 elapsed_ms=19819.99 sql_chars=235 error=
+2026-05-29 21:26:54,761 INFO case_start id=40 difficulty=moderate question=List the amount paid by each customer.
+2026-05-29 21:26:54,762 INFO case_step id=40 turn=1 keys=['messages']
+2026-05-29 21:26:54,763 INFO case_step id=40 turn=2 keys=['messages', 'question']
+2026-05-29 21:26:57,424 INFO case_step id=40 turn=3 keys=['messages', 'question']
+2026-05-29 21:26:57,507 INFO case_step id=40 turn=4 keys=['messages', 'question']
+2026-05-29 21:26:57,949 INFO case_step id=37 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:57,951 INFO case_step id=37 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:26:57,952 INFO case_end id=37 status=sql_generated turns=7 elapsed_ms=19402.59 sql_chars=226 error=
+2026-05-29 21:26:58,048 INFO case_start id=41 difficulty=moderate question=How many orders have been placed by Herkku Gifts?
+2026-05-29 21:26:58,049 INFO case_step id=41 turn=1 keys=['messages']
+2026-05-29 21:26:58,050 INFO case_step id=41 turn=2 keys=['messages', 'question']
+2026-05-29 21:26:59,988 INFO case_step id=38 turn=5 keys=['messages', 'question']
+2026-05-29 21:27:01,764 INFO case_step id=39 turn=5 keys=['messages', 'question']
+2026-05-29 21:27:02,087 INFO case_step id=41 turn=3 keys=['messages', 'question']
+2026-05-29 21:27:02,189 INFO case_step id=41 turn=4 keys=['messages', 'question']
+2026-05-29 21:27:02,844 INFO case_step id=40 turn=5 keys=['messages', 'question']
+2026-05-29 21:27:08,931 INFO case_step id=38 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:08,933 INFO case_step id=38 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:08,933 INFO case_end id=38 status=sql_generated turns=7 elapsed_ms=23630.69 sql_chars=150 error=
+2026-05-29 21:27:09,011 INFO case_start id=42 difficulty=moderate question=Who are the employees in Boston?
+2026-05-29 21:27:09,013 INFO case_step id=42 turn=1 keys=['messages']
+2026-05-29 21:27:09,014 INFO case_step id=40 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:09,015 INFO case_step id=42 turn=2 keys=['messages', 'question']
+2026-05-29 21:27:09,022 INFO case_step id=40 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:09,023 INFO case_end id=40 status=sql_generated turns=7 elapsed_ms=14261.23 sql_chars=261 error=
+2026-05-29 21:27:09,108 INFO case_start id=43 difficulty=moderate question=Report those payments greater than $100,000. Sort the report so the customer who made the highest payment appears first.
+2026-05-29 21:27:09,110 INFO case_step id=43 turn=1 keys=['messages']
+2026-05-29 21:27:09,110 INFO case_step id=43 turn=2 keys=['messages', 'question']
+2026-05-29 21:27:09,537 INFO case_step id=41 turn=5 keys=['messages', 'question']
+2026-05-29 21:27:11,198 INFO case_step id=42 turn=3 keys=['messages', 'question']
+2026-05-29 21:27:11,293 INFO case_step id=42 turn=4 keys=['messages', 'question']
+2026-05-29 21:27:12,319 INFO case_step id=43 turn=3 keys=['messages', 'question']
+2026-05-29 21:27:12,395 INFO case_step id=43 turn=4 keys=['messages', 'question']
+2026-05-29 21:27:13,476 INFO case_step id=39 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:13,477 INFO case_step id=39 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:13,478 INFO case_end id=39 status=sql_generated turns=7 elapsed_ms=22982.92 sql_chars=226 error=
+2026-05-29 21:27:13,555 INFO case_start id=44 difficulty=moderate question=List the value of 'On Hold' orders.
+2026-05-29 21:27:13,557 INFO case_step id=44 turn=1 keys=['messages']
+2026-05-29 21:27:13,558 INFO case_step id=44 turn=2 keys=['messages', 'question']
+2026-05-29 21:27:15,159 INFO case_step id=41 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:15,159 INFO case_step id=41 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:15,159 INFO case_end id=41 status=sql_generated turns=7 elapsed_ms=17118.27 sql_chars=138 error=
+2026-05-29 21:27:15,356 INFO case_start id=45 difficulty=moderate question=Report the number of orders 'On Hold' for each customer.
+2026-05-29 21:27:15,357 INFO case_step id=45 turn=1 keys=['messages']
+2026-05-29 21:27:15,358 INFO case_step id=45 turn=2 keys=['messages', 'question']
+2026-05-29 21:27:16,685 INFO case_step id=44 turn=3 keys=['messages', 'question']
+2026-05-29 21:27:16,775 INFO case_step id=44 turn=4 keys=['messages', 'question']
+2026-05-29 21:27:17,945 INFO case_step id=42 turn=5 keys=['messages', 'question']
+2026-05-29 21:27:18,714 INFO case_step id=45 turn=3 keys=['messages', 'question']
+2026-05-29 21:27:18,791 INFO case_step id=45 turn=4 keys=['messages', 'question']
+2026-05-29 21:27:18,932 INFO case_step id=43 turn=5 keys=['messages', 'question']
+2026-05-29 21:27:23,218 INFO case_step id=42 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:23,220 INFO case_step id=42 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:23,220 INFO case_end id=42 status=sql_generated turns=7 elapsed_ms=14209.2 sql_chars=196 error=
+2026-05-29 21:27:23,294 INFO case_start id=46 difficulty=moderate question=Find products containing the name 'Ford'.
+2026-05-29 21:27:23,302 INFO case_step id=46 turn=1 keys=['messages']
+2026-05-29 21:27:23,302 INFO case_step id=46 turn=2 keys=['messages', 'question']
+2026-05-29 21:27:23,732 INFO case_step id=44 turn=5 keys=['messages', 'question']
+2026-05-29 21:27:23,854 INFO case_step id=43 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:23,857 INFO case_step id=43 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:23,858 INFO case_end id=43 status=sql_generated turns=7 elapsed_ms=14748.75 sql_chars=236 error=
+2026-05-29 21:27:23,942 INFO case_start id=47 difficulty=moderate question=List products ending in 'ship'.
+2026-05-29 21:27:23,944 INFO case_step id=47 turn=1 keys=['messages']
+2026-05-29 21:27:23,945 INFO case_step id=47 turn=2 keys=['messages', 'question']
+2026-05-29 21:27:26,538 INFO case_step id=45 turn=5 keys=['messages', 'question']
+2026-05-29 21:27:26,988 INFO case_step id=46 turn=3 keys=['messages', 'question']
+2026-05-29 21:27:27,076 INFO case_step id=46 turn=4 keys=['messages', 'question']
+2026-05-29 21:27:28,991 INFO case_step id=47 turn=3 keys=['messages', 'question']
+2026-05-29 21:27:29,069 INFO case_step id=47 turn=4 keys=['messages', 'question']
+2026-05-29 21:27:33,351 INFO case_step id=45 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:33,353 INFO case_step id=45 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:33,354 INFO case_end id=45 status=sql_generated turns=7 elapsed_ms=17997.76 sql_chars=292 error=
+2026-05-29 21:27:33,409 INFO case_start id=48 difficulty=moderate question=Report the number of customers in Denmark, Norway, and Sweden.
+2026-05-29 21:27:33,409 INFO case_step id=48 turn=1 keys=['messages']
+2026-05-29 21:27:33,409 INFO case_step id=48 turn=2 keys=['messages', 'question']
+2026-05-29 21:27:34,237 INFO case_step id=46 turn=5 keys=['messages', 'question']
+2026-05-29 21:27:34,982 INFO case_step id=44 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:34,984 INFO case_step id=44 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:34,984 INFO case_end id=44 status=sql_generated turns=7 elapsed_ms=21429.39 sql_chars=361 error=
+2026-05-29 21:27:35,052 INFO case_start id=49 difficulty=moderate question=What are the products with a product code in the range S700_1000 to S700_1499?
+2026-05-29 21:27:35,054 INFO case_step id=49 turn=1 keys=['messages']
+2026-05-29 21:27:35,054 INFO case_step id=49 turn=2 keys=['messages', 'question']
+2026-05-29 21:27:36,050 INFO case_step id=48 turn=3 keys=['messages', 'question']
+2026-05-29 21:27:36,127 INFO case_step id=48 turn=4 keys=['messages', 'question']
+2026-05-29 21:27:36,209 INFO case_step id=47 turn=5 keys=['messages', 'question']
+2026-05-29 21:27:38,662 INFO case_step id=46 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:38,667 INFO case_step id=46 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:38,667 INFO case_end id=46 status=sql_generated turns=7 elapsed_ms=15368.31 sql_chars=142 error=
+2026-05-29 21:27:38,742 INFO case_start id=50 difficulty=moderate question=Which customers have a digit in their name?
+2026-05-29 21:27:38,750 INFO case_step id=50 turn=1 keys=['messages']
+2026-05-29 21:27:38,750 INFO case_step id=50 turn=2 keys=['messages', 'question']
+2026-05-29 21:27:40,656 INFO case_step id=49 turn=3 keys=['messages', 'question']
+2026-05-29 21:27:40,743 INFO case_step id=49 turn=4 keys=['messages', 'question']
+2026-05-29 21:27:41,880 INFO case_step id=50 turn=3 keys=['messages', 'question']
+2026-05-29 21:27:41,957 INFO case_step id=50 turn=4 keys=['messages', 'question']
+2026-05-29 21:27:42,268 INFO case_step id=48 turn=5 keys=['messages', 'question']
+2026-05-29 21:27:43,247 INFO case_step id=47 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:43,247 INFO case_step id=47 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:43,251 INFO case_end id=47 status=sql_generated turns=7 elapsed_ms=19308.3 sql_chars=119 error=
+2026-05-29 21:27:43,308 INFO case_start id=51 difficulty=moderate question=List the names of employees called Dianne or Diane.
+2026-05-29 21:27:43,310 INFO case_step id=51 turn=1 keys=['messages']
+2026-05-29 21:27:43,310 INFO case_step id=51 turn=2 keys=['messages', 'question']
+2026-05-29 21:27:47,008 INFO case_step id=51 turn=3 keys=['messages', 'question']
+2026-05-29 21:27:47,099 INFO case_step id=51 turn=4 keys=['messages', 'question']
+2026-05-29 21:27:47,596 INFO case_step id=49 turn=5 keys=['messages', 'question']
+2026-05-29 21:27:50,462 INFO case_step id=51 turn=5 keys=['messages', 'question']
+2026-05-29 21:27:51,997 INFO case_step id=50 turn=5 keys=['messages', 'question']
+2026-05-29 21:27:53,009 INFO case_step id=48 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:53,010 INFO case_step id=48 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:53,010 INFO case_end id=48 status=sql_generated turns=7 elapsed_ms=19597.76 sql_chars=321 error=
+2026-05-29 21:27:53,084 INFO case_start id=52 difficulty=moderate question=List the products containing ship or boat in their product name.
+2026-05-29 21:27:53,086 INFO case_step id=52 turn=1 keys=['messages']
+2026-05-29 21:27:53,086 INFO case_step id=52 turn=2 keys=['messages', 'question']
+2026-05-29 21:27:54,432 INFO case_step id=51 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:54,433 INFO case_step id=51 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:54,434 INFO case_end id=51 status=sql_generated turns=7 elapsed_ms=11125.78 sql_chars=133 error=
+2026-05-29 21:27:54,491 INFO case_start id=53 difficulty=moderate question=List the products with a product code beginning with S700.
+2026-05-29 21:27:54,491 INFO case_step id=53 turn=1 keys=['messages']
+2026-05-29 21:27:54,491 INFO case_step id=53 turn=2 keys=['messages', 'question']
+2026-05-29 21:27:55,871 INFO case_step id=52 turn=3 keys=['messages', 'question']
+2026-05-29 21:27:55,936 INFO case_step id=52 turn=4 keys=['messages', 'question']
+2026-05-29 21:27:56,736 INFO case_step id=49 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:56,738 INFO case_step id=49 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:56,738 INFO case_end id=49 status=sql_generated turns=7 elapsed_ms=21686.3 sql_chars=241 error=
+2026-05-29 21:27:56,798 INFO case_start id=54 difficulty=moderate question=List the names of employees called Larry or Barry.
+2026-05-29 21:27:56,801 INFO case_step id=54 turn=1 keys=['messages']
+2026-05-29 21:27:56,801 INFO case_step id=54 turn=2 keys=['messages', 'question']
+2026-05-29 21:27:58,309 INFO case_step id=53 turn=3 keys=['messages', 'question']
+2026-05-29 21:27:58,394 INFO case_step id=53 turn=4 keys=['messages', 'question']
+2026-05-29 21:27:58,781 INFO case_step id=50 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:58,783 INFO case_step id=50 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:27:58,784 INFO case_end id=50 status=sql_generated turns=7 elapsed_ms=20035.79 sql_chars=87 error=
+2026-05-29 21:27:58,843 INFO case_start id=55 difficulty=moderate question=List the names of employees with non-alphabetic characters in their names.
+2026-05-29 21:27:58,843 INFO case_step id=55 turn=1 keys=['messages']
+2026-05-29 21:27:58,843 INFO case_step id=55 turn=2 keys=['messages', 'question']
+2026-05-29 21:28:00,066 INFO case_step id=54 turn=3 keys=['messages', 'question']
+2026-05-29 21:28:00,164 INFO case_step id=54 turn=4 keys=['messages', 'question']
+2026-05-29 21:28:02,188 INFO case_step id=52 turn=5 keys=['messages', 'question']
+2026-05-29 21:28:02,563 INFO case_step id=55 turn=3 keys=['messages', 'question']
+2026-05-29 21:28:02,654 INFO case_step id=55 turn=4 keys=['messages', 'question']
+2026-05-29 21:28:03,722 INFO case_step id=53 turn=5 keys=['messages', 'question']
+2026-05-29 21:28:05,575 INFO case_step id=52 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:05,577 INFO case_step id=52 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:05,577 INFO case_end id=52 status=sql_generated turns=7 elapsed_ms=12494.44 sql_chars=116 error=
+2026-05-29 21:28:05,657 INFO case_start id=56 difficulty=moderate question=List the vendors whose name ends in Diecast.
+2026-05-29 21:28:05,657 INFO case_step id=56 turn=1 keys=['messages']
+2026-05-29 21:28:05,657 INFO case_step id=56 turn=2 keys=['messages', 'question']
+2026-05-29 21:28:06,313 INFO case_step id=54 turn=5 keys=['messages', 'question']
+2026-05-29 21:28:07,788 INFO case_step id=53 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:07,790 INFO case_step id=53 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:07,791 INFO case_end id=53 status=sql_generated turns=7 elapsed_ms=13297.05 sql_chars=236 error=
+2026-05-29 21:28:07,874 INFO case_start id=57 difficulty=simple question=Prepare a list of offices sorted by country, state, city.
+2026-05-29 21:28:07,876 INFO case_step id=57 turn=1 keys=['messages']
+2026-05-29 21:28:07,876 INFO case_step id=57 turn=2 keys=['messages', 'question']
+2026-05-29 21:28:08,390 INFO case_step id=56 turn=3 keys=['messages', 'question']
+2026-05-29 21:28:08,463 INFO case_step id=56 turn=4 keys=['messages', 'question']
+2026-05-29 21:28:11,393 INFO case_step id=57 turn=3 keys=['messages', 'question']
+2026-05-29 21:28:11,395 INFO case_step id=55 turn=5 keys=['messages', 'question']
+2026-05-29 21:28:11,464 INFO case_step id=57 turn=4 keys=['messages', 'question']
+2026-05-29 21:28:13,417 INFO case_step id=56 turn=5 keys=['messages', 'question']
+2026-05-29 21:28:13,693 INFO case_step id=54 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:13,693 INFO case_step id=54 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:13,701 INFO case_end id=54 status=sql_generated turns=7 elapsed_ms=16902.16 sql_chars=134 error=
+2026-05-29 21:28:13,762 INFO case_start id=58 difficulty=simple question=How many employees are there in the company?
+2026-05-29 21:28:13,762 INFO case_step id=58 turn=1 keys=['messages']
+2026-05-29 21:28:13,765 INFO case_step id=58 turn=2 keys=['messages', 'question']
+2026-05-29 21:28:18,077 INFO case_step id=58 turn=3 keys=['messages', 'question']
+2026-05-29 21:28:18,155 INFO case_step id=58 turn=4 keys=['messages', 'question']
+2026-05-29 21:28:18,221 INFO case_step id=56 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:18,222 INFO case_step id=56 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:18,223 INFO case_end id=56 status=sql_generated turns=7 elapsed_ms=12565.11 sql_chars=114 error=
+2026-05-29 21:28:18,301 INFO case_start id=59 difficulty=simple question=What is the total of payments received?
+2026-05-29 21:28:18,303 INFO case_step id=59 turn=1 keys=['messages']
+2026-05-29 21:28:18,303 INFO case_step id=59 turn=2 keys=['messages', 'question']
+2026-05-29 21:28:19,639 INFO case_step id=55 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:19,641 INFO case_step id=55 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:19,641 INFO case_end id=55 status=sql_generated turns=7 elapsed_ms=20796.49 sql_chars=131 error=
+2026-05-29 21:28:19,696 INFO case_start id=60 difficulty=simple question=List the product lines that contain 'Cars'.
+2026-05-29 21:28:19,696 INFO case_step id=60 turn=1 keys=['messages']
+2026-05-29 21:28:19,696 INFO case_step id=60 turn=2 keys=['messages', 'question']
+2026-05-29 21:28:21,793 INFO case_step id=59 turn=3 keys=['messages', 'question']
+2026-05-29 21:28:21,872 INFO case_step id=59 turn=4 keys=['messages', 'question']
+2026-05-29 21:28:22,080 INFO case_step id=60 turn=3 keys=['messages', 'question']
+2026-05-29 21:28:22,155 INFO case_step id=60 turn=4 keys=['messages', 'question']
+2026-05-29 21:28:22,396 INFO case_step id=57 turn=5 keys=['messages', 'question']
+2026-05-29 21:28:23,227 INFO case_step id=58 turn=5 keys=['messages', 'question']
+2026-05-29 21:28:25,854 INFO case_step id=60 turn=5 keys=['messages', 'question']
+2026-05-29 21:28:27,214 INFO case_step id=57 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:27,214 INFO case_step id=57 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:27,218 INFO case_end id=57 status=sql_generated turns=7 elapsed_ms=19343.72 sql_chars=189 error=
+2026-05-29 21:28:27,299 INFO case_start id=61 difficulty=simple question=Report total payments for October 28, 2004.
+2026-05-29 21:28:27,300 INFO case_step id=61 turn=1 keys=['messages']
+2026-05-29 21:28:27,302 INFO case_step id=61 turn=2 keys=['messages', 'question']
+2026-05-29 21:28:28,113 INFO case_step id=59 turn=5 keys=['messages', 'question']
+2026-05-29 21:28:29,053 INFO case_step id=58 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:29,054 INFO case_step id=58 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:29,055 INFO case_end id=58 status=sql_generated turns=7 elapsed_ms=15292.42 sql_chars=56 error=
+2026-05-29 21:28:29,139 INFO case_start id=62 difficulty=simple question=Report those payments greater than $100,000.
+2026-05-29 21:28:29,140 INFO case_step id=62 turn=1 keys=['messages']
+2026-05-29 21:28:29,140 INFO case_step id=62 turn=2 keys=['messages', 'question']
+2026-05-29 21:28:29,320 INFO case_step id=60 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:29,322 INFO case_step id=60 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:29,323 INFO case_end id=60 status=sql_generated turns=7 elapsed_ms=9622.02 sql_chars=77 error=
+2026-05-29 21:28:29,395 INFO case_start id=63 difficulty=simple question=List the products in each product line.
+2026-05-29 21:28:29,397 INFO case_step id=63 turn=1 keys=['messages']
+2026-05-29 21:28:29,397 INFO case_step id=63 turn=2 keys=['messages', 'question']
+2026-05-29 21:28:30,801 INFO case_step id=59 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:30,803 INFO case_step id=59 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:30,803 INFO case_end id=59 status=sql_generated turns=7 elapsed_ms=12501.67 sql_chars=59 error=
+2026-05-29 21:28:30,889 INFO case_start id=64 difficulty=moderate question=How many products in each product line?
+2026-05-29 21:28:30,890 INFO case_step id=64 turn=1 keys=['messages']
+2026-05-29 21:28:30,890 INFO case_step id=64 turn=2 keys=['messages', 'question']
+2026-05-29 21:28:31,926 INFO case_step id=61 turn=3 keys=['messages', 'question']
+2026-05-29 21:28:32,000 INFO case_step id=61 turn=4 keys=['messages', 'question']
+2026-05-29 21:28:34,023 INFO case_step id=62 turn=3 keys=['messages', 'question']
+2026-05-29 21:28:34,113 INFO case_step id=62 turn=4 keys=['messages', 'question']
+2026-05-29 21:28:34,272 INFO case_step id=63 turn=3 keys=['messages', 'question']
+2026-05-29 21:28:34,342 INFO case_step id=63 turn=4 keys=['messages', 'question']
+2026-05-29 21:28:34,509 INFO case_step id=64 turn=3 keys=['messages', 'question']
+2026-05-29 21:28:34,594 INFO case_step id=64 turn=4 keys=['messages', 'question']
+2026-05-29 21:28:39,124 INFO case_step id=61 turn=5 keys=['messages', 'question']
+2026-05-29 21:28:40,371 INFO case_step id=63 turn=5 keys=['messages', 'question']
+2026-05-29 21:28:40,507 INFO case_step id=62 turn=5 keys=['messages', 'question']
+2026-05-29 21:28:42,086 INFO case_step id=64 turn=5 keys=['messages', 'question']
+2026-05-29 21:28:44,221 INFO case_step id=62 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:44,222 INFO case_step id=62 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:44,223 INFO case_end id=62 status=sql_generated turns=7 elapsed_ms=15084.52 sql_chars=237 error=
+2026-05-29 21:28:44,304 INFO case_start id=65 difficulty=simple question=What is the minimum payment received?
+2026-05-29 21:28:44,306 INFO case_step id=65 turn=1 keys=['messages']
+2026-05-29 21:28:44,306 INFO case_step id=65 turn=2 keys=['messages', 'question']
+2026-05-29 21:28:44,839 INFO case_step id=61 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:44,840 INFO case_step id=61 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:44,841 INFO case_end id=61 status=sql_generated turns=7 elapsed_ms=17541.92 sql_chars=188 error=
+2026-05-29 21:28:44,927 INFO case_start id=66 difficulty=moderate question=List all payments greater than twice the average payment.
+2026-05-29 21:28:44,927 INFO case_step id=66 turn=1 keys=['messages']
+2026-05-29 21:28:44,927 INFO case_step id=66 turn=2 keys=['messages', 'question']
+2026-05-29 21:28:45,269 INFO case_step id=64 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:45,271 INFO case_step id=64 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:45,272 INFO case_end id=64 status=sql_generated turns=7 elapsed_ms=14383.14 sql_chars=196 error=
+2026-05-29 21:28:45,529 INFO case_start id=67 difficulty=simple question=What is the average percentage markup of the MSRP on buyPrice?
+2026-05-29 21:28:45,531 INFO case_step id=67 turn=1 keys=['messages']
+2026-05-29 21:28:45,531 INFO case_step id=67 turn=2 keys=['messages', 'question']
+2026-05-29 21:28:46,110 INFO case_step id=65 turn=3 keys=['messages', 'question']
+2026-05-29 21:28:46,189 INFO case_step id=65 turn=4 keys=['messages', 'question']
+2026-05-29 21:28:48,006 INFO case_step id=63 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:48,007 INFO case_step id=63 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:48,009 INFO case_end id=63 status=sql_generated turns=7 elapsed_ms=18613.38 sql_chars=242 error=
+2026-05-29 21:28:48,089 INFO case_start id=68 difficulty=simple question=How many distinct products does ClassicModels sell?
+2026-05-29 21:28:48,089 INFO case_step id=68 turn=1 keys=['messages']
+2026-05-29 21:28:48,089 INFO case_step id=68 turn=2 keys=['messages', 'question']
+2026-05-29 21:28:49,255 INFO case_step id=67 turn=3 keys=['messages', 'question']
+2026-05-29 21:28:49,330 INFO case_step id=67 turn=4 keys=['messages', 'question']
+2026-05-29 21:28:49,475 INFO case_step id=66 turn=3 keys=['messages', 'question']
+2026-05-29 21:28:49,551 INFO case_step id=66 turn=4 keys=['messages', 'question']
+2026-05-29 21:28:51,915 INFO case_step id=65 turn=5 keys=['messages', 'question']
+2026-05-29 21:28:54,109 INFO case_step id=65 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:54,111 INFO case_step id=65 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:28:54,112 INFO case_end id=65 status=sql_generated turns=7 elapsed_ms=9808.12 sql_chars=60 error=
+2026-05-29 21:28:54,187 INFO case_start id=69 difficulty=simple question=Report the name and city of customers who don't have sales representatives?
+2026-05-29 21:28:54,188 INFO case_step id=69 turn=1 keys=['messages']
+2026-05-29 21:28:54,189 INFO case_step id=69 turn=2 keys=['messages', 'question']
+2026-05-29 21:28:56,926 INFO case_step id=69 turn=3 keys=['messages', 'question']
+2026-05-29 21:28:57,004 INFO case_step id=69 turn=4 keys=['messages', 'question']
+2026-05-29 21:28:57,556 INFO case_step id=67 turn=5 keys=['messages', 'question']
+2026-05-29 21:28:58,090 INFO case_step id=66 turn=5 keys=['messages', 'question']
+2026-05-29 21:29:00,717 INFO case_step id=68 turn=3 keys=['messages', 'question']
+2026-05-29 21:29:00,807 INFO case_step id=68 turn=4 keys=['messages', 'question']
+2026-05-29 21:29:03,243 INFO case_step id=67 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:03,244 INFO case_step id=67 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:03,245 INFO case_end id=67 status=sql_generated turns=7 elapsed_ms=17715.91 sql_chars=103 error=
+2026-05-29 21:29:03,305 INFO case_start id=70 difficulty=simple question=What are the names of executives with VP or Manager in their title? Use the CONCAT function to combine the employee's first name and last name into a single field for reporting.
+2026-05-29 21:29:03,307 INFO case_step id=70 turn=1 keys=['messages']
+2026-05-29 21:29:03,307 INFO case_step id=70 turn=2 keys=['messages', 'question']
+2026-05-29 21:29:03,988 INFO case_step id=66 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:03,990 INFO case_step id=66 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:03,991 INFO case_end id=66 status=sql_generated turns=7 elapsed_ms=19064.59 sql_chars=250 error=
+2026-05-29 21:29:04,000 INFO case_step id=69 turn=5 keys=['messages', 'question']
+2026-05-29 21:29:04,090 INFO case_start id=71 difficulty=moderate question=Which orders have a value greater than $5,000?
+2026-05-29 21:29:04,093 INFO case_step id=71 turn=1 keys=['messages']
+2026-05-29 21:29:04,093 INFO case_step id=71 turn=2 keys=['messages', 'question']
+2026-05-29 21:29:05,536 INFO case_step id=68 turn=5 keys=['messages', 'question']
+2026-05-29 21:29:06,943 INFO case_step id=69 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:06,945 INFO case_step id=69 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:06,945 INFO case_end id=69 status=sql_generated turns=7 elapsed_ms=12758.32 sql_chars=85 error=
+2026-05-29 21:29:07,028 INFO case_start id=72 difficulty=challenging question=Which customers are in the Southern Hemisphere?
+2026-05-29 21:29:07,030 INFO case_step id=72 turn=1 keys=['messages']
+2026-05-29 21:29:07,030 INFO case_step id=72 turn=2 keys=['messages', 'question']
+2026-05-29 21:29:07,323 INFO case_step id=71 turn=3 keys=['messages', 'question']
+2026-05-29 21:29:07,412 INFO case_step id=71 turn=4 keys=['messages', 'question']
+2026-05-29 21:29:08,876 INFO case_step id=70 turn=3 keys=['messages', 'question']
+2026-05-29 21:29:08,886 INFO case_step id=68 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:08,888 INFO case_step id=68 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:08,889 INFO case_end id=68 status=sql_generated turns=7 elapsed_ms=20796.16 sql_chars=69 error=
+2026-05-29 21:29:08,957 INFO case_start id=73 difficulty=challenging question=Which US customers are south west of the New York office?
+2026-05-29 21:29:08,959 INFO case_step id=73 turn=1 keys=['messages']
+2026-05-29 21:29:08,960 INFO case_step id=73 turn=2 keys=['messages', 'question']
+2026-05-29 21:29:08,990 INFO case_step id=70 turn=4 keys=['messages', 'question']
+2026-05-29 21:29:11,542 INFO case_step id=72 turn=3 keys=['messages', 'question']
+2026-05-29 21:29:11,624 INFO case_step id=72 turn=4 keys=['messages', 'question']
+2026-05-29 21:29:11,829 INFO case_step id=73 turn=3 keys=['messages', 'question']
+2026-05-29 21:29:11,903 INFO case_step id=73 turn=4 keys=['messages', 'question']
+2026-05-29 21:29:15,629 INFO case_step id=72 turn=5 keys=['messages', 'question']
+2026-05-29 21:29:17,143 INFO case_step id=71 turn=5 keys=['messages', 'question']
+2026-05-29 21:29:17,455 INFO case_step id=70 turn=5 keys=['messages', 'question']
+2026-05-29 21:29:19,389 INFO case_step id=73 turn=5 keys=['messages', 'question']
+2026-05-29 21:29:22,124 INFO case_step id=71 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:22,125 INFO case_step id=71 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:22,126 INFO case_end id=71 status=sql_generated turns=7 elapsed_ms=18036.2 sql_chars=470 error=
+2026-05-29 21:29:22,189 INFO case_start id=74 difficulty=challenging question=Which customers are closest to the Tokyo office (i.e., closer to Tokyo than any other office)?
+2026-05-29 21:29:22,191 INFO case_step id=74 turn=1 keys=['messages']
+2026-05-29 21:29:22,191 INFO case_step id=74 turn=2 keys=['messages', 'question']
+2026-05-29 21:29:22,635 INFO case_step id=70 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:22,638 INFO case_step id=70 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:22,639 INFO case_end id=70 status=sql_generated turns=7 elapsed_ms=19333.73 sql_chars=162 error=
+2026-05-29 21:29:22,642 INFO case_step id=72 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:22,644 INFO case_step id=72 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:22,645 INFO case_end id=72 status=sql_generated turns=7 elapsed_ms=15617.19 sql_chars=218 error=
+2026-05-29 21:29:22,709 INFO case_start id=75 difficulty=challenging question=Which French customer is furthest from the Paris office?
+2026-05-29 21:29:22,709 INFO case_step id=75 turn=1 keys=['messages']
+2026-05-29 21:29:22,709 INFO case_step id=75 turn=2 keys=['messages', 'question']
+2026-05-29 21:29:22,748 INFO case_start id=76 difficulty=challenging question=Who is the northernmost customer?
+2026-05-29 21:29:22,749 INFO case_step id=76 turn=1 keys=['messages']
+2026-05-29 21:29:22,750 INFO case_step id=76 turn=2 keys=['messages', 'question']
+2026-05-29 21:29:24,938 INFO case_step id=75 turn=3 keys=['messages', 'question']
+2026-05-29 21:29:25,004 INFO case_step id=76 turn=3 keys=['messages', 'question']
+2026-05-29 21:29:25,027 INFO case_step id=75 turn=4 keys=['messages', 'question']
+2026-05-29 21:29:25,082 INFO case_step id=76 turn=4 keys=['messages', 'question']
+2026-05-29 21:29:27,603 INFO case_step id=74 turn=3 keys=['messages', 'question']
+2026-05-29 21:29:27,728 INFO case_step id=74 turn=4 keys=['messages', 'question']
+2026-05-29 21:29:28,464 INFO case_step id=76 turn=5 keys=['messages', 'question']
+2026-05-29 21:29:34,011 INFO case_step id=75 turn=5 keys=['messages', 'question']
+2026-05-29 21:29:35,675 INFO case_step id=73 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:35,675 INFO case_step id=73 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:35,675 INFO case_end id=73 status=sql_generated turns=7 elapsed_ms=26721.78 sql_chars=209 error=
+2026-05-29 21:29:35,756 INFO case_start id=77 difficulty=challenging question=What is the distance between the Paris and Boston offices?
+2026-05-29 21:29:35,756 INFO case_step id=77 turn=1 keys=['messages']
+2026-05-29 21:29:35,756 INFO case_step id=77 turn=2 keys=['messages', 'question']
+2026-05-29 21:29:36,607 INFO case_step id=74 turn=5 keys=['messages', 'question']
+2026-05-29 21:29:37,908 INFO case_step id=76 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:37,910 INFO case_step id=76 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:37,911 INFO case_end id=76 status=sql_generated turns=7 elapsed_ms=15162.62 sql_chars=469 error=
+2026-05-29 21:29:39,340 INFO case_step id=77 turn=3 keys=['messages', 'question']
+2026-05-29 21:29:39,429 INFO case_step id=77 turn=4 keys=['messages', 'question']
+2026-05-29 21:29:47,397 INFO case_step id=77 turn=5 keys=['messages', 'question']
+2026-05-29 21:29:59,361 INFO case_step id=75 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:59,361 INFO case_step id=75 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:29:59,361 INFO case_end id=75 status=sql_generated turns=7 elapsed_ms=36653.97 sql_chars=1224 error=
+2026-05-29 21:30:02,994 INFO case_step id=77 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:30:02,997 INFO case_step id=77 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:30:02,999 INFO case_end id=77 status=sql_generated turns=7 elapsed_ms=27241.6 sql_chars=857 error=
+2026-05-29 21:30:55,850 INFO case_step id=74 turn=6 keys=['candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:30:55,852 INFO case_step id=74 turn=7 keys=['__interrupt__', 'candidate_sql', 'context', 'messages', 'mock_result', 'question', 'repair_attempts', 'review_feedback', 'validation_error']
+2026-05-29 21:30:55,852 INFO case_end id=74 status=sql_generated turns=7 elapsed_ms=93663.0 sql_chars=1849 error=

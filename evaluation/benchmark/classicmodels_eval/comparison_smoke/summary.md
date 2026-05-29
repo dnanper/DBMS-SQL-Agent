@@ -1,0 +1,12 @@
+# ClassicModels EX/VES Comparison
+
+| System | Difficulty | Count | EX | VES |
+| --- | --- | ---: | ---: | ---: |
+| mag-sql | simple | 15 | 40.00 | 32.78 |
+| mag-sql | moderate | 53 | 3.77 | 3.63 |
+| mag-sql | challenging | 10 | 0.00 | 0.00 |
+| mag-sql | total | 78 | 10.26 | 8.77 |
+| agent | simple | 15 | 40.00 | 39.83 |
+| agent | moderate | 53 | 5.66 | 5.17 |
+| agent | challenging | 10 | 0.00 | 0.00 |
+| agent | total | 78 | 11.54 | 11.17 |

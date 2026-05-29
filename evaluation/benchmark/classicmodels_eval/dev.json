@@ -1,0 +1,626 @@
+[
+  {
+    "question_id": 0,
+    "db_id": "classicmodels",
+    "question": "Who reports to Mary Patterson?",
+    "SQL": "SELECT CONCAT(firstName, ' ', lastName) AS full_name FROM employees WHERE reportsTo = ( SELECT employeeNumber FROM employees WHERE CONCAT(firstName, ' ', lastName) = 'Mary Patterson' );",
+    "difficulty": "challenging",
+    "category": "Correlated-Subqueries"
+  },
+  {
+    "question_id": 1,
+    "db_id": "classicmodels",
+    "question": "Which payments in any month and year are more than twice the average for that month and year (i.e. compare all payments in Oct 2004 with the average payment for Oct 2004)? Order the results by the date of the payment. You will need to use the date functions.",
+    "SQL": "SELECT p.customerNumber, p.paymentDate, p.amount FROM payments p WHERE p.amount > 2 * ( SELECT AVG(p2.amount) FROM payments p2 WHERE MONTH(p2.paymentDate) = MONTH(p.paymentDate) AND YEAR(p2.paymentDate) = YEAR(p.paymentDate) ) ORDER BY p.paymentDate;",
+    "difficulty": "challenging",
+    "category": "Correlated-Subqueries"
+  },
+  {
+    "question_id": 2,
+    "db_id": "classicmodels",
+    "question": "Report for each product, the percentage value of its stock on hand as a percentage of the stock on hand for product line to which it belongs. Order the report by product line and percentage value within product line descending. Show percentages with two decimal places.",
+    "SQL": "SELECT productName, productLine, quantityInStock, ROUND((quantityInstock / ( SELECT SUM(p2.quantityInStock) FROM products p2 WHERE p2.productLine = p1.productLine )) * 100, 2) AS stock_percentage FROM products p1 ORDER BY productLine, stock_percentage DESC;",
+    "difficulty": "challenging",
+    "category": "Correlated-Subqueries"
+  },
+  {
+    "question_id": 3,
+    "db_id": "classicmodels",
+    "question": "For orders containing more than two products, report those products that constitute more than 50% of the value of the order.",
+    "SQL": "SELECT od.orderNumber, od.productCode, (od.priceEach * od.quantityOrdered) AS product_value, ROUND((od.priceEach * od.quantityOrdered) / (SELECT SUM(od2.priceEach * od2.quantityOrdered) FROM orderdetails od2 WHERE od2.orderNumber = od.orderNumber) * 100, 2) AS product_percentage FROM orderdetails od WHERE (od.priceEach * od.quantityOrdered) > (SELECT SUM(od2.priceEach * od2.quantityOrdered) * 0.5 FROM orderdetails od2 WHERE od2.orderNumber = od.orderNumber) AND od.orderNumber IN ( SELECT orderNumber FROM orderdetails GROUP BY orderNumber HAVING COUNT(DISTINCT productCode) > 2 ) ORDER BY od.orderNumber, product_percentage DESC;",
+    "difficulty": "challenging",
+    "category": "Correlated-Subqueries"
+  },
+  {
+    "question_id": 4,
+    "db_id": "classicmodels",
+    "question": "Who is at the top of the organization (i.e.,  reports to no one).",
+    "SQL": "SELECT * FROM employees WHERE reportsTo IS NULL;",
+    "difficulty": "simple",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 5,
+    "db_id": "classicmodels",
+    "question": "Who reports to William Patterson?",
+    "SQL": "SELECT employeeNumber, firstName, lastName, jobTitle FROM employees WHERE reportsTo = ( SELECT employeeNumber FROM employees WHERE LOWER(CONCAT(firstname, ' ', lastname)) = 'William Patterson' );",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 6,
+    "db_id": "classicmodels",
+    "question": "List all the products purchased by Herkku Gifts.",
+    "SQL": "SELECT DISTINCT p.productName FROM products p JOIN orderdetails od ON p.productCode = od.productCode JOIN orders o ON od.orderNumber = o.orderNumber JOIN customers c ON o.customerNumber = c.customerNumber WHERE c.customerName = 'Herkku Gifts';",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 7,
+    "db_id": "classicmodels",
+    "question": "Compute the commission for each sales representative, assuming the commission is 5% of the value of an order. Sort by employee last name and first name.",
+    "SQL": "SELECT SUM(od.priceEach * od.quantityOrdered * 0.05) AS comission, CONCAT(e.lastName, ' ', e.firstName) AS sales_representative FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN customers c ON o.customerNumber = c.customerNumber JOIN employees e ON c.salesRepEmployeeNumber = e.employeeNumber GROUP BY e.employeeNumber, e.lastName, e.firstName ORDER BY e.lastName, e.firstName;",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 8,
+    "db_id": "classicmodels",
+    "question": "What is the difference in days between the most recent and oldest order date in the Orders file?",
+    "SQL": "SELECT DATEDIFF(MAX(orderDate), MIN(orderDate)) AS days_difference FROM orders;",
+    "difficulty": "simple",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 9,
+    "db_id": "classicmodels",
+    "question": "Compute the average time between order date and ship date for each customer ordered by the largest difference.",
+    "SQL": "SELECT AVG(DATEDIFF(o.shippedDate, o.orderDate)) AS difference_in_days, o.customerNumber, c.customerName FROM orders o JOIN customers c ON o.customerNumber = c.customerNumber GROUP BY o.customerNumber, c.customerName ORDER BY difference_in_days DESC;",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 10,
+    "db_id": "classicmodels",
+    "question": "What is the value of orders shipped in August 2004? (Hint).",
+    "SQL": "SELECT SUM(od.priceEach * od.quantityOrdered) AS value_of_order FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber WHERE o.shippedDate BETWEEN '2004-08-01' AND '2004-08-31';",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 11,
+    "db_id": "classicmodels",
+    "question": "Compute the total value ordered, total amount paid, and their difference for each customer for orders placed in 2004 and payments received in 2004 (Hint; Create views for the total paid and total ordered).",
+    "SQL": "SELECT o.customerNumber, c.customerName, SUM(od.priceEach * od.quantityOrdered) AS total_value_ordered, SUM(p.amount) AS total_amount_paid, SUM(od.priceEach * od.quantityOrdered) - SUM(p.amount) AS difference FROM orders o JOIN orderdetails od ON o.orderNumber = od.orderNumber JOIN customers c ON o.customerNumber = c.customerNumber LEFT JOIN payments p ON o.customerNumber = p.customerNumber WHERE o.orderDate BETWEEN '2004-01-01' AND '2004-12-31' AND p.paymentDate BETWEEN '2004-01-01' AND '2004-12-31' GROUP BY o.customerNumber, c.customerName ORDER BY difference DESC;",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 12,
+    "db_id": "classicmodels",
+    "question": "List the employees who report to those employees who report to Diane Murphy. Use the CONCAT function to combine the employee's first name and last name into a single field for reporting.",
+    "SQL": "SELECT e.employeeNumber, CONCAT(e.firstName, ' ', e.lastName) AS full_name FROM employees e WHERE e.reportsTo IN ( SELECT employeeNumber FROM employees WHERE reportsTo = ( SELECT employeeNumber FROM employees WHERE CONCAT(firstName, ' ', lastName) = 'Diane Murphy' ) );",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 13,
+    "db_id": "classicmodels",
+    "question": "What is the percentage value of each product in inventory sorted by the highest percentage first (Hint: Create a view first).",
+    "SQL": "SELECT productCode, productName, (quantityInStock * buyPrice) AS product_value, ((quantityInStock * buyPrice) / (SELECT SUM(quantityInStock * buyPrice) FROM products)) * 100 AS percentage_value FROM products ORDER BY percentage_value DESC;",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 14,
+    "db_id": "classicmodels",
+    "question": "What is the value of payments received in July 2004?",
+    "SQL": "SELECT SUM(amount) AS total_July_2004_payments FROM payments WHERE paymentDate BETWEEN '2004-07-01' AND '2004-07-31';",
+    "difficulty": "simple",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 15,
+    "db_id": "classicmodels",
+    "question": "What is the ratio of the value of payments made to orders received for each month of 2004? (i.e., divide the value of payments made by the orders received)?",
+    "SQL": "SELECT COALESCE(p.month, o.month) AS month, COALESCE(p.year, o.year) AS year, COALESCE(total_payments, 0) AS total_payments, COALESCE(total_order_value, 0) AS total_order_value, COALESCE(total_payments, 0) / COALESCE(total_order_value, 1) AS payment_to_order_ratio FROM ( SELECT MONTHNAME(paymentDate) AS month, YEAR(paymentDate) AS year, SUM(amount) AS total_payments FROM payments WHERE YEAR(paymentDate) = 2004 GROUP BY year, month ) p LEFT JOIN ( SELECT MONTHNAME(o.orderDate) AS month, YEAR(o.orderDate) AS year, SUM(od.priceEach * od.quantityOrdered) AS total_order_value FROM orders o JOIN orderdetails od ON o.orderNumber = od.orderNumber WHERE YEAR(o.orderDate) = 2004 GROUP BY year, month ) o ON p.month = o.month AND p.year = o.year UNION SELECT COALESCE(p.month, o.month) AS month, COALESCE(p.year, o.year) AS year, COALESCE(total_payments, 0) AS total_payments, COALESCE(total_order_value, 0) AS total_order_value, COALESCE(total_payments, 0) / COALESCE(total_order_value, 1) AS payment_to_order_ratio FROM ( SELECT MONTHNAME(paymentDate) AS month, YEAR(paymentDate) AS year, SUM(amount) AS total_payments FROM payments WHERE YEAR(paymentDate) = 2004 GROUP BY year, month ) p RIGHT JOIN ( SELECT MONTHNAME(o.orderDate) AS month, YEAR(o.orderDate) AS year, SUM(od.priceEach * od.quantityOrdered) AS total_order_value FROM orders o JOIN orderdetails od ON o.orderNumber = od.orderNumber WHERE YEAR(o.orderDate) = 2004 GROUP BY year, month ) o ON p.month = o.month AND p.year = o.year ORDER BY year, month;",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 16,
+    "db_id": "classicmodels",
+    "question": "What is the difference in the amount received for each month of 2004 compared to 2003?",
+    "SQL": "SELECT MONTHNAME(paymentDate) AS month, MONTH(paymentDate) AS month_number, SUM(CASE WHEN YEAR(paymentDate) = 2004 THEN amount ELSE 0 END) AS total_2004, SUM(CASE WHEN YEAR(paymentDate) = 2003 THEN amount ELSE 0 END) AS total_2003, SUM(CASE WHEN YEAR(paymentDate) = 2004 THEN amount ELSE 0 END) - SUM(CASE WHEN YEAR(paymentDate) = 2003 THEN amount ELSE 0 END) AS difference FROM payments WHERE YEAR(paymentDate) IN (2003, 2004) GROUP BY month, month_number ORDER BY month_number;",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 17,
+    "db_id": "classicmodels",
+    "question": "Basket of goods analysis: A common retail analytics task is to analyze each basket or order to learn what products are often purchased together. Report the names of products that appear in the same order ten or more times.",
+    "SQL": "SELECT quantityOrdered FROM orderdetails WHERE productCode = ( SELECT productCode FROM products WHERE productName = '1969 Dodge Charger') AND orderNumber = 10405;",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 18,
+    "db_id": "classicmodels",
+    "question": "ABC reporting: Compute the revenue generated by each customer based on their orders. Also, show each customer's revenue as a percentage of total revenue. Sort by customer name.",
+    "SQL": "SELECT c.customerName, SUM(od.priceEach * od.quantityOrdered) AS customer_revenue, ROUND((SUM(od.priceEach * od.quantityOrdered) / (SELECT SUM(od.priceEach * od.quantityOrdered) FROM orders o JOIN orderdetails od ON od.orderNumber = o.orderNumber)) * 100, 2) AS revenue_percentage FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN customers c ON o.customerNumber = c.customerNumber GROUP BY c.customerName ORDER BY c.customerName;",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 19,
+    "db_id": "classicmodels",
+    "question": "Compute the profit generated by each customer based on their orders. Also, show each customer's profit as a percentage of total profit. Sort by profit descending.",
+    "SQL": "SELECT c.customerName, ROUND(SUM((od.priceEach - p.buyPrice) * od.quantityOrdered), 2) AS customer_profit, ROUND((SUM((od.priceEach - p.buyPrice) * od.quantityOrdered) / (SELECT SUM((od.priceEach - p.buyPrice) * od.quantityOrdered) FROM orderdetails od JOIN products p ON od.productCode = p.productCode)) * 100, 2) AS profit_percentage FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN products p ON od.productCode = p.productCode JOIN customers c ON o.customerNumber = c.customerNumber GROUP BY c.customerName ORDER BY customer_profit DESC;",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 20,
+    "db_id": "classicmodels",
+    "question": "Compute the revenue generated by each sales representative based on the orders from the customers they serve.",
+    "SQL": "SELECT c.salesRepEmployeeNumber, ROUND(SUM(od.priceEach * od.quantityOrdered), 2) AS salesrep_revenue FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN customers c ON o.customerNumber = c.customerNumber WHERE c.salesRepEmployeeNumber IS NOT NULL GROUP BY c.salesRepEmployeeNumber ORDER BY salesrep_revenue DESC;",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 21,
+    "db_id": "classicmodels",
+    "question": "Compute the profit generated by each sales representative based on the orders from the customers they serve. Sort by profit generated descending.",
+    "SQL": "SELECT c.salesRepEmployeeNumber, ROUND(SUM((od.priceEach - p.buyPrice) * od.quantityOrdered), 2) AS salesrep_profit FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN products p ON od.productCode = p.productCode JOIN customers c ON o.customerNumber = c.customerNumber WHERE c.salesRepEmployeeNumber IS NOT NULL GROUP BY c.salesRepEmployeeNumber ORDER BY salesrep_profit DESC;",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 22,
+    "db_id": "classicmodels",
+    "question": "Compute the revenue generated by each product, sorted by product name.",
+    "SQL": "SELECT p.productName, ROUND(SUM(od.priceEach * od.quantityOrdered), 2) AS product_revenue FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN products p ON od.productCode = p.productCode GROUP BY p.productName ORDER BY p.productName;",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 23,
+    "db_id": "classicmodels",
+    "question": "Compute the profit generated by each product line, sorted by profit descending.",
+    "SQL": "SELECT p.productLine, ROUND(SUM((od.priceEach - p.buyPRice) * od.quantityOrdered), 2) AS productline_profit FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN products p ON od.productCode = p.productCode GROUP BY p.productLine ORDER BY productline_profit DESC;",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 24,
+    "db_id": "classicmodels",
+    "question": "Same as Last Year (SALY) analysis: Compute the ratio for each product of sales for 2003 versus 2004.",
+    "SQL": "SELECT p.productName, p.productCode, SUM(CASE WHEN YEAR(o.orderDate) = 2004 THEN od.priceEach * od.quantityOrdered ELSE 0 END) AS sales_2004, SUM(CASE WHEN YEAR(o.orderDate) = 2003 THEN od.priceEach * od.quantityOrdered ELSE 0 END) AS sales_2003, (SUM(CASE WHEN YEAR(o.orderDate) = 2004 THEN od.priceEach * od.quantityOrdered ELSE 0 END) / NULLIF(SUM(CASE WHEN YEAR(o.orderDate) = 2003 THEN od.priceEach * od.quantityOrdered ELSE 0 END), 0) ) AS sales_ratio FROM products p JOIN orderdetails od ON p.productCode = od.productCode JOIN orders o ON od.orderNumber = o.orderNumber GROUP BY p.productCode ORDER BY sales_ratio DESC;",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 25,
+    "db_id": "classicmodels",
+    "question": "Compute the ratio of payments for each customer for 2003 versus 2004.",
+    "SQL": "SELECT c.customerNumber, c.customerName, SUM(CASE WHEN YEAR(p.paymentDate) = 2004 THEN p.amount ELSE 0 END) AS payments_2004, SUM(CASE WHEN YEAR(p.paymentDate) = 2003 THEN p.amount ELSE 0 END) AS payments_2003, (SUM(CASE WHEN YEAR(p.paymentDate) = 2004 THEN p.amount ELSE 0 END) / NULLIF(SUM(CASE WHEN YEAR(p.paymentDate) = 2003 THEN p.amount ELSE 0 END), 0) ) AS payments_ratio FROM payments p JOIN customers c ON p.customerNumber = c.customerNumber GROUP BY c.customerNumber, c.customerName ORDER BY payments_ratio DESC;",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 26,
+    "db_id": "classicmodels",
+    "question": "Find the products sold in 2003 but not 2004.",
+    "SQL": "SELECT DISTINCT p.productName FROM products p JOIN orderdetails od ON p.productCode = od.productCode JOIN orders o ON od.orderNumber = o.orderNumber WHERE YEAR(o.orderDate) = 2003 AND p.productCode NOT IN ( SELECT DISTINCT p2.productCode FROM products p2 JOIN orderdetails od2 ON p2.productCode = od2.productCode JOIN orders o2 ON od2.orderNumber = o2.orderNumber WHERE YEAR(o2.orderDate) = 2004 );",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 27,
+    "db_id": "classicmodels",
+    "question": "Find the customers without payments in 2003.",
+    "SQL": "SELECT c.customerNumber, c.customerName FROM customers c WHERE NOT EXISTS ( SELECT 1 FROM payments p WHERE p.customerNumber = c.customerNumber AND YEAR(p.paymentDate) = 2003 );",
+    "difficulty": "moderate",
+    "category": "General-Queries"
+  },
+  {
+    "question_id": 28,
+    "db_id": "classicmodels",
+    "question": "List products sold by order date.",
+    "SQL": "SELECT p.productName, o.orderDate, DAYNAME(o.orderDate) AS Day FROM products p JOIN orderdetails od ON p.productCode = od.productCode JOIN orders o ON od.orderNumber = o.orderNumber ORDER BY o.orderDate DESC;",
+    "difficulty": "moderate",
+    "category": "Many-to-Many-Relationship"
+  },
+  {
+    "question_id": 29,
+    "db_id": "classicmodels",
+    "question": "List the order dates in descending order for orders for the 1940 Ford Pickup Truck.",
+    "SQL": "SELECT DISTINCT(p.productName), o.orderDate FROM orders o JOIN orderdetails od ON o.orderNumber = od.orderNumber JOIN products p ON od.productCode = p.productCode WHERE p.productName = '1940 Ford Pickup Truck' ORDER BY o.orderDate DESC;",
+    "difficulty": "moderate",
+    "category": "Many-to-Many-Relationship"
+  },
+  {
+    "question_id": 30,
+    "db_id": "classicmodels",
+    "question": "List the names of customers and their corresponding order number where a particular order from that customer has a value greater than $25,000?",
+    "SQL": "SELECT c.customerName, o.orderNumber, SUM(od.quantityOrdered * od.priceEach) AS value FROM customers c JOIN orders o ON c.customerNumber = o.customerNumber JOIN orderdetails od ON o.orderNumber = od.orderNumber GROUP BY c.customerName, o.orderNumber HAVING value > 25000 ORDER BY value DESC;",
+    "difficulty": "moderate",
+    "category": "Many-to-Many-Relationship"
+  },
+  {
+    "question_id": 31,
+    "db_id": "classicmodels",
+    "question": "Are there any products that appear on all orders?",
+    "SQL": "SELECT od.productCode FROM orderdetails od JOIN orders o ON od.orderNumber = o.orderNumber GROUP BY od.productCode HAVING COUNT(DISTINCT o.orderNumber) = (SELECT COUNT(DISTINCT orderNumber) FROM orders);",
+    "difficulty": "moderate",
+    "category": "Many-to-Many-Relationship"
+  },
+  {
+    "question_id": 32,
+    "db_id": "classicmodels",
+    "question": "List the names of products sold at less than 80% of the MSRP.",
+    "SQL": "SELECT p.productName, p.MSRP, od.priceEach FROM products p JOIN orderdetails od ON p.productCode = od.productCode WHERE od.priceEach < (p.MSRP * 0.8) ORDER BY p.MSRP;",
+    "difficulty": "moderate",
+    "category": "Many-to-Many-Relationship"
+  },
+  {
+    "question_id": 33,
+    "db_id": "classicmodels",
+    "question": "Reports those products that have been sold with a markup of 100% or more (i.e.,  the priceEach is at least twice the buyPrice)",
+    "SQL": "SELECT p.productName, 2*(p.buyPrice) AS twice_buy_price, od.priceEach FROM products p JOIN orderdetails od ON p.productcode = od.productcode WHERE od.priceEach > 2*(p.buyPrice);",
+    "difficulty": "moderate",
+    "category": "Many-to-Many-Relationship"
+  },
+  {
+    "question_id": 34,
+    "db_id": "classicmodels",
+    "question": "List the products ordered on a Monday.",
+    "SQL": "SELECT p.productName, DAYNAME(o.orderDate) AS day_of_the_week, o.orderDate FROM products p JOIN orderdetails od ON p.productCode = od.productCode JOIN orders o ON od.orderNumber = o.orderNumber WHERE DAYNAME(o.orderDate) = 'Monday';",
+    "difficulty": "moderate",
+    "category": "Many-to-Many-Relationship"
+  },
+  {
+    "question_id": 35,
+    "db_id": "classicmodels",
+    "question": "What is the quantity on hand for products listed on 'On Hold' orders?",
+    "SQL": "SELECT DISTINCT p.productName, p.quantityInStock, o.status FROM orderDetails od JOIN orders o ON od.orderNumber = o.orderNumber JOIN products p ON od.productCode = p.productCode WHERE o.status = 'On Hold' ORDER BY p.quantityInStock DESC;",
+    "difficulty": "moderate",
+    "category": "Many-to-Many-Relationship"
+  },
+  {
+    "question_id": 36,
+    "db_id": "classicmodels",
+    "question": "Report the account representative for each customer.",
+    "SQL": "SELECT c.customername, CONCAT(e.firstname, ' ', e.lastname) AS 'Account Representative' FROM customers c JOIN employees e ON c.salesrepemployeenumber = e.employeenumber;",
+    "difficulty": "moderate",
+    "category": "One-to-Many-Relationship"
+  },
+  {
+    "question_id": 37,
+    "db_id": "classicmodels",
+    "question": "Report total payments for Atelier graphique.",
+    "SQL": "SELECT SUM(p.amount) AS total_payments, c.customername FROM payments p JOIN customers c ON p.customernumber = c.customernumber WHERE c.customername = 'Atelier graphique';",
+    "difficulty": "moderate",
+    "category": "One-to-Many-Relationship"
+  },
+  {
+    "question_id": 38,
+    "db_id": "classicmodels",
+    "question": "Report the total payments by date.",
+    "SQL": "SELECT SUM(amount) AS total_payments, paymentDate FROM payments GROUP BY paymentDate ORDER BY total_payments DESC;",
+    "difficulty": "moderate",
+    "category": "One-to-Many-Relationship"
+  },
+  {
+    "question_id": 39,
+    "db_id": "classicmodels",
+    "question": "Report the products that have not been sold.",
+    "SQL": "SELECT * FROM products p WHERE NOT EXISTS ( SELECT * FROM orderdetails o WHERE p.productcode = o.productcode );",
+    "difficulty": "moderate",
+    "category": "One-to-Many-Relationship"
+  },
+  {
+    "question_id": 40,
+    "db_id": "classicmodels",
+    "question": "List the amount paid by each customer.",
+    "SQL": "SELECT c.customerName, o.ordernumber, ROUND(SUM(od.quantityOrdered * od.priceEach), 2) AS amount_paid FROM customers c JOIN orders o ON c.customernumber = o.customernumber JOIN orderdetails od ON o.orderNumber = od.orderNumber GROUP BY o.ordernumber, c.customerName ORDER BY amount_paid DESC;",
+    "difficulty": "moderate",
+    "category": "One-to-Many-Relationship"
+  },
+  {
+    "question_id": 41,
+    "db_id": "classicmodels",
+    "question": "How many orders have been placed by Herkku Gifts?",
+    "SQL": "SELECT COUNT(o.ordernumber) AS 'orders', c.customerName FROM orders o JOIN customers c ON o.customernumber = c.customernumber WHERE c.customername = 'Herkku Gifts' GROUP BY c.customername;",
+    "difficulty": "moderate",
+    "category": "One-to-Many-Relationship"
+  },
+  {
+    "question_id": 42,
+    "db_id": "classicmodels",
+    "question": "Who are the employees in Boston?",
+    "SQL": "SELECT CONCAT(e.firstname, ' ', e.lastname) AS employee_name FROM employees e WHERE e.officecode IN ( SELECT o.officecode FROM offices o WHERE o.city = 'Boston');",
+    "difficulty": "moderate",
+    "category": "One-to-Many-Relationship"
+  },
+  {
+    "question_id": 43,
+    "db_id": "classicmodels",
+    "question": "Report those payments greater than $100,000. Sort the report so the customer who made the highest payment appears first.",
+    "SQL": "SELECT c.customerName, SUM(p.amount) AS high_payments FROM customers c JOIN payments p ON c.customernumber = p.customernumber WHERE p.amount > 100000 GROUP BY c.customername ORDER BY high_payments DESC;",
+    "difficulty": "moderate",
+    "category": "One-to-Many-Relationship"
+  },
+  {
+    "question_id": 44,
+    "db_id": "classicmodels",
+    "question": "List the value of 'On Hold' orders.",
+    "SQL": "SELECT SUM(p.amount) AS value, o.status FROM payments p JOIN orders o ON p.customernumber = o.customernumber WHERE o.status = 'On Hold';",
+    "difficulty": "moderate",
+    "category": "One-to-Many-Relationship"
+  },
+  {
+    "question_id": 45,
+    "db_id": "classicmodels",
+    "question": "Report the number of orders 'On Hold' for each customer.",
+    "SQL": "SELECT COUNT(*) AS orders_on_hold, c.customername FROM orders o JOIN customers c ON o.customernumber = c.customernumber WHERE o.status = 'On Hold' GROUP BY c.customername;",
+    "difficulty": "moderate",
+    "category": "One-to-Many-Relationship"
+  },
+  {
+    "question_id": 46,
+    "db_id": "classicmodels",
+    "question": "Find products containing the name 'Ford'.",
+    "SQL": "SELECT * FROM products WHERE productName LIKE '%Ford%';",
+    "difficulty": "moderate",
+    "category": "Regular-Expressions"
+  },
+  {
+    "question_id": 47,
+    "db_id": "classicmodels",
+    "question": "List products ending in 'ship'.",
+    "SQL": "SELECT * FROM products WHERE productName LIKE '%ship';",
+    "difficulty": "moderate",
+    "category": "Regular-Expressions"
+  },
+  {
+    "question_id": 48,
+    "db_id": "classicmodels",
+    "question": "Report the number of customers in Denmark, Norway, and Sweden.",
+    "SQL": "SELECT COUNT(*) AS number_of_customers FROM customers WHERE country IN ('Denmark', 'Norway', 'Sweden');",
+    "difficulty": "moderate",
+    "category": "Regular-Expressions"
+  },
+  {
+    "question_id": 49,
+    "db_id": "classicmodels",
+    "question": "What are the products with a product code in the range S700_1000 to S700_1499?",
+    "SQL": "SELECT * FROM products WHERE RIGHT(productCode, 4) BETWEEN 1000 AND 1499 ORDER BY RIGHT(productCode, 4);",
+    "difficulty": "moderate",
+    "category": "Regular-Expressions"
+  },
+  {
+    "question_id": 50,
+    "db_id": "classicmodels",
+    "question": "Which customers have a digit in their name?",
+    "SQL": "SELECT * FROM customers WHERE customerName REGEXP '[0-9]';",
+    "difficulty": "moderate",
+    "category": "Regular-Expressions"
+  },
+  {
+    "question_id": 51,
+    "db_id": "classicmodels",
+    "question": "List the names of employees called Dianne or Diane.",
+    "SQL": "SELECT * FROM employees WHERE firstName IN ('Dianne', 'Diane');",
+    "difficulty": "moderate",
+    "category": "Regular-Expressions"
+  },
+  {
+    "question_id": 52,
+    "db_id": "classicmodels",
+    "question": "List the products containing ship or boat in their product name.",
+    "SQL": "SELECT * FROM products WHERE productName REGEXP ('ship'|'boat');",
+    "difficulty": "moderate",
+    "category": "Regular-Expressions"
+  },
+  {
+    "question_id": 53,
+    "db_id": "classicmodels",
+    "question": "List the products with a product code beginning with S700.",
+    "SQL": "SELECT * FROM products WHERE productCode LIKE 'S700%';",
+    "difficulty": "moderate",
+    "category": "Regular-Expressions"
+  },
+  {
+    "question_id": 54,
+    "db_id": "classicmodels",
+    "question": "List the names of employees called Larry or Barry.",
+    "SQL": "SELECT * FROM employees WHERE 'Larry' IN (lastName,firstName) OR 'Barry' IN (lastName,firstName);",
+    "difficulty": "moderate",
+    "category": "Regular-Expressions"
+  },
+  {
+    "question_id": 55,
+    "db_id": "classicmodels",
+    "question": "List the names of employees with non-alphabetic characters in their names.",
+    "SQL": "SELECT * FROM employees WHERE CONCAT(firstname, ' ', lastname) REGEXP '[0-9%@]';",
+    "difficulty": "moderate",
+    "category": "Regular-Expressions"
+  },
+  {
+    "question_id": 56,
+    "db_id": "classicmodels",
+    "question": "List the vendors whose name ends in Diecast.",
+    "SQL": "SELECT * FROM products WHERE productVendor LIKE '%Diecast';",
+    "difficulty": "moderate",
+    "category": "Regular-Expressions"
+  },
+  {
+    "question_id": 57,
+    "db_id": "classicmodels",
+    "question": "Prepare a list of offices sorted by country, state, city.",
+    "SQL": "SELECT * FROM offices ORDER BY country , state , city;",
+    "difficulty": "simple",
+    "category": "Single-Entity"
+  },
+  {
+    "question_id": 58,
+    "db_id": "classicmodels",
+    "question": "How many employees are there in the company?",
+    "SQL": "SELECT COUNT(DISTINCT employeeNumber) AS num_of_employees FROM employees;",
+    "difficulty": "simple",
+    "category": "Single-Entity"
+  },
+  {
+    "question_id": 59,
+    "db_id": "classicmodels",
+    "question": "What is the total of payments received?",
+    "SQL": "SELECT SUM(amount) AS total_payments FROM payments;",
+    "difficulty": "simple",
+    "category": "Single-Entity"
+  },
+  {
+    "question_id": 60,
+    "db_id": "classicmodels",
+    "question": "List the product lines that contain 'Cars'.",
+    "SQL": "SELECT productLine AS 'Cars' FROM productlines WHERE productLine LIKE '%Cars%';",
+    "difficulty": "simple",
+    "category": "Single-Entity"
+  },
+  {
+    "question_id": 61,
+    "db_id": "classicmodels",
+    "question": "Report total payments for October 28, 2004.",
+    "SQL": "SELECT SUM(amount) AS 'Amount for 28th oct 2004' FROM payments WHERE paymentDate = '2004-10-28';",
+    "difficulty": "simple",
+    "category": "Single-Entity"
+  },
+  {
+    "question_id": 62,
+    "db_id": "classicmodels",
+    "question": "Report those payments greater than $100,000.",
+    "SQL": "SELECT * FROM payments WHERE amount > 100000 ORDER BY amount DESC;",
+    "difficulty": "simple",
+    "category": "Single-Entity"
+  },
+  {
+    "question_id": 63,
+    "db_id": "classicmodels",
+    "question": "List the products in each product line.",
+    "SQL": "SELECT productName, productLine FROM products ORDER BY productLine;",
+    "difficulty": "simple",
+    "category": "Single-Entity"
+  },
+  {
+    "question_id": 64,
+    "db_id": "classicmodels",
+    "question": "How many products in each product line?",
+    "SQL": "SELECT COUNT(productCode) AS num_of_products, productLine FROM products GROUP BY productLine ORDER BY num_of_products DESC;",
+    "difficulty": "moderate",
+    "category": "Single-Entity"
+  },
+  {
+    "question_id": 65,
+    "db_id": "classicmodels",
+    "question": "What is the minimum payment received?",
+    "SQL": "SELECT MIN(amount) AS minimum_payment FROM payments;",
+    "difficulty": "simple",
+    "category": "Single-Entity"
+  },
+  {
+    "question_id": 66,
+    "db_id": "classicmodels",
+    "question": "List all payments greater than twice the average payment.",
+    "SQL": "SELECT amount FROM payments WHERE amount > 2 * ( SELECT AVG(amount) FROM payments );",
+    "difficulty": "moderate",
+    "category": "Single-Entity"
+  },
+  {
+    "question_id": 67,
+    "db_id": "classicmodels",
+    "question": "What is the average percentage markup of the MSRP on buyPrice?",
+    "SQL": "SELECT AVG((MSRP - buyPrice) / MSRP) * 100 AS 'Average Percentage Markup' FROM products;",
+    "difficulty": "simple",
+    "category": "Single-Entity"
+  },
+  {
+    "question_id": 68,
+    "db_id": "classicmodels",
+    "question": "How many distinct products does ClassicModels sell?",
+    "SQL": "SELECT COUNT(DISTINCT productName) AS 'Distinct Product' FROM products;",
+    "difficulty": "simple",
+    "category": "Single-Entity"
+  },
+  {
+    "question_id": 69,
+    "db_id": "classicmodels",
+    "question": "Report the name and city of customers who don't have sales representatives?",
+    "SQL": "SELECT customerName, city FROM customers WHERE salesRepEmployeeNumber IS NULL;",
+    "difficulty": "simple",
+    "category": "Single-Entity"
+  },
+  {
+    "question_id": 70,
+    "db_id": "classicmodels",
+    "question": "What are the names of executives with VP or Manager in their title? Use the CONCAT function to combine the employee's first name and last name into a single field for reporting.",
+    "SQL": "SELECT CONCAT(firstName, ' ', lastName) AS full_name FROM employees WHERE jobTitle LIKE '%VP%' OR jobTitle LIKE '%Manager%';",
+    "difficulty": "simple",
+    "category": "Single-Entity"
+  },
+  {
+    "question_id": 71,
+    "db_id": "classicmodels",
+    "question": "Which orders have a value greater than $5,000?",
+    "SQL": "SELECT orderNumber, SUM(quantityOrdered * priceEach) AS 'Value' FROM orderdetails GROUP BY orderNumber HAVING Value > 5000 ORDER BY Value DESC;",
+    "difficulty": "moderate",
+    "category": "Single-Entity"
+  },
+  {
+    "question_id": 72,
+    "db_id": "classicmodels",
+    "question": "Which customers are in the Southern Hemisphere?",
+    "SQL": "SELECT customerNumber, customerName, ST_AsText(customerLocation) AS location, ST_Y(customerLocation) AS latitude, ST_X(customerLocation) AS longitude FROM customers WHERE ST_Y(customerLocation) < 0;",
+    "difficulty": "challenging",
+    "category": "Spatial-Data"
+  },
+  {
+    "question_id": 73,
+    "db_id": "classicmodels",
+    "question": "Which US customers are south west of the New York office?",
+    "SQL": "SELECT customerNumber, customerName, ST_AsText(customerLocation) AS location, ST_Y(customerLocation) AS latitude, ST_X(customerLocation) AS longitude FROM customers WHERE country = 'USA' AND ST_Y(customerLocation) < 40.7128 AND ST_X(customerLocation) < -74.0060;",
+    "difficulty": "challenging",
+    "category": "Spatial-Data"
+  },
+  {
+    "question_id": 74,
+    "db_id": "classicmodels",
+    "question": "Which customers are closest to the Tokyo office (i.e., closer to Tokyo than any other office)?",
+    "SQL": "SELECT c.customerNumber, c.customerName, ST_Distance(c.customerLocation, o.officeLocation) AS distance_to_tokyo FROM customers c JOIN offices o ON o.city = 'Tokyo' WHERE ST_Distance(c.customerLocation, o.officeLocation) <= ALL ( SELECT ST_Distance(c.customerLocation, o2.officeLocation) FROM offices o2 ) ORDER BY distance_to_tokyo ASC;",
+    "difficulty": "challenging",
+    "category": "Spatial-Data"
+  },
+  {
+    "question_id": 75,
+    "db_id": "classicmodels",
+    "question": "Which French customer is furthest from the Paris office?",
+    "SQL": "SELECT c.customerNumber, c.customerName, ST_Distance(c.customerLocation, o.officeLocation) AS distance_to_paris FROM customers c JOIN offices o ON o.city = 'Paris' WHERE c.country = 'France' AND ST_Distance(c.customerLocation, o.officeLocation) = ( SELECT MAX(ST_Distance(c2.customerLocation, o.officeLocation)) FROM customers c2 WHERE c2.country = 'France' ) ORDER BY distance_to_paris DESC;",
+    "difficulty": "challenging",
+    "category": "Spatial-Data"
+  },
+  {
+    "question_id": 76,
+    "db_id": "classicmodels",
+    "question": "Who is the northernmost customer?",
+    "SQL": "SELECT customerNumber, customerName, ST_Y(customerLocation) AS latitude, ST_X(customerLocation) AS longitude FROM customers WHERE ST_Y(customerLocation) = ( SELECT MAX(ST_Y(customerLocation)) FROM customers);",
+    "difficulty": "challenging",
+    "category": "Spatial-Data"
+  },
+  {
+    "question_id": 77,
+    "db_id": "classicmodels",
+    "question": "What is the distance between the Paris and Boston offices?",
+    "SQL": "SELECT (ACOS(SIN(ST_Y(paris.officeLocation) * PI() / 180) * SIN(ST_Y(boston.officeLocation) * PI() / 180) + COS(ST_Y(paris.officeLocation) * PI() / 180) * COS(ST_Y(boston.officeLocation) * PI() / 180) * COS((ST_X(paris.officeLocation) - ST_X(boston.officeLocation)) * PI() / 180)) * 180 / PI()) * 60 * 1.8532 AS distance_km FROM offices paris, offices boston WHERE paris.city = 'Paris' AND boston.city = 'Boston';",
+    "difficulty": "challenging",
+    "category": "Spatial-Data"
+  }
+]

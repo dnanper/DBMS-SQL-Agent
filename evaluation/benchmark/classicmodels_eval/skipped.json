@@ -1,0 +1,18 @@
+[
+  {
+    "source_path": "General-Queries/query_11.sql",
+    "reason": "No read-only SELECT/WITH statement suitable for EX/VES"
+  },
+  {
+    "source_path": "General-Queries/query_12.sql",
+    "reason": "No read-only SELECT/WITH statement suitable for EX/VES"
+  },
+  {
+    "source_path": "General-Queries/query_16.sql",
+    "reason": "No read-only SELECT/WITH statement suitable for EX/VES"
+  },
+  {
+    "source_path": "General-Queries/query_17.sql",
+    "reason": "No read-only SELECT/WITH statement suitable for EX/VES"
+  }
+]

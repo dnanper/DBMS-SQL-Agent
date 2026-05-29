@@ -1,0 +1,15 @@
+{
+  "case_count": 78,
+  "run_id": "bcde5c31e3db",
+  "ok_count": 78,
+  "error_count": 0,
+  "blank_sql_count": 0,
+  "max_turns_exceeded_count": 0,
+  "ready_for_eval": true,
+  "execute_reviewed": false,
+  "max_turns": 10,
+  "workers": 4,
+  "predicted_sql_path": "F:\\FPT\\ai-tracking\\evaluation\\benchmark\\classicmodels_runs\\latest\\predicted_sql.json",
+  "run_results_path": "F:\\FPT\\ai-tracking\\evaluation\\benchmark\\classicmodels_runs\\latest\\run_results.jsonl",
+  "log_path": "F:\\FPT\\ai-tracking\\evaluation\\benchmark\\classicmodels_runs\\latest\\benchmark.log"
+}

@@ -1,0 +1,110 @@
+[
+  [
+    "Who is at the top of the organization (i.e.,  reports to no one).",
+    "SELECT firstname, lastname AS top_manager FROM employees WHERE reportsto IS NULL;\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "List all the products purchased by Herkku Gifts.",
+    "SELECT DISTINCT p.productname FROM customers AS c JOIN orders AS o ON o.customernumber = c.customernumber JOIN orderdetails AS od ON od.ordernumber = o.ordernumber JOIN products AS p ON p.productcode = od.productcode WHERE c.customername = 'Herkku Gifts';\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "What is the value of payments received in July 2004?",
+    "SELECT SUM(amount) AS total_payments_july_2004 FROM payments WHERE paymentdate >= '2004-07-01' AND paymentdate < '2004-08-01';\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "List the names of products sold at less than 80% of the MSRP.",
+    "SELECT p.productname FROM products AS p WHERE p.buyprice IS NOT NULL AND p.msrp IS NOT NULL AND p.buyprice < p.msrp * 0.8;\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "Report total payments for Atelier graphique.",
+    "SELECT COALESCE(SUM(p.amount), 0) AS total_payments FROM payments AS p JOIN customers AS c ON p.customernumber = c.customernumber WHERE c.customername = 'Atelier graphique';\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "Report the products that have not been sold.",
+    "SELECT p.productcode, p.productname FROM products AS p LEFT JOIN orderdetails AS od ON p.productcode = od.productcode WHERE od.productcode IS NULL;\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "How many orders have been placed by Herkku Gifts?",
+    "SELECT COUNT(*) AS order_count FROM orders JOIN customers ON orders.customernumber = customers.customernumber WHERE customers.customername = 'Herkku Gifts';\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "Who are the employees in Boston?",
+    "SELECT e.firstname, e.lastname FROM employees AS e JOIN offices AS o ON e.officecode = o.officecode WHERE o.city = 'Boston';\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "List the value of 'On Hold' orders.",
+    "SELECT o.`ordernumber` FROM orders AS o WHERE o.`status` = 'On Hold';\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "Find products containing the name 'Ford'.",
+    "SELECT productname FROM products WHERE productname LIKE '%Ford%';\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "List products ending in 'ship'.",
+    "SELECT productname FROM products WHERE productname LIKE '%ship';\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "Report the number of customers in Denmark, Norway, and Sweden.",
+    "SELECT country, COUNT(*) AS customer_count FROM customers WHERE country IN ('Denmark', 'Norway', 'Sweden') GROUP BY country;\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "What are the products with a product code in the range S700_1000 to S700_1499?",
+    "SELECT p.productcode, p.productname FROM products AS p WHERE p.productcode BETWEEN 'S700_1000' AND 'S700_1499';\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "List the products containing ship or boat in their product name.",
+    "SELECT DISTINCT productname FROM products WHERE LOWER(productname) LIKE '%ship%' OR LOWER(productname) LIKE '%boat%';\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "List the products with a product code beginning with S700.",
+    "SELECT p.productcode, p.productname FROM products AS p WHERE p.productcode LIKE 'S700%';\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "List the names of employees called Larry or Barry.",
+    "SELECT firstname, lastname AS name FROM employees WHERE firstname IN ('Larry', 'Barry');\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "List the vendors whose name ends in Diecast.",
+    "SELECT DISTINCT productvendor FROM products WHERE productvendor LIKE '%Diecast';\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "How many employees are there in the company?",
+    "SELECT COUNT(*) AS total_employees FROM employees;\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "What is the total of payments received?",
+    "SELECT SUM(amount) AS total_payments FROM payments;\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "List the product lines that contain 'Cars'.",
+    "SELECT DISTINCT `productline` FROM productlines WHERE `productline` LIKE '%Cars%'\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "Report total payments for October 28, 2004.",
+    "SELECT COALESCE(SUM(amount), 0) AS total_payments FROM payments WHERE date(paymentdate) = '2004-10-28';\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "Report those payments greater than $100,000.",
+    "SELECT checknumber, paymentdate, amount, customernumber FROM payments WHERE amount > 100000;\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "How many products in each product line?",
+    "SELECT productline, COUNT(*) AS product_count FROM products GROUP BY productline;\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "What is the minimum payment received?",
+    "SELECT MIN(p.amount) AS min_payment FROM payments AS p;\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "List all payments greater than twice the average payment.",
+    "SELECT checknumber, amount FROM payments WHERE amount > 2 * (SELECT AVG(amount) FROM payments);\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "How many distinct products does ClassicModels sell?",
+    "SELECT COUNT(DISTINCT productcode) AS num_distinct_products FROM products;\t----- bird -----\tclassicmodels"
+  ],
+  [
+    "Report the name and city of customers who don't have sales representatives?",
+    "SELECT customername, city FROM customers WHERE salesrepemployeenumber IS NULL;\t----- bird -----\tclassicmodels"
+  ]
+]

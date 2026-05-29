@@ -3,10 +3,13 @@ import pathlib
 import tempfile
 import unittest
 
-from src.config import load_environment
+from src.config import get_model_name, load_environment
 
 
 class TestLoadEnvironment(unittest.TestCase):
+    def test_default_model_is_gpt_5_nano(self) -> None:
+        self.assertEqual(get_model_name({}), "gpt-5-nano")
+
     def test_loads_dotenv_file_into_process_environment(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             dotenv_path = pathlib.Path(temp_dir) / ".env"
